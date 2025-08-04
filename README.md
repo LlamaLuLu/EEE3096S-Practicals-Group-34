@@ -1,10 +1,9 @@
 # EEE3096S-Practicals-Group-34
 
-**Embedded Systems II Practicals**  
+**Embedded Systems II Practicals 2025**  
 By **Phila Haanyama (HNYPHI001)** and **Lulama Lingela (LNGLUL002)**  
 University of Cape Town
 Course Code: **EEE3096S**  
-Semester: **2025**
 
 ---
 
@@ -22,4 +21,4 @@ This repository contains the practical work for the **Embedded Systems II (EEE30
 
 | Practical | Status    | Description                     |
 |----------:|:----------|:--------------------------------|
-| 01        | 🛠 In Progress | GPIO and basic I/O              |
+| 1        | 🛠 In Progress | GPIO and basic I/O              |
