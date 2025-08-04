@@ -8,20 +8,6 @@ Semester: **2025**
 
 ---
 
-## 📁 Repository Structure
-EEE3096S-Practicals-Group-34/
-├── Practical_1/
-│   └── …
-├── README.md
-└── …
-
-Each practical is contained in its own directory and includes:
-- Source code (`.c`, `.h`, or `.asm` files)
-- Makefiles or build scripts
-- Documentation or report files (if applicable)
-
----
-
 ## ⚙️ About the Practicals
 
 This repository contains the practical work for the **Embedded Systems II (EEE3096S)** course. The practicals are designed to:
