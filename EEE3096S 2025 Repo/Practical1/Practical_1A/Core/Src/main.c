@@ -368,6 +368,7 @@ void TIM16_IRQHandler(void)
 
 	switch (led_mode) {
 	    case 1: // mode 1: back/forth
+	    	LL_GPIO_ResetOutputPin(GPIOB, LED0_Pin | LED1_Pin | LED2_Pin | LED3_Pin | LED4_Pin | LED5_Pin | LED6_Pin | LED7_Pin);
 	    	switch(current_led){
 	    				case 0: LL_GPIO_SetOutputPin(GPIOB, LED0_Pin);
 	    					break;
