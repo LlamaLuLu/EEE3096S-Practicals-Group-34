@@ -361,24 +361,7 @@ void TIM16_IRQHandler(void)
 	// Apply mode behaviour
 	switch (led_mode) {
 	    case 1: // Mode 1: back/forth
-	        switch (current_led) {
-	            case 0: LL_GPIO_SetOutputPin(GPIOB, LED0_Pin); break;
-	            case 1: LL_GPIO_SetOutputPin(GPIOB, LED1_Pin); break;
-	            case 2: LL_GPIO_SetOutputPin(GPIOB, LED2_Pin); break;
-	            case 3: LL_GPIO_SetOutputPin(GPIOB, LED3_Pin); break;
-	            case 4: LL_GPIO_SetOutputPin(GPIOB, LED4_Pin); break;
-	            case 5: LL_GPIO_SetOutputPin(GPIOB, LED5_Pin); break;
-	            case 6: LL_GPIO_SetOutputPin(GPIOB, LED6_Pin); break;
-	            case 7: LL_GPIO_SetOutputPin(GPIOB, LED7_Pin); break;
-	        }
 
-	        if (direction)
-	            current_led++;
-	        else
-	            current_led--;
-
-	        if (current_led >= 7) direction = 0;
-	        if (current_led <= 0) direction = 1;
 	        break;
 
 	    case 2: // Mode 2: inverse back/forth
