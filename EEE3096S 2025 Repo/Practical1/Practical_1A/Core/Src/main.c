@@ -85,6 +85,9 @@ int main(void)
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
+  // ADDED TO MAKE RANDOM PATTERN FOR SPARKLE
+  srand(HAL_GetTick()); // Seed random generator with system tick
+
   /* USER CODE BEGIN Init */
   /* USER CODE END Init */
 
@@ -355,10 +358,6 @@ void TIM16_IRQHandler(void)
 	    sparkle_state = 0;
 	}
 
-	// Turn off all LEDs
-	LL_GPIO_ResetOutputPin(GPIOB, LED0_Pin | LED1_Pin | LED2_Pin | LED3_Pin |
-	                              LED4_Pin | LED5_Pin | LED6_Pin | LED7_Pin);
-
 	// Apply mode behaviour
 	switch (led_mode) {
 	    case 1: // Mode 1: back/forth
@@ -406,43 +405,53 @@ void TIM16_IRQHandler(void)
 	        if (current_led <= 0) direction = 1;
 	        break;
 
-	    case 3: // Mode 3: Sparkle
-	        if (sparkle_state == 0) {
-	            sparkle_pattern = rand() % 256;
+	        case 3: // Mode 3: Sparkle
+	            if (sparkle_state == 0) {
+	                // Generate and show random LED pattern
+	                sparkle_pattern = rand() % 256;
 
-	            if (sparkle_pattern & 0x01) LL_GPIO_SetOutputPin(GPIOB, LED0_Pin);
-	            if (sparkle_pattern & 0x02) LL_GPIO_SetOutputPin(GPIOB, LED1_Pin);
-	            if (sparkle_pattern & 0x04) LL_GPIO_SetOutputPin(GPIOB, LED2_Pin);
-	            if (sparkle_pattern & 0x08) LL_GPIO_SetOutputPin(GPIOB, LED3_Pin);
-	            if (sparkle_pattern & 0x10) LL_GPIO_SetOutputPin(GPIOB, LED4_Pin);
-	            if (sparkle_pattern & 0x20) LL_GPIO_SetOutputPin(GPIOB, LED5_Pin);
-	            if (sparkle_pattern & 0x40) LL_GPIO_SetOutputPin(GPIOB, LED6_Pin);
-	            if (sparkle_pattern & 0x80) LL_GPIO_SetOutputPin(GPIOB, LED7_Pin);
+	                if (sparkle_pattern & 0x01) LL_GPIO_SetOutputPin(GPIOB, LED0_Pin);
+	                if (sparkle_pattern & 0x02) LL_GPIO_SetOutputPin(GPIOB, LED1_Pin);
+	                if (sparkle_pattern & 0x04) LL_GPIO_SetOutputPin(GPIOB, LED2_Pin);
+	                if (sparkle_pattern & 0x08) LL_GPIO_SetOutputPin(GPIOB, LED3_Pin);
+	                if (sparkle_pattern & 0x10) LL_GPIO_SetOutputPin(GPIOB, LED4_Pin);
+	                if (sparkle_pattern & 0x20) LL_GPIO_SetOutputPin(GPIOB, LED5_Pin);
+	                if (sparkle_pattern & 0x40) LL_GPIO_SetOutputPin(GPIOB, LED6_Pin);
+	                if (sparkle_pattern & 0x80) LL_GPIO_SetOutputPin(GPIOB, LED7_Pin);
 
-	            sparkle_state = 1;
-	        } else {
-	            // Turn off LEDs one at a time
-	            for (int i = 0; i < 8; i++) {
-	                if (sparkle_pattern & (1 << i)) {
-	                    switch (i) {
-	                        case 0: LL_GPIO_ResetOutputPin(GPIOB, LED0_Pin); break;
-	                        case 1: LL_GPIO_ResetOutputPin(GPIOB, LED1_Pin); break;
-	                        case 2: LL_GPIO_ResetOutputPin(GPIOB, LED2_Pin); break;
-	                        case 3: LL_GPIO_ResetOutputPin(GPIOB, LED3_Pin); break;
-	                        case 4: LL_GPIO_ResetOutputPin(GPIOB, LED4_Pin); break;
-	                        case 5: LL_GPIO_ResetOutputPin(GPIOB, LED5_Pin); break;
-	                        case 6: LL_GPIO_ResetOutputPin(GPIOB, LED6_Pin); break;
-	                        case 7: LL_GPIO_ResetOutputPin(GPIOB, LED7_Pin); break;
+	                sparkle_state = 1;
+	                current_led = 0; // Start turning off from LED0
+	            } else {
+	                // Turn off ONE LED per interrupt if it's on in the sparkle pattern
+	                while (current_led < 8) {
+	                    if (sparkle_pattern & (1 << current_led)) {
+	                        switch (current_led) {
+	                            case 0: LL_GPIO_ResetOutputPin(GPIOB, LED0_Pin); break;
+	                            case 1: LL_GPIO_ResetOutputPin(GPIOB, LED1_Pin); break;
+	                            case 2: LL_GPIO_ResetOutputPin(GPIOB, LED2_Pin); break;
+	                            case 3: LL_GPIO_ResetOutputPin(GPIOB, LED3_Pin); break;
+	                            case 4: LL_GPIO_ResetOutputPin(GPIOB, LED4_Pin); break;
+	                            case 5: LL_GPIO_ResetOutputPin(GPIOB, LED5_Pin); break;
+	                            case 6: LL_GPIO_ResetOutputPin(GPIOB, LED6_Pin); break;
+	                            case 7: LL_GPIO_ResetOutputPin(GPIOB, LED7_Pin); break;
+	                        }
+	                        current_led++;
+	                        break; // Exit loop after turning off one LED
 	                    }
-	                    HAL_Delay(rand() % 100);
+	                    current_led++;
+	                }
+
+	                // If all 8 LEDs have been handled, start over
+	                if (current_led >= 8) {
+	                    sparkle_state = 0;
 	                }
 	            }
-	            sparkle_state = 0;
-	        }
-	        break;
+	            break;
 
 	    default:
-	        // All LEDs off
+	    	// Only turn off all LEDs when no mode is active
+	    	        LL_GPIO_ResetOutputPin(GPIOB, LED0_Pin | LED1_Pin | LED2_Pin | LED3_Pin |
+	    	                                     LED4_Pin | LED5_Pin | LED6_Pin | LED7_Pin);
 	        break;
 	}
 
