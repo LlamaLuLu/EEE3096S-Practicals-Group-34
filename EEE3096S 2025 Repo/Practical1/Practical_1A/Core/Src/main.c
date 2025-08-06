@@ -49,6 +49,7 @@ TIM_HandleTypeDef htim16;
 
 // Current mode: 0 = off, 1 = back/forth, 2 = inverse back/forth, 3 = sparkle
 uint8_t led_mode = 0;
+volatile int8_t dir = 1; // 1 = to the left, -1 = to the right
 uint8_t current_led = 0;
 uint8_t direction = 1; // 1 = forward, 0 = backward
 uint8_t sparkle_state = 0;
