@@ -52,6 +52,13 @@
   initial width and height maybe or you might opt for an array??
 */
 
+uint32_t start_time = 0;
+uint32_t end_time = 0;
+uint32_t execution_time = 0;
+uint64_t checksum = 0;
+
+int image_dimensions[] = {128, 160, 192, 224, 256};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,27 +107,28 @@ int main(void)
   /* USER CODE BEGIN 2 */
   //TODO: Turn on LED 0 to signify the start of the operation
   
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
   //TODO: Record the start time
-  
+  start_time = HAL_GetTick();
   
   //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
-  
+  checksum = calculate_mandelbrot_fixed_point_arithmetic(128, 128, MAX_ITER);
 
   //TODO: Record the end time
-  
+  end_time = HAL_GetTick();
 
   //TODO: Calculate the execution time
-  
+   execution_time = end_time - start_time;
 
   //TODO: Turn on LED 1 to signify the end of the operation
-  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 
   //TODO: Hold the LEDs on for a 1s delay
-  
+  HAL_Delay(1000);
 
   //TODO: Turn off the LEDs
-  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -201,10 +209,45 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 //TODO: Mandelbroat using variable type integers and fixed point arithmetic
+#define SCALE 1000000 // scaling factor
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
   uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
-    
+    for(int y = 0; y < height; y++){
+    	for(int x = 0; x < width; x++){
+    		// convert pixel coordinates to ficed point complex plane coordinates
+    		int32_t x0 = ((int64_t)x*SCALE*35/width)-(SCALE*25)/10; // making sure all numbers are integers not floats
+    		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
+
+    		int32_t xi = 0;
+    		int32_t yi = 0;
+    		int i = 0;
+
+    		while (i < max_iterations){
+    			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+    			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+
+    			if(xi_sq + yi_sq <= 4 * SCALE){
+    				int32_t temp = (int32_t)(xi_sq - yi_sq);
+
+    				int64_t xy = ((int64_t)xi * yi) / SCALE;
+
+    				yi  =(int32_t)(2*xy + y0);
+    				xi = temp + x0;
+
+    				i++;
+
+    			}
+
+    			else{
+    				break;
+    			}
+    		}
+
+    		mandelbrot_sum += i;
+
+    	}
+    }
     return mandelbrot_sum;
 
 }
