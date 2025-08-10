@@ -57,7 +57,16 @@ uint32_t end_time = 0;
 uint32_t execution_time = 0;
 uint64_t checksum = 0;
 
-int image_dimensions[] = {128, 160, 192, 224, 256};
+const int image_dimensions[] = {128, 160, 192, 224, 256};
+
+// vars for custom benchmark func:
+//#define NUM_SIZES 5
+//uint64_t checksum_fixed[NUM_SIZES];
+//uint64_t checksum_double[NUM_SIZES];
+//uint32_t time_fixed_ms[NUM_SIZES];
+//uint32_t time_double_ms[NUM_SIZES];
+//
+//volatile int bench_done = 0;
 
 /* USER CODE END PV */
 
@@ -104,31 +113,47 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+
   /* USER CODE BEGIN 2 */
-  //TODO: Turn on LED 0 to signify the start of the operation
   
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+  for (int i = 0; i < 5; i++) {
+      width = image_dimensions[i];
+      height = image_dimensions[i];
 
-  //TODO: Record the start time
-  start_time = HAL_GetTick();
-  
-  //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
-  checksum = calculate_mandelbrot_fixed_point_arithmetic(128, 128, MAX_ITER);
+      //TODO: Turn on LED 0 to signify the start of the operation
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
-  //TODO: Record the end time
-  end_time = HAL_GetTick();
+      // Fixed-point benchmark:
+      //TODO: Record the start time
+      start_time = HAL_GetTick();
+      //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
+      checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITERATIONS);
+      //TODO: Record the end time
+      end_time = HAL_GetTick();
+      //TODO: Calculate the execution time
+      execution_time = end_time - start_time;
+      // Store or print execution_time & checksum
 
-  //TODO: Calculate the execution time
-   execution_time = end_time - start_time;
+      // Double benchmark:
+      //TODO: Record the start time
+      start_time = HAL_GetTick();
+      //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
+      checksum = calculate_mandelbrot_double(width, height, MAX_ITERATIONS);
+      //TODO: Record the end time
+      end_time = HAL_GetTick();
+      //TODO: Calculate the execution time
+      execution_time = end_time - start_time;
+      // Store or print execution_time & checksum
 
-  //TODO: Turn on LED 1 to signify the end of the operation
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+      //TODO: Turn on LED 1 to signify the end of the operation
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 
-  //TODO: Hold the LEDs on for a 1s delay
-  HAL_Delay(1000);
+      //TODO: Hold the LEDs on for a 1s delay
+      HAL_Delay(1000);
 
-  //TODO: Turn off the LEDs
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
+      //TODO: Turn off the LEDs
+      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
+  }
 
   /* USER CODE END 2 */
 
@@ -139,6 +164,15 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	// CUSTOM BENCHMARK FUNC:
+//	  if (!bench_done) {
+//	      // Choose repeats so measured times are meaningful:
+//	      // if per-run time > 200 ms, repeats=1 is fine. For small durations use higher repeats (e.g., 10).
+//	      run_benchmarks(3, MAX_ITER /* or the value your Python script uses */);
+//	      // Optionally toggle an LED to indicate completion
+//	      LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
+//	  }
   }
   /* USER CODE END 3 */
 }
@@ -208,6 +242,45 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+//BENCHMARK TESTS
+/* repeat each test n times and average the time. If runs are long, n=1 is fine */
+//void run_benchmarks(int repeats, int max_iter) {
+//    for (int i = 0; i < NUM_SIZES; ++i) {
+//        int w = image_dimensions[i];
+//        int h = w;
+//
+//        // ---- Fixed (Phila's func) ----
+//        uint32_t total_fixed = 0;
+//        uint64_t last_cs_fixed = 0;
+//        for (int r = 0; r < repeats; ++r) {
+//            uint32_t t0 = HAL_GetTick();
+//            last_cs_fixed = calculate_mandelbrot_fixed_point_arithmetic(w, h, max_iter);
+//            uint32_t t1 = HAL_GetTick();
+//            total_fixed += (t1 - t0);
+//            HAL_Delay(10); // small gap to let system breathe
+//        }
+//        checksum_fixed[i] = last_cs_fixed;
+//        time_fixed_ms[i] = total_fixed / repeats;
+//
+//        // ---- Double (Lula's func) ----
+//        uint32_t total_double = 0;
+//        uint64_t last_cs_double = 0;
+//        for (int r = 0; r < repeats; ++r) {
+//            uint32_t t0 = HAL_GetTick();
+//            last_cs_double = calculate_mandelbrot_double(w, h, max_iter);
+//            uint32_t t1 = HAL_GetTick();
+//            total_double += (t1 - t0);
+//            HAL_Delay(10);
+//        }
+//        checksum_double[i] = last_cs_double;
+//        time_double_ms[i] = total_double / repeats;
+//    }
+//
+//    // mark done (so we don't run again)
+//    bench_done = 1;
+//}
+
 //TODO: Mandelbroat using variable type integers and fixed point arithmetic
 #define SCALE 1000000 // scaling factor
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
@@ -215,7 +288,7 @@ uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int 
     //TODO: Complete the function implementation
     for(int y = 0; y < height; y++){
     	for(int x = 0; x < width; x++){
-    		// convert pixel coordinates to ficed point complex plane coordinates
+    		// convert pixel coordinates to fixed point complex plane coordinates
     		int32_t x0 = ((int64_t)x*SCALE*35/width)-(SCALE*25)/10; // making sure all numbers are integers not floats
     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
 
@@ -256,6 +329,23 @@ uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int 
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
     uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
+	for (int y = 0; y < height; ++y) {
+		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
+		for (int x = 0; x < width; ++x) {
+			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+			double xi = 0.0;
+			double yi = 0.0;
+			int i = 0;
+
+			while (i < max_iterations && (xi*xi + yi*yi) <= 4.0) {
+				double tmp = xi*xi - yi*yi + x0;
+				yi = 2.0 * xi * yi + y0;
+				xi = tmp;
+				++i;
+			}
+			mandelbrot_sum += (uint64_t)i;
+		}
+	}
     
     return mandelbrot_sum;
 }
