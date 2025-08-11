@@ -62,15 +62,6 @@ int32_t width = 0;
 
 const int image_dimensions[] = {128, 160, 192, 224, 256};
 
-// vars for custom benchmark func:
-//#define NUM_SIZES 5
-//uint64_t checksum_fixed[NUM_SIZES];
-//uint64_t checksum_double[NUM_SIZES];
-//uint32_t time_fixed_ms[NUM_SIZES];
-//uint32_t time_double_ms[NUM_SIZES];
-//
-//volatile int bench_done = 0;
-
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -167,15 +158,6 @@ i      start_time = HAL_GetTick();
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-
-	// CUSTOM BENCHMARK FUNC:
-//	  if (!bench_done) {
-//	      // Choose repeats so measured times are meaningful:
-//	      // if per-run time > 200 ms, repeats=1 is fine. For small durations use higher repeats (e.g., 10).
-//	      run_benchmarks(3, MAX_ITER /* or the value your Python script uses */);
-//	      // Optionally toggle an LED to indicate completion
-//	      LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
-//	  }
   }
   /* USER CODE END 3 */
 }
@@ -245,44 +227,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-//BENCHMARK TESTS
-/* repeat each test n times and average the time. If runs are long, n=1 is fine */
-//void run_benchmarks(int repeats, int max_iter) {
-//    for (int i = 0; i < NUM_SIZES; ++i) {
-//        int w = image_dimensions[i];
-//        int h = w;
-//
-//        // ---- Fixed (Phila's func) ----
-//        uint32_t total_fixed = 0;
-//        uint64_t last_cs_fixed = 0;
-//        for (int r = 0; r < repeats; ++r) {
-//            uint32_t t0 = HAL_GetTick();
-//            last_cs_fixed = calculate_mandelbrot_fixed_point_arithmetic(w, h, max_iter);
-//            uint32_t t1 = HAL_GetTick();
-//            total_fixed += (t1 - t0);
-//            HAL_Delay(10); // small gap to let system breathe
-//        }
-//        checksum_fixed[i] = last_cs_fixed;
-//        time_fixed_ms[i] = total_fixed / repeats;
-//
-//        // ---- Double (Lula's func) ----
-//        uint32_t total_double = 0;
-//        uint64_t last_cs_double = 0;
-//        for (int r = 0; r < repeats; ++r) {
-//            uint32_t t0 = HAL_GetTick();
-//            last_cs_double = calculate_mandelbrot_double(w, h, max_iter);
-//            uint32_t t1 = HAL_GetTick();
-//            total_double += (t1 - t0);
-//            HAL_Delay(10);
-//        }
-//        checksum_double[i] = last_cs_double;
-//        time_double_ms[i] = total_double / repeats;
-//    }
-//
-//    // mark done (so we don't run again)
-//    bench_done = 1;
-//}
 
 //TODO: Mandelbroat using variable type integers and fixed point arithmetic
 #define SCALE 1000000 // scaling factor
