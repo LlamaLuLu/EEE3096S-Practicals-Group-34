@@ -57,6 +57,9 @@ uint32_t end_time = 0;
 uint32_t execution_time = 0;
 uint64_t checksum = 0;
 
+int32_t height = 0;
+int32_t width = 0;
+
 const int image_dimensions[] = {128, 160, 192, 224, 256};
 
 // vars for custom benchmark func:
@@ -127,7 +130,7 @@ int main(void)
       //TODO: Record the start time
       start_time = HAL_GetTick();
       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
-      checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITERATIONS);
+      checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER);
       //TODO: Record the end time
       end_time = HAL_GetTick();
       //TODO: Calculate the execution time
@@ -136,9 +139,9 @@ int main(void)
 
       // Double benchmark:
       //TODO: Record the start time
-      start_time = HAL_GetTick();
+i      start_time = HAL_GetTick();
       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
-      checksum = calculate_mandelbrot_double(width, height, MAX_ITERATIONS);
+      checksum = calculate_mandelbrot_double(width, height, MAX_ITER);
       //TODO: Record the end time
       end_time = HAL_GetTick();
       //TODO: Calculate the execution time
