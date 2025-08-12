@@ -229,48 +229,46 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 //TODO: Mandelbroat using variable type integers and fixed point arithmetic
-#define SCALE 1000000 // scaling factor
-uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
-  uint64_t mandelbrot_sum = 0;
-    //TODO: Complete the function implementation
-    for(int y = 0; y < height; y++){
-    	for(int x = 0; x < width; x++){
-    		// convert pixel coordinates to fixed point complex plane coordinates
-    		int32_t x0 = ((int64_t)x*SCALE*35/width)-(SCALE*25)/10; // making sure all numbers are integers not floats
-    		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
+#define SCALE 1000000 // scaling factor (1.0 in fixed-point)
+uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
+    uint64_t mandelbrot_sum = 0;
 
-    		int32_t xi = 0;
-    		int32_t yi = 0;
-    		int i = 0;
+    for (int y = 0; y < height; y++) {
+        // y0 = (y / height) * 2.0 - 1.0
+        int32_t y0 = ((int64_t)y * (SCALE * 2) / height) - SCALE;
 
-    		while (i < max_iterations){
-    			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
-    			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+        for (int x = 0; x < width; x++) {
+            // x0 = (x / width) * 3.5 - 2.5
+            int32_t x0 = ((int64_t)x * (SCALE * 35 / 10) / width) - (SCALE * 25 / 10);
 
-    			if(xi_sq + yi_sq <= 4 * SCALE){
-    				int32_t temp = (int32_t)(xi_sq - yi_sq);
+            int32_t xi = 0;
+            int32_t yi = 0;
+            int i = 0;
 
-    				int64_t xy = ((int64_t)xi * yi) / SCALE;
+            while (i < max_iterations) {
+                int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+                int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
 
-    				yi  =(int32_t)(2*xy + y0);
-    				xi = temp + x0;
+                if (xi_sq + yi_sq <= 4 * SCALE) {
+                    int32_t temp = (int32_t)(xi_sq - yi_sq + x0);
 
-    				i++;
+                    int64_t xy = ((int64_t)xi * yi) / SCALE;
+                    yi = (int32_t)(2 * xy + y0);
+                    xi = temp;
 
-    			}
+                    i++;
+                } else {
+                    break;
+                }
+            }
 
-    			else{
-    				break;
-    			}
-    		}
-
-    		mandelbrot_sum += i;
-
-    	}
+            mandelbrot_sum += (uint64_t)i;
+        }
     }
-    return mandelbrot_sum;
 
+    return mandelbrot_sum;
 }
+
 
 //TODO: Mandelbroat using variable type double
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
