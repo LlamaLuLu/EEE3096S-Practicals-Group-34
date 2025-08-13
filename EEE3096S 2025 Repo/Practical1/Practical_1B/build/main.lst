@@ -1,4 +1,4 @@
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 1
 
 
    1              		.cpu cortex-m0
@@ -58,7 +58,7 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   31:Core/Src/main.c **** /* USER CODE END PTD */
   32:Core/Src/main.c **** 
   33:Core/Src/main.c **** /* Private define ------------------------------------------------------------*/
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 2
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 2
 
 
   34:Core/Src/main.c **** /* USER CODE BEGIN PD */
@@ -92,176 +92,158 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   62:Core/Src/main.c **** 
   63:Core/Src/main.c **** const int image_dimensions[] = {128, 160, 192, 224, 256};
   64:Core/Src/main.c **** 
-  65:Core/Src/main.c **** // vars for custom benchmark func:
-  66:Core/Src/main.c **** //#define NUM_SIZES 5
-  67:Core/Src/main.c **** //uint64_t checksum_fixed[NUM_SIZES];
-  68:Core/Src/main.c **** //uint64_t checksum_double[NUM_SIZES];
-  69:Core/Src/main.c **** //uint32_t time_fixed_ms[NUM_SIZES];
-  70:Core/Src/main.c **** //uint32_t time_double_ms[NUM_SIZES];
-  71:Core/Src/main.c **** //
-  72:Core/Src/main.c **** //volatile int bench_done = 0;
+  65:Core/Src/main.c **** /* USER CODE END PV */
+  66:Core/Src/main.c **** 
+  67:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
+  68:Core/Src/main.c **** void SystemClock_Config(void);
+  69:Core/Src/main.c **** static void MX_GPIO_Init(void);
+  70:Core/Src/main.c **** /* USER CODE BEGIN PFP */
+  71:Core/Src/main.c **** uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
+  72:Core/Src/main.c **** uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
   73:Core/Src/main.c **** 
-  74:Core/Src/main.c **** /* USER CODE END PV */
-  75:Core/Src/main.c **** 
-  76:Core/Src/main.c **** /* Private function prototypes -----------------------------------------------*/
-  77:Core/Src/main.c **** void SystemClock_Config(void);
-  78:Core/Src/main.c **** static void MX_GPIO_Init(void);
-  79:Core/Src/main.c **** /* USER CODE BEGIN PFP */
-  80:Core/Src/main.c **** uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
-  81:Core/Src/main.c **** uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
-  82:Core/Src/main.c **** 
-  83:Core/Src/main.c **** 
-  84:Core/Src/main.c **** /* USER CODE END PFP */
-  85:Core/Src/main.c **** 
-  86:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
-  87:Core/Src/main.c **** /* USER CODE BEGIN 0 */
-  88:Core/Src/main.c **** 
-  89:Core/Src/main.c **** /* USER CODE END 0 */
-  90:Core/Src/main.c **** 
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 3
+  74:Core/Src/main.c **** 
+  75:Core/Src/main.c **** /* USER CODE END PFP */
+  76:Core/Src/main.c **** 
+  77:Core/Src/main.c **** /* Private user code ---------------------------------------------------------*/
+  78:Core/Src/main.c **** /* USER CODE BEGIN 0 */
+  79:Core/Src/main.c **** 
+  80:Core/Src/main.c **** /* USER CODE END 0 */
+  81:Core/Src/main.c **** 
+  82:Core/Src/main.c **** /**
+  83:Core/Src/main.c ****   * @brief  The application entry point.
+  84:Core/Src/main.c ****   * @retval int
+  85:Core/Src/main.c ****   */
+  86:Core/Src/main.c **** int main(void)
+  87:Core/Src/main.c **** {
+  88:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
+  89:Core/Src/main.c **** 
+  90:Core/Src/main.c ****   /* USER CODE END 1 */
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 3
 
 
-  91:Core/Src/main.c **** /**
-  92:Core/Src/main.c ****   * @brief  The application entry point.
-  93:Core/Src/main.c ****   * @retval int
-  94:Core/Src/main.c ****   */
-  95:Core/Src/main.c **** int main(void)
-  96:Core/Src/main.c **** {
-  97:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
+  91:Core/Src/main.c **** 
+  92:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
+  93:Core/Src/main.c **** 
+  94:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+  95:Core/Src/main.c ****   HAL_Init();
+  96:Core/Src/main.c **** 
+  97:Core/Src/main.c ****   /* USER CODE BEGIN Init */
   98:Core/Src/main.c **** 
-  99:Core/Src/main.c ****   /* USER CODE END 1 */
+  99:Core/Src/main.c ****   /* USER CODE END Init */
  100:Core/Src/main.c **** 
- 101:Core/Src/main.c ****   /* MCU Configuration--------------------------------------------------------*/
- 102:Core/Src/main.c **** 
- 103:Core/Src/main.c ****   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
- 104:Core/Src/main.c ****   HAL_Init();
+ 101:Core/Src/main.c ****   /* Configure the system clock */
+ 102:Core/Src/main.c ****   SystemClock_Config();
+ 103:Core/Src/main.c **** 
+ 104:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
  105:Core/Src/main.c **** 
- 106:Core/Src/main.c ****   /* USER CODE BEGIN Init */
+ 106:Core/Src/main.c ****   /* USER CODE END SysInit */
  107:Core/Src/main.c **** 
- 108:Core/Src/main.c ****   /* USER CODE END Init */
- 109:Core/Src/main.c **** 
- 110:Core/Src/main.c ****   /* Configure the system clock */
- 111:Core/Src/main.c ****   SystemClock_Config();
- 112:Core/Src/main.c **** 
- 113:Core/Src/main.c ****   /* USER CODE BEGIN SysInit */
- 114:Core/Src/main.c **** 
- 115:Core/Src/main.c ****   /* USER CODE END SysInit */
+ 108:Core/Src/main.c ****   /* Initialize all configured peripherals */
+ 109:Core/Src/main.c ****   MX_GPIO_Init();
+ 110:Core/Src/main.c **** 
+ 111:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
+ 112:Core/Src/main.c ****   
+ 113:Core/Src/main.c ****   for (int i = 0; i < 5; i++) {
+ 114:Core/Src/main.c ****       width = image_dimensions[i];
+ 115:Core/Src/main.c ****       height = image_dimensions[i];
  116:Core/Src/main.c **** 
- 117:Core/Src/main.c ****   /* Initialize all configured peripherals */
- 118:Core/Src/main.c ****   MX_GPIO_Init();
+ 117:Core/Src/main.c ****       //TODO: Turn on LED 0 to signify the start of the operation
+ 118:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
  119:Core/Src/main.c **** 
- 120:Core/Src/main.c ****   /* USER CODE BEGIN 2 */
- 121:Core/Src/main.c ****   
- 122:Core/Src/main.c ****   for (int i = 0; i < 5; i++) {
- 123:Core/Src/main.c ****       width = image_dimensions[i];
- 124:Core/Src/main.c ****       height = image_dimensions[i];
- 125:Core/Src/main.c **** 
- 126:Core/Src/main.c ****       //TODO: Turn on LED 0 to signify the start of the operation
- 127:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
- 128:Core/Src/main.c **** 
- 129:Core/Src/main.c ****       // Fixed-point benchmark:
- 130:Core/Src/main.c ****       //TODO: Record the start time
- 131:Core/Src/main.c ****       start_time = HAL_GetTick();
- 132:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 133:Core/Src/main.c ****       checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER);
- 134:Core/Src/main.c ****       //TODO: Record the end time
- 135:Core/Src/main.c ****       end_time = HAL_GetTick();
- 136:Core/Src/main.c ****       //TODO: Calculate the execution time
- 137:Core/Src/main.c ****       execution_time = end_time - start_time;
- 138:Core/Src/main.c ****       // Store or print execution_time & checksum
- 139:Core/Src/main.c **** 
- 140:Core/Src/main.c ****       // Double benchmark:
- 141:Core/Src/main.c ****       //TODO: Record the start time
- 142:Core/Src/main.c ****       start_time = HAL_GetTick();
- 143:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 144:Core/Src/main.c ****       checksum = calculate_mandelbrot_double(width, height, MAX_ITER);
- 145:Core/Src/main.c ****       //TODO: Record the end time
- 146:Core/Src/main.c ****       end_time = HAL_GetTick();
- 147:Core/Src/main.c ****       //TODO: Calculate the execution time
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 4
+ 120:Core/Src/main.c ****       // Fixed-point benchmark:
+ 121:Core/Src/main.c ****       //TODO: Record the start time
+ 122:Core/Src/main.c ****       start_time = HAL_GetTick();
+ 123:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
+ 124:Core/Src/main.c ****       checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER);
+ 125:Core/Src/main.c ****       //TODO: Record the end time
+ 126:Core/Src/main.c ****       end_time = HAL_GetTick();
+ 127:Core/Src/main.c ****       //TODO: Calculate the execution time
+ 128:Core/Src/main.c ****       execution_time = end_time - start_time;
+ 129:Core/Src/main.c ****       // Store or print execution_time & checksum
+ 130:Core/Src/main.c **** 
+ 131:Core/Src/main.c **** //      // Double benchmark:
+ 132:Core/Src/main.c **** //      //TODO: Record the start time
+ 133:Core/Src/main.c **** //      start_time = HAL_GetTick();
+ 134:Core/Src/main.c **** //      //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined 
+ 135:Core/Src/main.c **** //      checksum = calculate_mandelbrot_double(width, height, MAX_ITER);
+ 136:Core/Src/main.c **** //      //TODO: Record the end time
+ 137:Core/Src/main.c **** //      end_time = HAL_GetTick();
+ 138:Core/Src/main.c **** //      //TODO: Calculate the execution time
+ 139:Core/Src/main.c **** //      execution_time = end_time - start_time;
+ 140:Core/Src/main.c **** //      // Store or print execution_time & checksum
+ 141:Core/Src/main.c **** 
+ 142:Core/Src/main.c ****       //TODO: Turn on LED 1 to signify the end of the operation
+ 143:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+ 144:Core/Src/main.c **** 
+ 145:Core/Src/main.c ****       //TODO: Hold the LEDs on for a 1s delay
+ 146:Core/Src/main.c ****       HAL_Delay(1000);
+ 147:Core/Src/main.c **** 
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 4
 
 
- 148:Core/Src/main.c ****       execution_time = end_time - start_time;
- 149:Core/Src/main.c ****       // Store or print execution_time & checksum
- 150:Core/Src/main.c **** 
- 151:Core/Src/main.c ****       //TODO: Turn on LED 1 to signify the end of the operation
- 152:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+ 148:Core/Src/main.c ****       //TODO: Turn off the LEDs
+ 149:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
+ 150:Core/Src/main.c ****   }
+ 151:Core/Src/main.c **** 
+ 152:Core/Src/main.c ****   /* USER CODE END 2 */
  153:Core/Src/main.c **** 
- 154:Core/Src/main.c ****       //TODO: Hold the LEDs on for a 1s delay
- 155:Core/Src/main.c ****       HAL_Delay(1000);
- 156:Core/Src/main.c **** 
- 157:Core/Src/main.c ****       //TODO: Turn off the LEDs
- 158:Core/Src/main.c ****       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
- 159:Core/Src/main.c ****   }
- 160:Core/Src/main.c **** 
- 161:Core/Src/main.c ****   /* USER CODE END 2 */
- 162:Core/Src/main.c **** 
- 163:Core/Src/main.c ****   /* Infinite loop */
- 164:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
- 165:Core/Src/main.c ****   while (1)
- 166:Core/Src/main.c ****   {
- 167:Core/Src/main.c ****     /* USER CODE END WHILE */
- 168:Core/Src/main.c **** 
- 169:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
- 170:Core/Src/main.c **** 
- 171:Core/Src/main.c **** 	// CUSTOM BENCHMARK FUNC:
- 172:Core/Src/main.c **** //	  if (!bench_done) {
- 173:Core/Src/main.c **** //	      // Choose repeats so measured times are meaningful:
- 174:Core/Src/main.c **** //	      // if per-run time > 200 ms, repeats=1 is fine. For small durations use higher repeats (e.
- 175:Core/Src/main.c **** //	      run_benchmarks(3, MAX_ITER /* or the value your Python script uses */);
- 176:Core/Src/main.c **** //	      // Optionally toggle an LED to indicate completion
- 177:Core/Src/main.c **** //	      LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
- 178:Core/Src/main.c **** //	  }
- 179:Core/Src/main.c ****   }
- 180:Core/Src/main.c ****   /* USER CODE END 3 */
- 181:Core/Src/main.c **** }
- 182:Core/Src/main.c **** 
- 183:Core/Src/main.c **** /**
- 184:Core/Src/main.c ****   * @brief System Clock Configuration
- 185:Core/Src/main.c ****   * @retval None
- 186:Core/Src/main.c ****   */
- 187:Core/Src/main.c **** void SystemClock_Config(void)
- 188:Core/Src/main.c **** {
- 189:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 190:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 191:Core/Src/main.c **** 
- 192:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
- 193:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
- 194:Core/Src/main.c ****   */
- 195:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
- 196:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 197:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
- 198:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
- 199:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 200:Core/Src/main.c ****   {
- 201:Core/Src/main.c ****     Error_Handler();
- 202:Core/Src/main.c ****   }
- 203:Core/Src/main.c **** 
- 204:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 5
+ 154:Core/Src/main.c ****   /* Infinite loop */
+ 155:Core/Src/main.c ****   /* USER CODE BEGIN WHILE */
+ 156:Core/Src/main.c ****   while (1)
+ 157:Core/Src/main.c ****   {
+ 158:Core/Src/main.c ****     /* USER CODE END WHILE */
+ 159:Core/Src/main.c **** 
+ 160:Core/Src/main.c ****     /* USER CODE BEGIN 3 */
+ 161:Core/Src/main.c ****   }
+ 162:Core/Src/main.c ****   /* USER CODE END 3 */
+ 163:Core/Src/main.c **** }
+ 164:Core/Src/main.c **** 
+ 165:Core/Src/main.c **** /**
+ 166:Core/Src/main.c ****   * @brief System Clock Configuration
+ 167:Core/Src/main.c ****   * @retval None
+ 168:Core/Src/main.c ****   */
+ 169:Core/Src/main.c **** void SystemClock_Config(void)
+ 170:Core/Src/main.c **** {
+ 171:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 172:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 173:Core/Src/main.c **** 
+ 174:Core/Src/main.c ****   /** Initializes the RCC Oscillators according to the specified parameters
+ 175:Core/Src/main.c ****   * in the RCC_OscInitTypeDef structure.
+ 176:Core/Src/main.c ****   */
+ 177:Core/Src/main.c ****   RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSI;
+ 178:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 179:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+ 180:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+ 181:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 182:Core/Src/main.c ****   {
+ 183:Core/Src/main.c ****     Error_Handler();
+ 184:Core/Src/main.c ****   }
+ 185:Core/Src/main.c **** 
+ 186:Core/Src/main.c ****   /** Initializes the CPU, AHB and APB buses clocks
+ 187:Core/Src/main.c ****   */
+ 188:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
+ 189:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
+ 190:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
+ 191:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 192:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 193:Core/Src/main.c **** 
+ 194:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
+ 195:Core/Src/main.c ****   {
+ 196:Core/Src/main.c ****     Error_Handler();
+ 197:Core/Src/main.c ****   }
+ 198:Core/Src/main.c **** }
+ 199:Core/Src/main.c **** 
+ 200:Core/Src/main.c **** /**
+ 201:Core/Src/main.c ****   * @brief GPIO Initialization Function
+ 202:Core/Src/main.c ****   * @param None
+ 203:Core/Src/main.c ****   * @retval None
+ 204:Core/Src/main.c ****   */
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 5
 
 
- 205:Core/Src/main.c ****   */
- 206:Core/Src/main.c ****   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
- 207:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
- 208:Core/Src/main.c ****   RCC_ClkInitStruct.SYSCLKSource = RCC_SYSCLKSOURCE_HSI;
- 209:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 210:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
- 211:Core/Src/main.c **** 
- 212:Core/Src/main.c ****   if (HAL_RCC_ClockConfig(&RCC_ClkInitStruct, FLASH_LATENCY_0) != HAL_OK)
- 213:Core/Src/main.c ****   {
- 214:Core/Src/main.c ****     Error_Handler();
- 215:Core/Src/main.c ****   }
- 216:Core/Src/main.c **** }
- 217:Core/Src/main.c **** 
- 218:Core/Src/main.c **** /**
- 219:Core/Src/main.c ****   * @brief GPIO Initialization Function
- 220:Core/Src/main.c ****   * @param None
- 221:Core/Src/main.c ****   * @retval None
- 222:Core/Src/main.c ****   */
- 223:Core/Src/main.c **** static void MX_GPIO_Init(void)
- 224:Core/Src/main.c **** {
-  26              		.loc 1 224 1 view -0
+ 205:Core/Src/main.c **** static void MX_GPIO_Init(void)
+ 206:Core/Src/main.c **** {
+  26              		.loc 1 206 1 view -0
   27              		.cfi_startproc
   28              		@ args = 0, pretend = 0, frame = 32
   29              		@ frame_needed = 0, uses_anonymous_args = 0
@@ -273,103 +255,100 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   35 0002 88B0     		sub	sp, sp, #32
   36              	.LCFI1:
   37              		.cfi_def_cfa_offset 40
- 225:Core/Src/main.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
-  38              		.loc 1 225 3 view .LVU1
-  39              		.loc 1 225 20 is_stmt 0 view .LVU2
+ 207:Core/Src/main.c ****   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  38              		.loc 1 207 3 view .LVU1
+  39              		.loc 1 207 20 is_stmt 0 view .LVU2
   40 0004 1422     		movs	r2, #20
   41 0006 0021     		movs	r1, #0
   42 0008 03A8     		add	r0, sp, #12
   43 000a FFF7FEFF 		bl	memset
   44              	.LVL0:
- 226:Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_1 */
- 227:Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_1 */
- 228:Core/Src/main.c **** 
- 229:Core/Src/main.c ****   /* GPIO Ports Clock Enable */
- 230:Core/Src/main.c ****   __HAL_RCC_GPIOB_CLK_ENABLE();
-  45              		.loc 1 230 3 is_stmt 1 view .LVU3
+ 208:Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_1 */
+ 209:Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_1 */
+ 210:Core/Src/main.c **** 
+ 211:Core/Src/main.c ****   /* GPIO Ports Clock Enable */
+ 212:Core/Src/main.c ****   __HAL_RCC_GPIOB_CLK_ENABLE();
+  45              		.loc 1 212 3 is_stmt 1 view .LVU3
   46              	.LBB4:
-  47              		.loc 1 230 3 view .LVU4
-  48              		.loc 1 230 3 view .LVU5
+  47              		.loc 1 212 3 view .LVU4
+  48              		.loc 1 212 3 view .LVU5
   49 000e 134B     		ldr	r3, .L2
   50 0010 5A69     		ldr	r2, [r3, #20]
   51 0012 8021     		movs	r1, #128
   52 0014 C902     		lsls	r1, r1, #11
   53 0016 0A43     		orrs	r2, r1
   54 0018 5A61     		str	r2, [r3, #20]
-  55              		.loc 1 230 3 view .LVU6
+  55              		.loc 1 212 3 view .LVU6
   56 001a 5A69     		ldr	r2, [r3, #20]
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 6
-
-
   57 001c 0A40     		ands	r2, r1
   58 001e 0192     		str	r2, [sp, #4]
-  59              		.loc 1 230 3 view .LVU7
+  59              		.loc 1 212 3 view .LVU7
   60 0020 019A     		ldr	r2, [sp, #4]
   61              	.LBE4:
-  62              		.loc 1 230 3 view .LVU8
- 231:Core/Src/main.c ****   __HAL_RCC_GPIOA_CLK_ENABLE();
-  63              		.loc 1 231 3 view .LVU9
+  62              		.loc 1 212 3 view .LVU8
+ 213:Core/Src/main.c ****   __HAL_RCC_GPIOA_CLK_ENABLE();
+  63              		.loc 1 213 3 view .LVU9
   64              	.LBB5:
-  65              		.loc 1 231 3 view .LVU10
-  66              		.loc 1 231 3 view .LVU11
+  65              		.loc 1 213 3 view .LVU10
+  66              		.loc 1 213 3 view .LVU11
   67 0022 5A69     		ldr	r2, [r3, #20]
   68 0024 8021     		movs	r1, #128
   69 0026 8902     		lsls	r1, r1, #10
   70 0028 0A43     		orrs	r2, r1
   71 002a 5A61     		str	r2, [r3, #20]
-  72              		.loc 1 231 3 view .LVU12
+  72              		.loc 1 213 3 view .LVU12
   73 002c 5B69     		ldr	r3, [r3, #20]
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 6
+
+
   74 002e 0B40     		ands	r3, r1
   75 0030 0293     		str	r3, [sp, #8]
-  76              		.loc 1 231 3 view .LVU13
+  76              		.loc 1 213 3 view .LVU13
   77 0032 029B     		ldr	r3, [sp, #8]
   78              	.LBE5:
-  79              		.loc 1 231 3 view .LVU14
- 232:Core/Src/main.c **** 
- 233:Core/Src/main.c ****   /*Configure GPIO pin Output Level */
- 234:Core/Src/main.c ****   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
-  80              		.loc 1 234 3 view .LVU15
+  79              		.loc 1 213 3 view .LVU14
+ 214:Core/Src/main.c **** 
+ 215:Core/Src/main.c ****   /*Configure GPIO pin Output Level */
+ 216:Core/Src/main.c ****   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
+  80              		.loc 1 216 3 view .LVU15
   81 0034 0A4C     		ldr	r4, .L2+4
   82 0036 0022     		movs	r2, #0
   83 0038 0321     		movs	r1, #3
   84 003a 2000     		movs	r0, r4
   85 003c FFF7FEFF 		bl	HAL_GPIO_WritePin
   86              	.LVL1:
- 235:Core/Src/main.c **** 
- 236:Core/Src/main.c ****   /*Configure GPIO pins : PB0 PB1 */
- 237:Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
-  87              		.loc 1 237 3 view .LVU16
-  88              		.loc 1 237 23 is_stmt 0 view .LVU17
+ 217:Core/Src/main.c **** 
+ 218:Core/Src/main.c ****   /*Configure GPIO pins : PB0 PB1 */
+ 219:Core/Src/main.c ****   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
+  87              		.loc 1 219 3 view .LVU16
+  88              		.loc 1 219 23 is_stmt 0 view .LVU17
   89 0040 0323     		movs	r3, #3
   90 0042 0393     		str	r3, [sp, #12]
- 238:Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-  91              		.loc 1 238 3 is_stmt 1 view .LVU18
-  92              		.loc 1 238 24 is_stmt 0 view .LVU19
+ 220:Core/Src/main.c ****   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  91              		.loc 1 220 3 is_stmt 1 view .LVU18
+  92              		.loc 1 220 24 is_stmt 0 view .LVU19
   93 0044 023B     		subs	r3, r3, #2
   94 0046 0493     		str	r3, [sp, #16]
- 239:Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
-  95              		.loc 1 239 3 is_stmt 1 view .LVU20
-  96              		.loc 1 239 24 is_stmt 0 view .LVU21
+ 221:Core/Src/main.c ****   GPIO_InitStruct.Pull = GPIO_NOPULL;
+  95              		.loc 1 221 3 is_stmt 1 view .LVU20
+  96              		.loc 1 221 24 is_stmt 0 view .LVU21
   97 0048 0023     		movs	r3, #0
   98 004a 0593     		str	r3, [sp, #20]
- 240:Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  99              		.loc 1 240 3 is_stmt 1 view .LVU22
- 100              		.loc 1 240 25 is_stmt 0 view .LVU23
+ 222:Core/Src/main.c ****   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  99              		.loc 1 222 3 is_stmt 1 view .LVU22
+ 100              		.loc 1 222 25 is_stmt 0 view .LVU23
  101 004c 0693     		str	r3, [sp, #24]
- 241:Core/Src/main.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
- 102              		.loc 1 241 3 is_stmt 1 view .LVU24
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 7
-
-
+ 223:Core/Src/main.c ****   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+ 102              		.loc 1 223 3 is_stmt 1 view .LVU24
  103 004e 03A9     		add	r1, sp, #12
  104 0050 2000     		movs	r0, r4
  105 0052 FFF7FEFF 		bl	HAL_GPIO_Init
  106              	.LVL2:
- 242:Core/Src/main.c **** 
- 243:Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_2 */
- 244:Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_2 */
- 245:Core/Src/main.c **** }
- 107              		.loc 1 245 1 is_stmt 0 view .LVU25
+ 224:Core/Src/main.c **** 
+ 225:Core/Src/main.c **** /* USER CODE BEGIN MX_GPIO_Init_2 */
+ 226:Core/Src/main.c **** /* USER CODE END MX_GPIO_Init_2 */
+ 227:Core/Src/main.c **** }
+ 107              		.loc 1 227 1 is_stmt 0 view .LVU25
  108 0056 08B0     		add	sp, sp, #32
  109              		@ sp needed
  110 0058 10BD     		pop	{r4, pc}
@@ -379,9 +358,12 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
  114 005c 00100240 		.word	1073876992
  115 0060 00040048 		.word	1207960576
  116              		.cfi_endproc
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 7
+
+
  117              	.LFE42:
- 119              		.global	__aeabi_lmul
- 120              		.global	__aeabi_ldivmod
+ 119              		.global	__aeabi_ldivmod
+ 120              		.global	__aeabi_lmul
  121              		.section	.text.calculate_mandelbrot_fixed_point_arithmetic,"ax",%progbits
  122              		.align	1
  123              		.global	calculate_mandelbrot_fixed_point_arithmetic
@@ -391,58 +373,17 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
  128              	calculate_mandelbrot_fixed_point_arithmetic:
  129              	.LVL3:
  130              	.LFB43:
- 246:Core/Src/main.c **** 
- 247:Core/Src/main.c **** /* USER CODE BEGIN 4 */
- 248:Core/Src/main.c **** 
- 249:Core/Src/main.c **** //BENCHMARK TESTS
- 250:Core/Src/main.c **** /* repeat each test n times and average the time. If runs are long, n=1 is fine */
- 251:Core/Src/main.c **** //void run_benchmarks(int repeats, int max_iter) {
- 252:Core/Src/main.c **** //    for (int i = 0; i < NUM_SIZES; ++i) {
- 253:Core/Src/main.c **** //        int w = image_dimensions[i];
- 254:Core/Src/main.c **** //        int h = w;
- 255:Core/Src/main.c **** //
- 256:Core/Src/main.c **** //        // ---- Fixed (Phila's func) ----
- 257:Core/Src/main.c **** //        uint32_t total_fixed = 0;
- 258:Core/Src/main.c **** //        uint64_t last_cs_fixed = 0;
- 259:Core/Src/main.c **** //        for (int r = 0; r < repeats; ++r) {
- 260:Core/Src/main.c **** //            uint32_t t0 = HAL_GetTick();
- 261:Core/Src/main.c **** //            last_cs_fixed = calculate_mandelbrot_fixed_point_arithmetic(w, h, max_iter);
- 262:Core/Src/main.c **** //            uint32_t t1 = HAL_GetTick();
- 263:Core/Src/main.c **** //            total_fixed += (t1 - t0);
- 264:Core/Src/main.c **** //            HAL_Delay(10); // small gap to let system breathe
- 265:Core/Src/main.c **** //        }
- 266:Core/Src/main.c **** //        checksum_fixed[i] = last_cs_fixed;
- 267:Core/Src/main.c **** //        time_fixed_ms[i] = total_fixed / repeats;
- 268:Core/Src/main.c **** //
- 269:Core/Src/main.c **** //        // ---- Double (Lula's func) ----
- 270:Core/Src/main.c **** //        uint32_t total_double = 0;
- 271:Core/Src/main.c **** //        uint64_t last_cs_double = 0;
- 272:Core/Src/main.c **** //        for (int r = 0; r < repeats; ++r) {
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 8
-
-
- 273:Core/Src/main.c **** //            uint32_t t0 = HAL_GetTick();
- 274:Core/Src/main.c **** //            last_cs_double = calculate_mandelbrot_double(w, h, max_iter);
- 275:Core/Src/main.c **** //            uint32_t t1 = HAL_GetTick();
- 276:Core/Src/main.c **** //            total_double += (t1 - t0);
- 277:Core/Src/main.c **** //            HAL_Delay(10);
- 278:Core/Src/main.c **** //        }
- 279:Core/Src/main.c **** //        checksum_double[i] = last_cs_double;
- 280:Core/Src/main.c **** //        time_double_ms[i] = total_double / repeats;
- 281:Core/Src/main.c **** //    }
- 282:Core/Src/main.c **** //
- 283:Core/Src/main.c **** //    // mark done (so we don't run again)
- 284:Core/Src/main.c **** //    bench_done = 1;
- 285:Core/Src/main.c **** //}
- 286:Core/Src/main.c **** 
- 287:Core/Src/main.c **** //TODO: Mandelbroat using variable type integers and fixed point arithmetic
- 288:Core/Src/main.c **** #define SCALE 1000000 // scaling factor
- 289:Core/Src/main.c **** uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
- 131              		.loc 1 289 96 is_stmt 1 view -0
+ 228:Core/Src/main.c **** 
+ 229:Core/Src/main.c **** /* USER CODE BEGIN 4 */
+ 230:Core/Src/main.c **** 
+ 231:Core/Src/main.c **** //TODO: Mandelbroat using variable type integers and fixed point arithmetic
+ 232:Core/Src/main.c **** #define SCALE 4096 // scaling factor
+ 233:Core/Src/main.c **** uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
+ 131              		.loc 1 233 96 is_stmt 1 view -0
  132              		.cfi_startproc
- 133              		@ args = 0, pretend = 0, frame = 56
+ 133              		@ args = 0, pretend = 0, frame = 104
  134              		@ frame_needed = 0, uses_anonymous_args = 0
- 135              		.loc 1 289 96 is_stmt 0 view .LVU27
+ 135              		.loc 1 233 96 is_stmt 0 view .LVU27
  136 0000 F0B5     		push	{r4, r5, r6, r7, lr}
  137              	.LCFI2:
  138              		.cfi_def_cfa_offset 20
@@ -462,813 +403,892 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
  152              		.cfi_offset 9, -32
  153              		.cfi_offset 10, -28
  154              		.cfi_offset 11, -24
- 155 000c 8FB0     		sub	sp, sp, #60
+ 155 000c 9BB0     		sub	sp, sp, #108
  156              	.LCFI4:
- 157              		.cfi_def_cfa_offset 96
- 158 000e 0700     		movs	r7, r0
- 159 0010 0A92     		str	r2, [sp, #40]
- 290:Core/Src/main.c ****   uint64_t mandelbrot_sum = 0;
- 160              		.loc 1 290 3 is_stmt 1 view .LVU28
- 161              	.LVL4:
- 291:Core/Src/main.c ****     //TODO: Complete the function implementation
- 292:Core/Src/main.c ****     for(int y = 0; y < height; y++){
- 162              		.loc 1 292 5 view .LVU29
- 163              	.LBB6:
- 164              		.loc 1 292 9 view .LVU30
- 165              		.loc 1 292 13 is_stmt 0 view .LVU31
- 166 0012 0023     		movs	r3, #0
- 167 0014 9946     		mov	r9, r3
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 9
+ 157              		.cfi_def_cfa_offset 144
+ 158 000e 8046     		mov	r8, r0
+ 159 0010 1991     		str	r1, [sp, #100]
+ 160 0012 1692     		str	r2, [sp, #88]
+ 234:Core/Src/main.c ****   uint64_t mandelbrot_sum = 0;
+ 161              		.loc 1 234 3 is_stmt 1 view .LVU28
+ 162              	.LVL4:
+ 235:Core/Src/main.c ****     //TODO: Complete the function implementation
+ 236:Core/Src/main.c ****     for(int y = 0; y < height; y++){
+ 163              		.loc 1 236 5 view .LVU29
+ 164              	.LBB6:
+ 165              		.loc 1 236 9 view .LVU30
+ 166              		.loc 1 236 13 is_stmt 0 view .LVU31
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 8
 
 
+ 167 0014 0026     		movs	r6, #0
  168              	.LBE6:
- 290:Core/Src/main.c ****   uint64_t mandelbrot_sum = 0;
- 169              		.loc 1 290 12 view .LVU32
+ 234:Core/Src/main.c ****   uint64_t mandelbrot_sum = 0;
+ 169              		.loc 1 234 12 view .LVU32
  170 0016 0023     		movs	r3, #0
  171 0018 0024     		movs	r4, #0
- 172 001a 0893     		str	r3, [sp, #32]
- 173 001c 0994     		str	r4, [sp, #36]
- 174 001e 4B46     		mov	r3, r9
- 175 0020 0C93     		str	r3, [sp, #48]
- 176 0022 0D91     		str	r1, [sp, #52]
- 177              	.LBB14:
- 178              		.loc 1 292 5 view .LVU33
- 179 0024 71E0     		b	.L5
- 180              	.LVL5:
- 181              	.L13:
- 182              	.LBB7:
- 183              	.LBB8:
- 184              	.LBB9:
- 185              	.LBB10:
- 293:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
- 294:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
- 295:Core/Src/main.c ****     		int32_t x0 = ((int64_t)x*SCALE*35/width)-(SCALE*25)/10; // making sure all numbers are intege
- 296:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 297:Core/Src/main.c **** 
- 298:Core/Src/main.c ****     		int32_t xi = 0;
- 299:Core/Src/main.c ****     		int32_t yi = 0;
- 300:Core/Src/main.c ****     		int i = 0;
- 301:Core/Src/main.c **** 
- 302:Core/Src/main.c ****     		while (i < max_iterations){
- 303:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
- 304:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
- 305:Core/Src/main.c **** 
- 306:Core/Src/main.c ****     			if(xi_sq + yi_sq <= 4 * SCALE){
- 307:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
- 186              		.loc 1 307 9 is_stmt 1 view .LVU34
- 187              		.loc 1 307 40 is_stmt 0 view .LVU35
- 188 0026 0099     		ldr	r1, [sp]
- 189 0028 8B1A     		subs	r3, r1, r2
- 190 002a 9946     		mov	r9, r3
- 191              	.LVL6:
- 308:Core/Src/main.c **** 
- 309:Core/Src/main.c ****     				int64_t xy = ((int64_t)xi * yi) / SCALE;
- 192              		.loc 1 309 9 is_stmt 1 view .LVU36
- 193              		.loc 1 309 35 is_stmt 0 view .LVU37
- 194 002c 039A     		ldr	r2, [sp, #12]
- 195              	.LVL7:
- 196              		.loc 1 309 35 view .LVU38
- 197 002e 3B00     		movs	r3, r7
- 198              	.LVL8:
- 199              		.loc 1 309 35 view .LVU39
- 200 0030 0298     		ldr	r0, [sp, #8]
- 201 0032 3100     		movs	r1, r6
- 202 0034 FFF7FEFF 		bl	__aeabi_lmul
- 203              	.LVL9:
- 204              		.loc 1 309 17 view .LVU40
- 205 0038 3B4A     		ldr	r2, .L16
- 206 003a 0023     		movs	r3, #0
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 10
+ 172 001a 1493     		str	r3, [sp, #80]
+ 173 001c 1594     		str	r4, [sp, #84]
+ 174 001e 1896     		str	r6, [sp, #96]
+ 175              	.LBB14:
+ 176              		.loc 1 236 5 view .LVU33
+ 177 0020 BAE0     		b	.L5
+ 178              	.LVL5:
+ 179              	.L13:
+ 180              	.LBB7:
+ 181              	.LBB8:
+ 182              	.LBB9:
+ 183              	.LBB10:
+ 237:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
+ 238:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
+ 239:Core/Src/main.c ****     		int32_t x0 = ((int64_t)x*SCALE*35/(width*10))-(SCALE*25)/10; // making sure all numbers are i
+ 240:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 241:Core/Src/main.c **** 
+ 242:Core/Src/main.c ****     		int32_t xi = 0;
+ 243:Core/Src/main.c ****     		int32_t yi = 0;
+ 244:Core/Src/main.c ****     		int i = 0;
+ 245:Core/Src/main.c **** 
+ 246:Core/Src/main.c ****     		while (i < max_iterations){
+ 247:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+ 248:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 249:Core/Src/main.c **** 
+ 250:Core/Src/main.c ****     			if(xi_sq + yi_sq <= 4 * SCALE){
+ 251:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
+ 184              		.loc 1 251 9 is_stmt 1 view .LVU34
+ 185              		.loc 1 251 40 is_stmt 0 view .LVU35
+ 186 0022 009B     		ldr	r3, [sp]
+ 187 0024 1B1A     		subs	r3, r3, r0
+ 188 0026 9B46     		mov	fp, r3
+ 189              	.LVL6:
+ 252:Core/Src/main.c **** 
+ 253:Core/Src/main.c ****     				int64_t xy = ((int64_t)xi * yi) / SCALE;
+ 190              		.loc 1 253 9 is_stmt 1 view .LVU36
+ 191              		.loc 1 253 35 is_stmt 0 view .LVU37
+ 192 0028 0B9A     		ldr	r2, [sp, #44]
+ 193 002a 2B00     		movs	r3, r5
+ 194              	.LVL7:
+ 195              		.loc 1 253 35 view .LVU38
+ 196 002c 0A98     		ldr	r0, [sp, #40]
+ 197              	.LVL8:
+ 198              		.loc 1 253 35 view .LVU39
+ 199 002e 2100     		movs	r1, r4
+ 200 0030 FFF7FEFF 		bl	__aeabi_lmul
+ 201              	.LVL9:
+ 202 0034 0200     		movs	r2, r0
+ 203 0036 0B00     		movs	r3, r1
+ 204              		.loc 1 253 17 view .LVU40
+ 205 0038 C917     		asrs	r1, r1, #31
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 9
 
 
- 207 003c FFF7FEFF 		bl	__aeabi_ldivmod
- 208              	.LVL10:
- 310:Core/Src/main.c **** 
- 311:Core/Src/main.c ****     				yi  =(int32_t)(2*xy + y0);
- 209              		.loc 1 311 9 is_stmt 1 view .LVU41
- 210              		.loc 1 311 29 is_stmt 0 view .LVU42
- 211 0040 4000     		lsls	r0, r0, #1
- 212              	.LVL11:
- 213              		.loc 1 311 29 view .LVU43
- 214 0042 4044     		add	r0, r0, r8
- 215 0044 0400     		movs	r4, r0
- 216              	.LVL12:
- 312:Core/Src/main.c ****     				xi = temp + x0;
- 217              		.loc 1 312 9 is_stmt 1 view .LVU44
- 218              		.loc 1 312 12 is_stmt 0 view .LVU45
- 219 0046 4846     		mov	r0, r9
- 220              	.LVL13:
- 221              		.loc 1 312 12 view .LVU46
- 222 0048 5844     		add	r0, r0, fp
- 223              	.LVL14:
- 313:Core/Src/main.c **** 
- 314:Core/Src/main.c ****     				i++;
- 224              		.loc 1 314 9 is_stmt 1 view .LVU47
- 225              		.loc 1 314 10 is_stmt 0 view .LVU48
- 226 004a 0135     		adds	r5, r5, #1
- 227              	.LVL15:
- 228              	.L6:
- 229              		.loc 1 314 10 view .LVU49
- 230              	.LBE10:
- 231              	.LBE9:
- 302:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
- 232              		.loc 1 302 16 is_stmt 1 view .LVU50
- 233 004c 0A9B     		ldr	r3, [sp, #40]
- 234 004e 9D42     		cmp	r5, r3
- 235 0050 27DA     		bge	.L7
- 236              	.LBB11:
- 303:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
- 237              		.loc 1 303 8 view .LVU51
- 303:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
- 238              		.loc 1 303 25 is_stmt 0 view .LVU52
- 239 0052 0290     		str	r0, [sp, #8]
- 240 0054 C617     		asrs	r6, r0, #31
- 303:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
- 241              		.loc 1 303 37 view .LVU53
- 242 0056 0200     		movs	r2, r0
- 243 0058 3300     		movs	r3, r6
- 244 005a 3100     		movs	r1, r6
- 245 005c FFF7FEFF 		bl	__aeabi_lmul
- 246              	.LVL16:
- 303:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
- 247              		.loc 1 303 16 view .LVU54
- 248 0060 314A     		ldr	r2, .L16
- 249 0062 0023     		movs	r3, #0
- 250 0064 FFF7FEFF 		bl	__aeabi_ldivmod
- 251              	.LVL17:
- 252 0068 0090     		str	r0, [sp]
- 253 006a 0191     		str	r1, [sp, #4]
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 11
+ 206 003a 0905     		lsls	r1, r1, #20
+ 207 003c 090D     		lsrs	r1, r1, #20
+ 208 003e 0691     		str	r1, [sp, #24]
+ 209 0040 0021     		movs	r1, #0
+ 210 0042 0791     		str	r1, [sp, #28]
+ 211 0044 0698     		ldr	r0, [sp, #24]
+ 212 0046 0799     		ldr	r1, [sp, #28]
+ 213 0048 1218     		adds	r2, r2, r0
+ 214 004a 4B41     		adcs	r3, r3, r1
+ 215 004c 1100     		movs	r1, r2
+ 216 004e 1B05     		lsls	r3, r3, #20
+ 217 0050 0A0B     		lsrs	r2, r1, #12
+ 218 0052 1A43     		orrs	r2, r3
+ 219              	.LVL10:
+ 254:Core/Src/main.c **** 
+ 255:Core/Src/main.c ****     				yi  =(int32_t)(2*xy + y0);
+ 220              		.loc 1 255 9 is_stmt 1 view .LVU41
+ 221              		.loc 1 255 29 is_stmt 0 view .LVU42
+ 222 0054 5200     		lsls	r2, r2, #1
+ 223              		.loc 1 255 29 view .LVU43
+ 224 0056 4244     		add	r2, r2, r8
+ 225 0058 1700     		movs	r7, r2
+ 226              	.LVL11:
+ 256:Core/Src/main.c ****     				xi = temp + x0;
+ 227              		.loc 1 256 9 is_stmt 1 view .LVU44
+ 228              		.loc 1 256 12 is_stmt 0 view .LVU45
+ 229 005a 5846     		mov	r0, fp
+ 230 005c 4844     		add	r0, r0, r9
+ 231              	.LVL12:
+ 257:Core/Src/main.c **** 
+ 258:Core/Src/main.c ****     				i++;
+ 232              		.loc 1 258 9 is_stmt 1 view .LVU46
+ 233              		.loc 1 258 10 is_stmt 0 view .LVU47
+ 234 005e 0136     		adds	r6, r6, #1
+ 235              	.LVL13:
+ 236              	.L6:
+ 237              		.loc 1 258 10 view .LVU48
+ 238              	.LBE10:
+ 239              	.LBE9:
+ 246:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+ 240              		.loc 1 246 16 is_stmt 1 view .LVU49
+ 241 0060 169B     		ldr	r3, [sp, #88]
+ 242 0062 9E42     		cmp	r6, r3
+ 243 0064 46DA     		bge	.L7
+ 244              	.LBB11:
+ 247:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 245              		.loc 1 247 8 view .LVU50
+ 247:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 246              		.loc 1 247 25 is_stmt 0 view .LVU51
+ 247 0066 0A90     		str	r0, [sp, #40]
+ 248 0068 C417     		asrs	r4, r0, #31
+ 247:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 249              		.loc 1 247 37 view .LVU52
+ 250 006a 0200     		movs	r2, r0
+ 251 006c 2300     		movs	r3, r4
+ 252 006e 2100     		movs	r1, r4
+ 253 0070 FFF7FEFF 		bl	__aeabi_lmul
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 10
 
 
- 254              	.LVL18:
- 304:Core/Src/main.c **** 
- 255              		.loc 1 304 8 is_stmt 1 view .LVU55
- 304:Core/Src/main.c **** 
- 256              		.loc 1 304 25 is_stmt 0 view .LVU56
- 257 006c 0394     		str	r4, [sp, #12]
- 258 006e E717     		asrs	r7, r4, #31
- 304:Core/Src/main.c **** 
- 259              		.loc 1 304 37 view .LVU57
- 260 0070 2200     		movs	r2, r4
- 261 0072 3B00     		movs	r3, r7
- 262 0074 2000     		movs	r0, r4
- 263 0076 3900     		movs	r1, r7
- 264 0078 FFF7FEFF 		bl	__aeabi_lmul
- 265              	.LVL19:
- 304:Core/Src/main.c **** 
- 266              		.loc 1 304 16 view .LVU58
- 267 007c 2A4A     		ldr	r2, .L16
- 268 007e 0023     		movs	r3, #0
- 269 0080 FFF7FEFF 		bl	__aeabi_ldivmod
- 270              	.LVL20:
- 271 0084 0200     		movs	r2, r0
- 272 0086 0B00     		movs	r3, r1
- 273              	.LVL21:
- 306:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
- 274              		.loc 1 306 8 is_stmt 1 view .LVU59
- 306:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
- 275              		.loc 1 306 17 is_stmt 0 view .LVU60
- 276 0088 0098     		ldr	r0, [sp]
- 277 008a 0199     		ldr	r1, [sp, #4]
- 278 008c 8018     		adds	r0, r0, r2
- 279 008e 5941     		adcs	r1, r1, r3
- 280 0090 0490     		str	r0, [sp, #16]
- 281 0092 0591     		str	r1, [sp, #20]
- 306:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
- 282              		.loc 1 306 10 view .LVU61
- 283 0094 0029     		cmp	r1, #0
- 284 0096 04DC     		bgt	.L7
- 285 0098 C5D1     		bne	.L13
- 286 009a 2449     		ldr	r1, .L16+4
- 287 009c 0498     		ldr	r0, [sp, #16]
- 288 009e 8842     		cmp	r0, r1
- 289 00a0 C1D9     		bls	.L13
- 290              	.LVL22:
- 291              	.L7:
- 306:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
- 292              		.loc 1 306 10 view .LVU62
- 293              	.LBE11:
- 315:Core/Src/main.c **** 
- 316:Core/Src/main.c ****     			}
- 317:Core/Src/main.c **** 
- 318:Core/Src/main.c ****     			else{
- 319:Core/Src/main.c ****     				break;
- 320:Core/Src/main.c ****     			}
- 321:Core/Src/main.c ****     		}
- 322:Core/Src/main.c **** 
- 323:Core/Src/main.c ****     		mandelbrot_sum += i;
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 12
+ 254              	.LVL14:
+ 247:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 255              		.loc 1 247 37 view .LVU53
+ 256 0074 0200     		movs	r2, r0
+ 257 0076 0B00     		movs	r3, r1
+ 247:Core/Src/main.c ****     			int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+ 258              		.loc 1 247 16 view .LVU54
+ 259 0078 C917     		asrs	r1, r1, #31
+ 260 007a 0905     		lsls	r1, r1, #20
+ 261 007c 090D     		lsrs	r1, r1, #20
+ 262 007e 0291     		str	r1, [sp, #8]
+ 263 0080 0021     		movs	r1, #0
+ 264 0082 0391     		str	r1, [sp, #12]
+ 265 0084 0298     		ldr	r0, [sp, #8]
+ 266 0086 0399     		ldr	r1, [sp, #12]
+ 267 0088 1218     		adds	r2, r2, r0
+ 268 008a 4B41     		adcs	r3, r3, r1
+ 269 008c 1905     		lsls	r1, r3, #20
+ 270 008e 0892     		str	r2, [sp, #32]
+ 271 0090 0993     		str	r3, [sp, #36]
+ 272 0092 120B     		lsrs	r2, r2, #12
+ 273 0094 0B00     		movs	r3, r1
+ 274 0096 1343     		orrs	r3, r2
+ 275 0098 0093     		str	r3, [sp]
+ 276 009a 099B     		ldr	r3, [sp, #36]
+ 277 009c 1B13     		asrs	r3, r3, #12
+ 278 009e 0193     		str	r3, [sp, #4]
+ 279              	.LVL15:
+ 248:Core/Src/main.c **** 
+ 280              		.loc 1 248 8 is_stmt 1 view .LVU55
+ 248:Core/Src/main.c **** 
+ 281              		.loc 1 248 25 is_stmt 0 view .LVU56
+ 282 00a0 0B97     		str	r7, [sp, #44]
+ 283 00a2 FD17     		asrs	r5, r7, #31
+ 248:Core/Src/main.c **** 
+ 284              		.loc 1 248 37 view .LVU57
+ 285 00a4 3A00     		movs	r2, r7
+ 286 00a6 2B00     		movs	r3, r5
+ 287 00a8 3800     		movs	r0, r7
+ 288 00aa 2900     		movs	r1, r5
+ 289 00ac FFF7FEFF 		bl	__aeabi_lmul
+ 290              	.LVL16:
+ 291 00b0 0200     		movs	r2, r0
+ 292 00b2 0B00     		movs	r3, r1
+ 248:Core/Src/main.c **** 
+ 293              		.loc 1 248 16 view .LVU58
+ 294 00b4 C917     		asrs	r1, r1, #31
+ 295 00b6 0905     		lsls	r1, r1, #20
+ 296 00b8 080D     		lsrs	r0, r1, #20
+ 297 00ba 0490     		str	r0, [sp, #16]
+ 298 00bc 0021     		movs	r1, #0
+ 299 00be 0591     		str	r1, [sp, #20]
+ 300 00c0 0498     		ldr	r0, [sp, #16]
+ 301 00c2 0599     		ldr	r1, [sp, #20]
+ 302 00c4 1218     		adds	r2, r2, r0
+ 303 00c6 4B41     		adcs	r3, r3, r1
+ 304 00c8 1F05     		lsls	r7, r3, #20
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 11
 
 
- 294              		.loc 1 323 22 view .LVU63
- 295 00a2 0B9E     		ldr	r6, [sp, #44]
- 296 00a4 5746     		mov	r7, r10
- 297              		.loc 1 323 7 is_stmt 1 view .LVU64
- 298              		.loc 1 323 22 is_stmt 0 view .LVU65
- 299 00a6 0695     		str	r5, [sp, #24]
- 300 00a8 EB17     		asrs	r3, r5, #31
- 301 00aa 0793     		str	r3, [sp, #28]
- 302 00ac 089B     		ldr	r3, [sp, #32]
- 303 00ae 099C     		ldr	r4, [sp, #36]
- 304 00b0 0699     		ldr	r1, [sp, #24]
- 305 00b2 079A     		ldr	r2, [sp, #28]
- 306 00b4 5B18     		adds	r3, r3, r1
- 307 00b6 5441     		adcs	r4, r4, r2
- 308 00b8 0893     		str	r3, [sp, #32]
- 309 00ba 0994     		str	r4, [sp, #36]
- 310              	.LVL23:
- 311              		.loc 1 323 22 view .LVU66
- 312              	.LBE8:
- 293:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
- 313              		.loc 1 293 33 is_stmt 1 discriminator 2 view .LVU67
- 314 00bc 0136     		adds	r6, r6, #1
- 315              	.LVL24:
- 316              	.L11:
- 293:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
- 317              		.loc 1 293 23 discriminator 1 view .LVU68
- 318 00be BE42     		cmp	r6, r7
- 319 00c0 20DA     		bge	.L14
- 320              	.LBB12:
- 295:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 321              		.loc 1 295 7 view .LVU69
- 295:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 322              		.loc 1 295 21 is_stmt 0 view .LVU70
- 323 00c2 F117     		asrs	r1, r6, #31
- 295:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 324              		.loc 1 295 37 view .LVU71
- 325 00c4 1A4A     		ldr	r2, .L16+8
- 326 00c6 0023     		movs	r3, #0
- 327 00c8 3000     		movs	r0, r6
- 328 00ca FFF7FEFF 		bl	__aeabi_lmul
- 329              	.LVL25:
- 295:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 330              		.loc 1 295 40 view .LVU72
- 331 00ce FB17     		asrs	r3, r7, #31
- 332 00d0 3A00     		movs	r2, r7
- 333 00d2 FFF7FEFF 		bl	__aeabi_ldivmod
- 334              	.LVL26:
- 295:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 20/ height)-(SCALE*10)/10;
- 335              		.loc 1 295 47 view .LVU73
- 336 00d6 174B     		ldr	r3, .L16+12
- 337 00d8 9B46     		mov	fp, r3
- 338 00da 8344     		add	fp, fp, r0
- 339              	.LVL27:
- 296:Core/Src/main.c **** 
- 340              		.loc 1 296 7 is_stmt 1 view .LVU74
- 296:Core/Src/main.c **** 
- 341              		.loc 1 296 21 is_stmt 0 view .LVU75
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 13
+ 305              	.LVL17:
+ 248:Core/Src/main.c **** 
+ 306              		.loc 1 248 16 view .LVU59
+ 307 00ca 0892     		str	r2, [sp, #32]
+ 308 00cc 0993     		str	r3, [sp, #36]
+ 309 00ce 120B     		lsrs	r2, r2, #12
+ 310 00d0 1743     		orrs	r7, r2
+ 311 00d2 3800     		movs	r0, r7
+ 312 00d4 099B     		ldr	r3, [sp, #36]
+ 313 00d6 1913     		asrs	r1, r3, #12
+ 314              	.LVL18:
+ 250:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
+ 315              		.loc 1 250 8 is_stmt 1 view .LVU60
+ 250:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
+ 316              		.loc 1 250 17 is_stmt 0 view .LVU61
+ 317 00d8 009A     		ldr	r2, [sp]
+ 318 00da 019B     		ldr	r3, [sp, #4]
+ 319 00dc 1218     		adds	r2, r2, r0
+ 320 00de 4B41     		adcs	r3, r3, r1
+ 321 00e0 0892     		str	r2, [sp, #32]
+ 322 00e2 0993     		str	r3, [sp, #36]
+ 250:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
+ 323              		.loc 1 250 10 view .LVU62
+ 324 00e4 002B     		cmp	r3, #0
+ 325 00e6 05DC     		bgt	.L7
+ 326 00e8 9BD1     		bne	.L13
+ 327 00ea 8023     		movs	r3, #128
+ 328 00ec DB01     		lsls	r3, r3, #7
+ 329 00ee 089A     		ldr	r2, [sp, #32]
+ 330 00f0 9A42     		cmp	r2, r3
+ 331 00f2 96D9     		bls	.L13
+ 332              	.LVL19:
+ 333              	.L7:
+ 250:Core/Src/main.c ****     				int32_t temp = (int32_t)(xi_sq - yi_sq);
+ 334              		.loc 1 250 10 view .LVU63
+ 335              	.LBE11:
+ 259:Core/Src/main.c **** 
+ 260:Core/Src/main.c ****     			}
+ 261:Core/Src/main.c **** 
+ 262:Core/Src/main.c ****     			else{
+ 263:Core/Src/main.c ****     				break;
+ 264:Core/Src/main.c ****     			}
+ 265:Core/Src/main.c ****     		}
+ 266:Core/Src/main.c **** 
+ 267:Core/Src/main.c ****     		mandelbrot_sum += i;
+ 336              		.loc 1 267 22 view .LVU64
+ 337 00f4 179C     		ldr	r4, [sp, #92]
+ 338 00f6 5546     		mov	r5, r10
+ 339              		.loc 1 267 7 is_stmt 1 view .LVU65
+ 340              		.loc 1 267 22 is_stmt 0 view .LVU66
+ 341 00f8 1296     		str	r6, [sp, #72]
+ 342 00fa F317     		asrs	r3, r6, #31
+ 343 00fc 1393     		str	r3, [sp, #76]
+ 344 00fe 149A     		ldr	r2, [sp, #80]
+ 345 0100 159B     		ldr	r3, [sp, #84]
+ 346 0102 1298     		ldr	r0, [sp, #72]
+ 347 0104 1399     		ldr	r1, [sp, #76]
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 12
 
 
- 342 00dc 0C98     		ldr	r0, [sp, #48]
- 343 00de C117     		asrs	r1, r0, #31
- 296:Core/Src/main.c **** 
- 344              		.loc 1 296 40 view .LVU76
- 345 00e0 154A     		ldr	r2, .L16+16
- 346 00e2 0023     		movs	r3, #0
- 347 00e4 FFF7FEFF 		bl	__aeabi_lmul
- 348              	.LVL28:
- 296:Core/Src/main.c **** 
- 349              		.loc 1 296 44 view .LVU77
- 350 00e8 0D9A     		ldr	r2, [sp, #52]
- 351 00ea D317     		asrs	r3, r2, #31
- 352 00ec FFF7FEFF 		bl	__aeabi_ldivmod
- 353              	.LVL29:
- 296:Core/Src/main.c **** 
- 354              		.loc 1 296 53 view .LVU78
- 355 00f0 124B     		ldr	r3, .L16+20
- 356 00f2 9A46     		mov	r10, r3
- 357 00f4 8244     		add	r10, r10, r0
- 358              	.LVL30:
- 298:Core/Src/main.c ****     		int32_t yi = 0;
- 359              		.loc 1 298 7 is_stmt 1 view .LVU79
- 299:Core/Src/main.c ****     		int i = 0;
- 360              		.loc 1 299 7 view .LVU80
+ 348 0106 1218     		adds	r2, r2, r0
+ 349 0108 4B41     		adcs	r3, r3, r1
+ 350 010a 1492     		str	r2, [sp, #80]
+ 351 010c 1593     		str	r3, [sp, #84]
+ 352              	.LVL20:
+ 353              		.loc 1 267 22 view .LVU67
+ 354              	.LBE8:
+ 237:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
+ 355              		.loc 1 237 33 is_stmt 1 discriminator 2 view .LVU68
+ 356 010e 0134     		adds	r4, r4, #1
+ 357              	.LVL21:
+ 358              	.L11:
+ 237:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
+ 359              		.loc 1 237 23 discriminator 1 view .LVU69
+ 360 0110 AC42     		cmp	r4, r5
+ 361 0112 3DDA     		bge	.L14
+ 362              	.LBB12:
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 363              		.loc 1 239 7 view .LVU70
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 364              		.loc 1 239 21 is_stmt 0 view .LVU71
+ 365 0114 1094     		str	r4, [sp, #64]
+ 366 0116 E317     		asrs	r3, r4, #31
+ 367 0118 1193     		str	r3, [sp, #68]
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 368              		.loc 1 239 37 view .LVU72
+ 369 011a 1098     		ldr	r0, [sp, #64]
+ 370 011c 1199     		ldr	r1, [sp, #68]
+ 371 011e 820F     		lsrs	r2, r0, #30
+ 372 0120 9B00     		lsls	r3, r3, #2
+ 373 0122 0D93     		str	r3, [sp, #52]
+ 374 0124 1343     		orrs	r3, r2
+ 375 0126 0D93     		str	r3, [sp, #52]
+ 376 0128 8300     		lsls	r3, r0, #2
+ 377 012a 0C93     		str	r3, [sp, #48]
+ 378 012c 0C9A     		ldr	r2, [sp, #48]
+ 379 012e 0D9B     		ldr	r3, [sp, #52]
+ 380 0130 1218     		adds	r2, r2, r0
+ 381 0132 4B41     		adcs	r3, r3, r1
+ 382 0134 510F     		lsrs	r1, r2, #29
+ 383 0136 D800     		lsls	r0, r3, #3
+ 384 0138 0F90     		str	r0, [sp, #60]
+ 385 013a 0843     		orrs	r0, r1
+ 386 013c 0F90     		str	r0, [sp, #60]
+ 387 013e D100     		lsls	r1, r2, #3
+ 388 0140 0E91     		str	r1, [sp, #56]
+ 389 0142 0E98     		ldr	r0, [sp, #56]
+ 390 0144 0F99     		ldr	r1, [sp, #60]
+ 391 0146 801A     		subs	r0, r0, r2
+ 392 0148 9941     		sbcs	r1, r1, r3
+ 393 014a 020D     		lsrs	r2, r0, #20
+ 394 014c 0B03     		lsls	r3, r1, #12
+ 395 014e 0603     		lsls	r6, r0, #12
+ 396 0150 3000     		movs	r0, r6
+ 397 0152 1A43     		orrs	r2, r3
+ 398 0154 1100     		movs	r1, r2
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 13
+
+
+ 399              		.loc 1 239 47 view .LVU73
+ 400 0156 AA00     		lsls	r2, r5, #2
+ 401 0158 5219     		adds	r2, r2, r5
+ 402 015a 5200     		lsls	r2, r2, #1
+ 403 015c D317     		asrs	r3, r2, #31
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 404              		.loc 1 239 40 view .LVU74
+ 405 015e FFF7FEFF 		bl	__aeabi_ldivmod
+ 406              	.LVL22:
+ 239:Core/Src/main.c ****     		int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+ 407              		.loc 1 239 52 view .LVU75
+ 408 0162 164B     		ldr	r3, .L16
+ 409 0164 9946     		mov	r9, r3
+ 410 0166 8144     		add	r9, r9, r0
+ 411              	.LVL23:
+ 240:Core/Src/main.c **** 
+ 412              		.loc 1 240 7 is_stmt 1 view .LVU76
+ 240:Core/Src/main.c **** 
+ 413              		.loc 1 240 21 is_stmt 0 view .LVU77
+ 414 0168 189A     		ldr	r2, [sp, #96]
+ 415 016a D117     		asrs	r1, r2, #31
+ 240:Core/Src/main.c **** 
+ 416              		.loc 1 240 40 view .LVU78
+ 417 016c D30C     		lsrs	r3, r2, #19
+ 418 016e 4903     		lsls	r1, r1, #13
+ 419 0170 1943     		orrs	r1, r3
+ 420 0172 5003     		lsls	r0, r2, #13
+ 240:Core/Src/main.c **** 
+ 421              		.loc 1 240 43 view .LVU79
+ 422 0174 199A     		ldr	r2, [sp, #100]
+ 423 0176 D317     		asrs	r3, r2, #31
+ 424 0178 FFF7FEFF 		bl	__aeabi_ldivmod
+ 425              	.LVL24:
+ 240:Core/Src/main.c **** 
+ 426              		.loc 1 240 52 view .LVU80
+ 427 017c 104B     		ldr	r3, .L16+4
+ 428 017e 9846     		mov	r8, r3
+ 429 0180 8044     		add	r8, r8, r0
+ 430              	.LVL25:
+ 242:Core/Src/main.c ****     		int32_t yi = 0;
+ 431              		.loc 1 242 7 is_stmt 1 view .LVU81
+ 243:Core/Src/main.c ****     		int i = 0;
+ 432              		.loc 1 243 7 view .LVU82
+ 244:Core/Src/main.c **** 
+ 433              		.loc 1 244 7 view .LVU83
+ 246:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+ 434              		.loc 1 246 7 view .LVU84
+ 244:Core/Src/main.c **** 
+ 435              		.loc 1 244 11 is_stmt 0 view .LVU85
+ 436 0182 0023     		movs	r3, #0
+ 242:Core/Src/main.c ****     		int32_t yi = 0;
+ 437              		.loc 1 242 15 view .LVU86
+ 438 0184 0020     		movs	r0, #0
+ 439 0186 1794     		str	r4, [sp, #92]
+ 440 0188 1F00     		movs	r7, r3
+ 441 018a 1E00     		movs	r6, r3
+ 442 018c AA46     		mov	r10, r5
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 14
+
+
+ 246:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+ 443              		.loc 1 246 13 view .LVU87
+ 444 018e 67E7     		b	.L6
+ 445              	.LVL26:
+ 446              	.L14:
+ 246:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+ 447              		.loc 1 246 13 view .LVU88
+ 448              	.LBE12:
+ 449              	.LBE7:
+ 236:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
+ 450              		.loc 1 236 33 discriminator 2 view .LVU89
+ 451 0190 A846     		mov	r8, r5
+ 236:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
+ 452              		.loc 1 236 33 is_stmt 1 discriminator 2 view .LVU90
+ 453 0192 189B     		ldr	r3, [sp, #96]
+ 454 0194 0133     		adds	r3, r3, #1
+ 455 0196 1893     		str	r3, [sp, #96]
+ 456              	.LVL27:
+ 457              	.L5:
+ 236:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
+ 458              		.loc 1 236 22 discriminator 1 view .LVU91
+ 459 0198 189B     		ldr	r3, [sp, #96]
+ 460 019a 199A     		ldr	r2, [sp, #100]
+ 461 019c 9342     		cmp	r3, r2
+ 462 019e 03DA     		bge	.L15
+ 463              	.LBB13:
+ 237:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
+ 464              		.loc 1 237 14 is_stmt 0 view .LVU92
+ 465 01a0 0026     		movs	r6, #0
+ 466 01a2 3400     		movs	r4, r6
+ 467 01a4 4546     		mov	r5, r8
+ 468 01a6 B3E7     		b	.L11
+ 469              	.L15:
+ 237:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
+ 470              		.loc 1 237 14 view .LVU93
+ 471              	.LBE13:
+ 472              	.LBE14:
+ 268:Core/Src/main.c **** 
+ 269:Core/Src/main.c ****     	}
+ 270:Core/Src/main.c ****     }
+ 271:Core/Src/main.c ****     return mandelbrot_sum;
+ 473              		.loc 1 271 5 is_stmt 1 view .LVU94
+ 272:Core/Src/main.c **** 
+ 273:Core/Src/main.c **** }
+ 474              		.loc 1 273 1 is_stmt 0 view .LVU95
+ 475 01a8 1498     		ldr	r0, [sp, #80]
+ 476 01aa 1599     		ldr	r1, [sp, #84]
+ 477 01ac 1BB0     		add	sp, sp, #108
+ 478              		@ sp needed
+ 479              	.LVL28:
+ 480              		.loc 1 273 1 view .LVU96
+ 481 01ae F0BC     		pop	{r4, r5, r6, r7}
+ 482 01b0 BB46     		mov	fp, r7
+ 483 01b2 B246     		mov	r10, r6
+ 484 01b4 A946     		mov	r9, r5
+ 485 01b6 A046     		mov	r8, r4
+ 486 01b8 F0BD     		pop	{r4, r5, r6, r7, pc}
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 15
+
+
+ 487              	.L17:
+ 488 01ba C046     		.align	2
+ 489              	.L16:
+ 490 01bc 00D8FFFF 		.word	-10240
+ 491 01c0 00F0FFFF 		.word	-4096
+ 492              		.cfi_endproc
+ 493              	.LFE43:
+ 495              		.global	__aeabi_i2d
+ 496              		.global	__aeabi_ddiv
+ 497              		.global	__aeabi_dadd
+ 498              		.global	__aeabi_dsub
+ 499              		.global	__aeabi_dmul
+ 500              		.global	__aeabi_dcmple
+ 501              		.section	.text.calculate_mandelbrot_double,"ax",%progbits
+ 502              		.align	1
+ 503              		.global	calculate_mandelbrot_double
+ 504              		.syntax unified
+ 505              		.code	16
+ 506              		.thumb_func
+ 508              	calculate_mandelbrot_double:
+ 509              	.LVL29:
+ 510              	.LFB44:
+ 274:Core/Src/main.c **** 
+ 275:Core/Src/main.c **** 
+ 276:Core/Src/main.c **** //TODO: Mandelbroat using variable type double
+ 277:Core/Src/main.c **** uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
+ 511              		.loc 1 277 80 is_stmt 1 view -0
+ 512              		.cfi_startproc
+ 513              		@ args = 0, pretend = 0, frame = 56
+ 514              		@ frame_needed = 0, uses_anonymous_args = 0
+ 515              		.loc 1 277 80 is_stmt 0 view .LVU98
+ 516 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 517              	.LCFI5:
+ 518              		.cfi_def_cfa_offset 20
+ 519              		.cfi_offset 4, -20
+ 520              		.cfi_offset 5, -16
+ 521              		.cfi_offset 6, -12
+ 522              		.cfi_offset 7, -8
+ 523              		.cfi_offset 14, -4
+ 524 0002 DE46     		mov	lr, fp
+ 525 0004 5746     		mov	r7, r10
+ 526 0006 4E46     		mov	r6, r9
+ 527 0008 4546     		mov	r5, r8
+ 528 000a E0B5     		push	{r5, r6, r7, lr}
+ 529              	.LCFI6:
+ 530              		.cfi_def_cfa_offset 36
+ 531              		.cfi_offset 8, -36
+ 532              		.cfi_offset 9, -32
+ 533              		.cfi_offset 10, -28
+ 534              		.cfi_offset 11, -24
+ 535 000c 8FB0     		sub	sp, sp, #60
+ 536              	.LCFI7:
+ 537              		.cfi_def_cfa_offset 96
+ 538 000e 0F00     		movs	r7, r1
+ 539 0010 9146     		mov	r9, r2
+ 278:Core/Src/main.c ****     uint64_t mandelbrot_sum = 0;
+ 540              		.loc 1 278 5 is_stmt 1 view .LVU99
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 16
+
+
+ 541              	.LVL30:
+ 279:Core/Src/main.c ****     //TODO: Complete the function implementation
+ 280:Core/Src/main.c **** 	for (int y = 0; y < height; ++y) {
+ 542              		.loc 1 280 2 view .LVU100
+ 543              	.LBB15:
+ 544              		.loc 1 280 7 view .LVU101
+ 545              		.loc 1 280 11 is_stmt 0 view .LVU102
+ 546 0012 0026     		movs	r6, #0
+ 547              	.LBE15:
+ 278:Core/Src/main.c ****     uint64_t mandelbrot_sum = 0;
+ 548              		.loc 1 278 14 view .LVU103
+ 549 0014 0023     		movs	r3, #0
+ 550 0016 0024     		movs	r4, #0
+ 551 0018 0C93     		str	r3, [sp, #48]
+ 552 001a 0D94     		str	r4, [sp, #52]
+ 553 001c 0B90     		str	r0, [sp, #44]
+ 554              	.LBB23:
+ 555              		.loc 1 280 2 view .LVU104
+ 556 001e 73E0     		b	.L19
+ 557              	.LVL31:
+ 558              	.L23:
+ 559              	.LBB16:
+ 560              	.LBB17:
+ 561              	.LBB18:
+ 562              	.LBB19:
+ 281:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
+ 282:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 283:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 284:Core/Src/main.c **** 			double xi = 0.0;
+ 285:Core/Src/main.c **** 			double yi = 0.0;
+ 286:Core/Src/main.c **** 			int i = 0;
+ 287:Core/Src/main.c **** 
+ 288:Core/Src/main.c **** 			while (i < max_iterations && (xi*xi + yi*yi) <= 4.0) {
+ 289:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 563              		.loc 1 289 5 is_stmt 1 view .LVU105
+ 564              		.loc 1 289 24 is_stmt 0 view .LVU106
+ 565 0020 029A     		ldr	r2, [sp, #8]
+ 566 0022 039B     		ldr	r3, [sp, #12]
+ 567 0024 0098     		ldr	r0, [sp]
+ 568 0026 0199     		ldr	r1, [sp, #4]
+ 569 0028 FFF7FEFF 		bl	__aeabi_dsub
+ 570              	.LVL32:
+ 571              		.loc 1 289 12 view .LVU107
+ 572 002c 049A     		ldr	r2, [sp, #16]
+ 573 002e 059B     		ldr	r3, [sp, #20]
+ 574 0030 FFF7FEFF 		bl	__aeabi_dadd
+ 575              	.LVL33:
+ 576 0034 0090     		str	r0, [sp]
+ 577 0036 0191     		str	r1, [sp, #4]
+ 578              	.LVL34:
+ 290:Core/Src/main.c **** 				yi = 2.0 * xi * yi + y0;
+ 579              		.loc 1 290 5 is_stmt 1 view .LVU108
+ 580              		.loc 1 290 14 is_stmt 0 view .LVU109
+ 581 0038 2200     		movs	r2, r4
+ 582 003a 2B00     		movs	r3, r5
+ 583 003c 2000     		movs	r0, r4
+ 584              	.LVL35:
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 17
+
+
+ 585              		.loc 1 290 14 view .LVU110
+ 586 003e 2900     		movs	r1, r5
+ 587 0040 FFF7FEFF 		bl	__aeabi_dadd
+ 588              	.LVL36:
+ 589              		.loc 1 290 19 view .LVU111
+ 590 0044 3200     		movs	r2, r6
+ 591 0046 3B00     		movs	r3, r7
+ 592 0048 FFF7FEFF 		bl	__aeabi_dmul
+ 593              	.LVL37:
+ 594              		.loc 1 290 8 view .LVU112
+ 595 004c 069A     		ldr	r2, [sp, #24]
+ 596 004e 079B     		ldr	r3, [sp, #28]
+ 597 0050 FFF7FEFF 		bl	__aeabi_dadd
+ 598              	.LVL38:
+ 599 0054 0600     		movs	r6, r0
+ 600              	.LVL39:
+ 601              		.loc 1 290 8 view .LVU113
+ 602 0056 0F00     		movs	r7, r1
+ 603              	.LVL40:
+ 291:Core/Src/main.c **** 				xi = tmp;
+ 604              		.loc 1 291 5 is_stmt 1 view .LVU114
+ 292:Core/Src/main.c **** 				++i;
+ 605              		.loc 1 292 5 view .LVU115
+ 606 0058 0123     		movs	r3, #1
+ 607 005a 9C46     		mov	ip, r3
+ 608 005c E044     		add	r8, r8, ip
+ 609              	.LVL41:
+ 291:Core/Src/main.c **** 				xi = tmp;
+ 610              		.loc 1 291 8 is_stmt 0 view .LVU116
+ 611 005e 009C     		ldr	r4, [sp]
+ 612 0060 019D     		ldr	r5, [sp, #4]
+ 613              	.LVL42:
+ 614              	.L21:
+ 291:Core/Src/main.c **** 				xi = tmp;
+ 615              		.loc 1 291 8 view .LVU117
+ 616              	.LBE19:
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 617              		.loc 1 288 30 is_stmt 1 view .LVU118
+ 618 0062 C845     		cmp	r8, r9
+ 619 0064 1BDA     		bge	.L22
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 620              		.loc 1 288 36 is_stmt 0 discriminator 1 view .LVU119
+ 621 0066 2200     		movs	r2, r4
+ 622 0068 2B00     		movs	r3, r5
+ 623 006a 2000     		movs	r0, r4
+ 624 006c 2900     		movs	r1, r5
+ 625 006e FFF7FEFF 		bl	__aeabi_dmul
+ 626              	.LVL43:
+ 627 0072 0090     		str	r0, [sp]
+ 628 0074 0191     		str	r1, [sp, #4]
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 629              		.loc 1 288 44 discriminator 1 view .LVU120
+ 630 0076 3200     		movs	r2, r6
+ 631 0078 3B00     		movs	r3, r7
+ 632 007a 3000     		movs	r0, r6
+ 633 007c 3900     		movs	r1, r7
+ 634 007e FFF7FEFF 		bl	__aeabi_dmul
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 18
+
+
+ 635              	.LVL44:
+ 636 0082 0200     		movs	r2, r0
+ 637 0084 0B00     		movs	r3, r1
+ 638 0086 0292     		str	r2, [sp, #8]
+ 639 0088 0393     		str	r3, [sp, #12]
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 640              		.loc 1 288 40 discriminator 1 view .LVU121
+ 641 008a 0098     		ldr	r0, [sp]
+ 642 008c 0199     		ldr	r1, [sp, #4]
+ 643 008e FFF7FEFF 		bl	__aeabi_dadd
+ 644              	.LVL45:
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 645              		.loc 1 288 30 discriminator 1 view .LVU122
+ 646 0092 0022     		movs	r2, #0
+ 647 0094 304B     		ldr	r3, .L28
+ 648 0096 FFF7FEFF 		bl	__aeabi_dcmple
+ 649              	.LVL46:
+ 650 009a 0028     		cmp	r0, #0
+ 651 009c C0D1     		bne	.L23
+ 652              	.L22:
+ 293:Core/Src/main.c **** 			}
+ 294:Core/Src/main.c **** 			mandelbrot_sum += (uint64_t)i;
+ 653              		.loc 1 294 4 is_stmt 1 view .LVU123
+ 654              		.loc 1 294 22 is_stmt 0 view .LVU124
+ 655 009e 4346     		mov	r3, r8
+ 656 00a0 0893     		str	r3, [sp, #32]
+ 657 00a2 DB17     		asrs	r3, r3, #31
+ 658 00a4 0993     		str	r3, [sp, #36]
+ 659              		.loc 1 294 19 view .LVU125
+ 660 00a6 0C9B     		ldr	r3, [sp, #48]
+ 661 00a8 0D9C     		ldr	r4, [sp, #52]
+ 662 00aa 0899     		ldr	r1, [sp, #32]
+ 663 00ac 099A     		ldr	r2, [sp, #36]
+ 664 00ae 5B18     		adds	r3, r3, r1
+ 665 00b0 5441     		adcs	r4, r4, r2
+ 666 00b2 0C93     		str	r3, [sp, #48]
+ 667 00b4 0D94     		str	r4, [sp, #52]
+ 668              	.LVL47:
+ 669              		.loc 1 294 19 view .LVU126
+ 670              	.LBE18:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 671              		.loc 1 282 30 is_stmt 1 discriminator 2 view .LVU127
+ 672 00b6 0A9B     		ldr	r3, [sp, #40]
+ 673              	.LVL48:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 674              		.loc 1 282 30 is_stmt 0 discriminator 2 view .LVU128
+ 675 00b8 0133     		adds	r3, r3, #1
+ 676 00ba 0A93     		str	r3, [sp, #40]
+ 677              	.LVL49:
+ 678              	.L20:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 679              		.loc 1 282 21 is_stmt 1 discriminator 1 view .LVU129
+ 680 00bc 0A9B     		ldr	r3, [sp, #40]
+ 681 00be 0B9A     		ldr	r2, [sp, #44]
+ 682 00c0 9342     		cmp	r3, r2
+ 683 00c2 1EDA     		bge	.L26
+ 684              	.LBB20:
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 19
+
+
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 685              		.loc 1 283 4 view .LVU130
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 686              		.loc 1 283 17 is_stmt 0 view .LVU131
+ 687 00c4 0A98     		ldr	r0, [sp, #40]
+ 688 00c6 FFF7FEFF 		bl	__aeabi_i2d
+ 689              	.LVL50:
+ 690 00ca 0400     		movs	r4, r0
+ 691 00cc 0D00     		movs	r5, r1
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 692              		.loc 1 283 29 view .LVU132
+ 693 00ce 0B98     		ldr	r0, [sp, #44]
+ 694 00d0 FFF7FEFF 		bl	__aeabi_i2d
+ 695              	.LVL51:
+ 696 00d4 0200     		movs	r2, r0
+ 697 00d6 0B00     		movs	r3, r1
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 698              		.loc 1 283 27 view .LVU133
+ 699 00d8 2000     		movs	r0, r4
+ 700 00da 2900     		movs	r1, r5
+ 701 00dc FFF7FEFF 		bl	__aeabi_ddiv
+ 702              	.LVL52:
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 703              		.loc 1 283 44 view .LVU134
+ 704 00e0 0022     		movs	r2, #0
+ 705 00e2 1E4B     		ldr	r3, .L28+4
+ 706 00e4 FFF7FEFF 		bl	__aeabi_dmul
+ 707              	.LVL53:
+ 283:Core/Src/main.c **** 			double xi = 0.0;
+ 708              		.loc 1 283 11 view .LVU135
+ 709 00e8 0022     		movs	r2, #0
+ 710 00ea 1D4B     		ldr	r3, .L28+8
+ 711 00ec FFF7FEFF 		bl	__aeabi_dsub
+ 712              	.LVL54:
+ 713 00f0 0490     		str	r0, [sp, #16]
+ 714 00f2 0591     		str	r1, [sp, #20]
+ 715              	.LVL55:
+ 284:Core/Src/main.c **** 			double yi = 0.0;
+ 716              		.loc 1 284 4 is_stmt 1 view .LVU136
+ 285:Core/Src/main.c **** 			int i = 0;
+ 717              		.loc 1 285 4 view .LVU137
+ 286:Core/Src/main.c **** 
+ 718              		.loc 1 286 4 view .LVU138
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 719              		.loc 1 288 4 view .LVU139
+ 286:Core/Src/main.c **** 
+ 720              		.loc 1 286 8 is_stmt 0 view .LVU140
+ 721 00f4 0023     		movs	r3, #0
+ 722 00f6 9846     		mov	r8, r3
+ 285:Core/Src/main.c **** 			int i = 0;
+ 723              		.loc 1 285 11 view .LVU141
+ 724 00f8 0026     		movs	r6, #0
+ 725 00fa 0027     		movs	r7, #0
+ 284:Core/Src/main.c **** 			double yi = 0.0;
+ 726              		.loc 1 284 11 view .LVU142
+ 727 00fc 3400     		movs	r4, r6
+ 728 00fe 3D00     		movs	r5, r7
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 20
+
+
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 729              		.loc 1 288 10 view .LVU143
+ 730 0100 AFE7     		b	.L21
+ 731              	.LVL56:
+ 732              	.L26:
+ 288:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
+ 733              		.loc 1 288 10 view .LVU144
+ 734              	.LBE20:
+ 735              	.LBE17:
+ 736              	.LBE16:
+ 280:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
+ 737              		.loc 1 280 30 discriminator 2 view .LVU145
+ 738 0102 5E46     		mov	r6, fp
+ 739 0104 5746     		mov	r7, r10
+ 280:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
+ 740              		.loc 1 280 30 is_stmt 1 discriminator 2 view .LVU146
+ 741 0106 0136     		adds	r6, r6, #1
+ 742              	.LVL57:
+ 743              	.L19:
+ 280:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
+ 744              		.loc 1 280 20 discriminator 1 view .LVU147
+ 745 0108 BE42     		cmp	r6, r7
+ 746 010a 1CDA     		bge	.L27
+ 747              	.LBB22:
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 748              		.loc 1 281 3 view .LVU148
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 749              		.loc 1 281 16 is_stmt 0 view .LVU149
+ 750 010c 3000     		movs	r0, r6
+ 751 010e FFF7FEFF 		bl	__aeabi_i2d
+ 752              	.LVL58:
+ 753 0112 0400     		movs	r4, r0
+ 754 0114 0D00     		movs	r5, r1
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 755              		.loc 1 281 28 view .LVU150
+ 756 0116 3800     		movs	r0, r7
+ 757 0118 FFF7FEFF 		bl	__aeabi_i2d
+ 758              	.LVL59:
+ 759 011c 0200     		movs	r2, r0
+ 760 011e 0B00     		movs	r3, r1
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 761              		.loc 1 281 26 view .LVU151
+ 762 0120 2000     		movs	r0, r4
+ 763 0122 2900     		movs	r1, r5
+ 764 0124 FFF7FEFF 		bl	__aeabi_ddiv
+ 765              	.LVL60:
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 766              		.loc 1 281 44 view .LVU152
+ 767 0128 0200     		movs	r2, r0
+ 768 012a 0B00     		movs	r3, r1
+ 769 012c FFF7FEFF 		bl	__aeabi_dadd
+ 770              	.LVL61:
+ 281:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
+ 771              		.loc 1 281 10 view .LVU153
+ 772 0130 0022     		movs	r2, #0
+ 773 0132 0C4B     		ldr	r3, .L28+12
+ 774 0134 FFF7FEFF 		bl	__aeabi_dsub
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 21
+
+
+ 775              	.LVL62:
+ 776 0138 0690     		str	r0, [sp, #24]
+ 777 013a 0791     		str	r1, [sp, #28]
+ 778              	.LVL63:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 779              		.loc 1 282 3 is_stmt 1 view .LVU154
+ 780              	.LBB21:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 781              		.loc 1 282 8 view .LVU155
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 782              		.loc 1 282 12 is_stmt 0 view .LVU156
+ 783 013c 0023     		movs	r3, #0
+ 784 013e B346     		mov	fp, r6
+ 785 0140 0A93     		str	r3, [sp, #40]
+ 786 0142 BA46     		mov	r10, r7
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 787              		.loc 1 282 3 view .LVU157
+ 788 0144 BAE7     		b	.L20
+ 789              	.LVL64:
+ 790              	.L27:
+ 282:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
+ 791              		.loc 1 282 3 view .LVU158
+ 792              	.LBE21:
+ 793              	.LBE22:
+ 794              	.LBE23:
+ 295:Core/Src/main.c **** 		}
+ 296:Core/Src/main.c **** 	}
+ 297:Core/Src/main.c ****     
+ 298:Core/Src/main.c ****     return mandelbrot_sum;
+ 795              		.loc 1 298 5 is_stmt 1 view .LVU159
+ 299:Core/Src/main.c **** }
+ 796              		.loc 1 299 1 is_stmt 0 view .LVU160
+ 797 0146 0C98     		ldr	r0, [sp, #48]
+ 798 0148 0D99     		ldr	r1, [sp, #52]
+ 799 014a 0FB0     		add	sp, sp, #60
+ 800              		@ sp needed
+ 801              	.LVL65:
+ 802              	.LVL66:
+ 803              	.LVL67:
+ 804              		.loc 1 299 1 view .LVU161
+ 805 014c F0BC     		pop	{r4, r5, r6, r7}
+ 806 014e BB46     		mov	fp, r7
+ 807 0150 B246     		mov	r10, r6
+ 808 0152 A946     		mov	r9, r5
+ 809 0154 A046     		mov	r8, r4
+ 810 0156 F0BD     		pop	{r4, r5, r6, r7, pc}
+ 811              	.L29:
+ 812              		.align	2
+ 813              	.L28:
+ 814 0158 00001040 		.word	1074790400
+ 815 015c 00000C40 		.word	1074528256
+ 816 0160 00000440 		.word	1074003968
+ 817 0164 0000F03F 		.word	1072693248
+ 818              		.cfi_endproc
+ 819              	.LFE44:
+ 821              		.section	.text.Error_Handler,"ax",%progbits
+ 822              		.align	1
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 22
+
+
+ 823              		.global	Error_Handler
+ 824              		.syntax unified
+ 825              		.code	16
+ 826              		.thumb_func
+ 828              	Error_Handler:
+ 829              	.LFB45:
  300:Core/Src/main.c **** 
- 361              		.loc 1 300 7 view .LVU81
- 302:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
- 362              		.loc 1 302 7 view .LVU82
- 300:Core/Src/main.c **** 
- 363              		.loc 1 300 11 is_stmt 0 view .LVU83
- 364 00f6 0025     		movs	r5, #0
- 299:Core/Src/main.c ****     		int i = 0;
- 365              		.loc 1 299 15 view .LVU84
- 366 00f8 0024     		movs	r4, #0
- 298:Core/Src/main.c ****     		int32_t yi = 0;
- 367              		.loc 1 298 15 view .LVU85
- 368 00fa 0020     		movs	r0, #0
- 369 00fc D046     		mov	r8, r10
- 370 00fe 0B96     		str	r6, [sp, #44]
- 371 0100 BA46     		mov	r10, r7
- 372              	.LVL31:
- 302:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
- 373              		.loc 1 302 13 view .LVU86
- 374 0102 A3E7     		b	.L6
- 375              	.LVL32:
- 376              	.L14:
- 302:Core/Src/main.c ****     			int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
- 377              		.loc 1 302 13 view .LVU87
- 378              	.LBE12:
- 379              	.LBE7:
- 292:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
- 380              		.loc 1 292 33 is_stmt 1 discriminator 2 view .LVU88
- 381 0104 0C9B     		ldr	r3, [sp, #48]
- 382 0106 0133     		adds	r3, r3, #1
- 383 0108 0C93     		str	r3, [sp, #48]
- 384              	.LVL33:
- 385              	.L5:
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 14
-
-
- 292:Core/Src/main.c ****     	for(int x = 0; x < width; x++){
- 386              		.loc 1 292 22 discriminator 1 view .LVU89
- 387 010a 0C9B     		ldr	r3, [sp, #48]
- 388 010c 0D9A     		ldr	r2, [sp, #52]
- 389 010e 9342     		cmp	r3, r2
- 390 0110 01DA     		bge	.L15
- 391              	.LBB13:
- 293:Core/Src/main.c ****     		// convert pixel coordinates to fixed point complex plane coordinates
- 392              		.loc 1 293 14 is_stmt 0 view .LVU90
- 393 0112 0026     		movs	r6, #0
- 394 0114 D3E7     		b	.L11
- 395              	.L15:
- 396              	.LBE13:
- 397              	.LBE14:
- 324:Core/Src/main.c **** 
- 325:Core/Src/main.c ****     	}
- 326:Core/Src/main.c ****     }
- 327:Core/Src/main.c ****     return mandelbrot_sum;
- 398              		.loc 1 327 5 is_stmt 1 view .LVU91
- 328:Core/Src/main.c **** 
- 329:Core/Src/main.c **** }
- 399              		.loc 1 329 1 is_stmt 0 view .LVU92
- 400 0116 0898     		ldr	r0, [sp, #32]
- 401 0118 0999     		ldr	r1, [sp, #36]
- 402 011a 0FB0     		add	sp, sp, #60
- 403              		@ sp needed
- 404              	.LVL34:
- 405              		.loc 1 329 1 view .LVU93
- 406 011c F0BC     		pop	{r4, r5, r6, r7}
- 407 011e BB46     		mov	fp, r7
- 408 0120 B246     		mov	r10, r6
- 409 0122 A946     		mov	r9, r5
- 410 0124 A046     		mov	r8, r4
- 411 0126 F0BD     		pop	{r4, r5, r6, r7, pc}
- 412              	.L17:
- 413              		.align	2
- 414              	.L16:
- 415 0128 40420F00 		.word	1000000
- 416 012c 00093D00 		.word	4000000
- 417 0130 C00E1602 		.word	35000000
- 418 0134 60DAD9FF 		.word	-2500000
- 419 0138 002D3101 		.word	20000000
- 420 013c C0BDF0FF 		.word	-1000000
- 421              		.cfi_endproc
- 422              	.LFE43:
- 424              		.global	__aeabi_i2d
- 425              		.global	__aeabi_ddiv
- 426              		.global	__aeabi_dadd
- 427              		.global	__aeabi_dsub
- 428              		.global	__aeabi_dmul
- 429              		.global	__aeabi_dcmple
- 430              		.section	.text.calculate_mandelbrot_double,"ax",%progbits
- 431              		.align	1
- 432              		.global	calculate_mandelbrot_double
- 433              		.syntax unified
- 434              		.code	16
- 435              		.thumb_func
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 15
-
-
- 437              	calculate_mandelbrot_double:
- 438              	.LVL35:
- 439              	.LFB44:
- 330:Core/Src/main.c **** 
- 331:Core/Src/main.c **** //TODO: Mandelbroat using variable type double
- 332:Core/Src/main.c **** uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
- 440              		.loc 1 332 80 is_stmt 1 view -0
- 441              		.cfi_startproc
- 442              		@ args = 0, pretend = 0, frame = 56
- 443              		@ frame_needed = 0, uses_anonymous_args = 0
- 444              		.loc 1 332 80 is_stmt 0 view .LVU95
- 445 0000 F0B5     		push	{r4, r5, r6, r7, lr}
- 446              	.LCFI5:
- 447              		.cfi_def_cfa_offset 20
- 448              		.cfi_offset 4, -20
- 449              		.cfi_offset 5, -16
- 450              		.cfi_offset 6, -12
- 451              		.cfi_offset 7, -8
- 452              		.cfi_offset 14, -4
- 453 0002 DE46     		mov	lr, fp
- 454 0004 5746     		mov	r7, r10
- 455 0006 4E46     		mov	r6, r9
- 456 0008 4546     		mov	r5, r8
- 457 000a E0B5     		push	{r5, r6, r7, lr}
- 458              	.LCFI6:
- 459              		.cfi_def_cfa_offset 36
- 460              		.cfi_offset 8, -36
- 461              		.cfi_offset 9, -32
- 462              		.cfi_offset 10, -28
- 463              		.cfi_offset 11, -24
- 464 000c 8FB0     		sub	sp, sp, #60
- 465              	.LCFI7:
- 466              		.cfi_def_cfa_offset 96
- 467 000e 0F00     		movs	r7, r1
- 468 0010 9146     		mov	r9, r2
- 333:Core/Src/main.c ****     uint64_t mandelbrot_sum = 0;
- 469              		.loc 1 333 5 is_stmt 1 view .LVU96
- 470              	.LVL36:
- 334:Core/Src/main.c ****     //TODO: Complete the function implementation
- 335:Core/Src/main.c **** 	for (int y = 0; y < height; ++y) {
- 471              		.loc 1 335 2 view .LVU97
- 472              	.LBB15:
- 473              		.loc 1 335 7 view .LVU98
- 474              		.loc 1 335 11 is_stmt 0 view .LVU99
- 475 0012 0026     		movs	r6, #0
- 476              	.LBE15:
- 333:Core/Src/main.c ****     uint64_t mandelbrot_sum = 0;
- 477              		.loc 1 333 14 view .LVU100
- 478 0014 0023     		movs	r3, #0
- 479 0016 0024     		movs	r4, #0
- 480 0018 0C93     		str	r3, [sp, #48]
- 481 001a 0D94     		str	r4, [sp, #52]
- 482 001c 0B90     		str	r0, [sp, #44]
- 483              	.LBB23:
- 484              		.loc 1 335 2 view .LVU101
- 485 001e 73E0     		b	.L19
- 486              	.LVL37:
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 16
-
-
- 487              	.L23:
- 488              	.LBB16:
- 489              	.LBB17:
- 490              	.LBB18:
- 491              	.LBB19:
- 336:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
- 337:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 338:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 339:Core/Src/main.c **** 			double xi = 0.0;
- 340:Core/Src/main.c **** 			double yi = 0.0;
- 341:Core/Src/main.c **** 			int i = 0;
- 342:Core/Src/main.c **** 
- 343:Core/Src/main.c **** 			while (i < max_iterations && (xi*xi + yi*yi) <= 4.0) {
- 344:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 492              		.loc 1 344 5 is_stmt 1 view .LVU102
- 493              		.loc 1 344 24 is_stmt 0 view .LVU103
- 494 0020 029A     		ldr	r2, [sp, #8]
- 495 0022 039B     		ldr	r3, [sp, #12]
- 496 0024 0098     		ldr	r0, [sp]
- 497 0026 0199     		ldr	r1, [sp, #4]
- 498 0028 FFF7FEFF 		bl	__aeabi_dsub
- 499              	.LVL38:
- 500              		.loc 1 344 12 view .LVU104
- 501 002c 049A     		ldr	r2, [sp, #16]
- 502 002e 059B     		ldr	r3, [sp, #20]
- 503 0030 FFF7FEFF 		bl	__aeabi_dadd
- 504              	.LVL39:
- 505 0034 0090     		str	r0, [sp]
- 506 0036 0191     		str	r1, [sp, #4]
- 507              	.LVL40:
- 345:Core/Src/main.c **** 				yi = 2.0 * xi * yi + y0;
- 508              		.loc 1 345 5 is_stmt 1 view .LVU105
- 509              		.loc 1 345 14 is_stmt 0 view .LVU106
- 510 0038 2200     		movs	r2, r4
- 511 003a 2B00     		movs	r3, r5
- 512 003c 2000     		movs	r0, r4
- 513              	.LVL41:
- 514              		.loc 1 345 14 view .LVU107
- 515 003e 2900     		movs	r1, r5
- 516 0040 FFF7FEFF 		bl	__aeabi_dadd
- 517              	.LVL42:
- 518              		.loc 1 345 19 view .LVU108
- 519 0044 3200     		movs	r2, r6
- 520 0046 3B00     		movs	r3, r7
- 521 0048 FFF7FEFF 		bl	__aeabi_dmul
- 522              	.LVL43:
- 523              		.loc 1 345 8 view .LVU109
- 524 004c 069A     		ldr	r2, [sp, #24]
- 525 004e 079B     		ldr	r3, [sp, #28]
- 526 0050 FFF7FEFF 		bl	__aeabi_dadd
- 527              	.LVL44:
- 528 0054 0600     		movs	r6, r0
- 529              	.LVL45:
- 530              		.loc 1 345 8 view .LVU110
- 531 0056 0F00     		movs	r7, r1
- 532              	.LVL46:
- 346:Core/Src/main.c **** 				xi = tmp;
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 17
-
-
- 533              		.loc 1 346 5 is_stmt 1 view .LVU111
- 347:Core/Src/main.c **** 				++i;
- 534              		.loc 1 347 5 view .LVU112
- 535 0058 0123     		movs	r3, #1
- 536 005a 9C46     		mov	ip, r3
- 537 005c E044     		add	r8, r8, ip
- 538              	.LVL47:
- 346:Core/Src/main.c **** 				xi = tmp;
- 539              		.loc 1 346 8 is_stmt 0 view .LVU113
- 540 005e 009C     		ldr	r4, [sp]
- 541 0060 019D     		ldr	r5, [sp, #4]
- 542              	.LVL48:
- 543              	.L21:
- 346:Core/Src/main.c **** 				xi = tmp;
- 544              		.loc 1 346 8 view .LVU114
- 545              	.LBE19:
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 546              		.loc 1 343 30 is_stmt 1 view .LVU115
- 547 0062 C845     		cmp	r8, r9
- 548 0064 1BDA     		bge	.L22
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 549              		.loc 1 343 36 is_stmt 0 discriminator 1 view .LVU116
- 550 0066 2200     		movs	r2, r4
- 551 0068 2B00     		movs	r3, r5
- 552 006a 2000     		movs	r0, r4
- 553 006c 2900     		movs	r1, r5
- 554 006e FFF7FEFF 		bl	__aeabi_dmul
- 555              	.LVL49:
- 556 0072 0090     		str	r0, [sp]
- 557 0074 0191     		str	r1, [sp, #4]
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 558              		.loc 1 343 44 discriminator 1 view .LVU117
- 559 0076 3200     		movs	r2, r6
- 560 0078 3B00     		movs	r3, r7
- 561 007a 3000     		movs	r0, r6
- 562 007c 3900     		movs	r1, r7
- 563 007e FFF7FEFF 		bl	__aeabi_dmul
- 564              	.LVL50:
- 565 0082 0200     		movs	r2, r0
- 566 0084 0B00     		movs	r3, r1
- 567 0086 0292     		str	r2, [sp, #8]
- 568 0088 0393     		str	r3, [sp, #12]
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 569              		.loc 1 343 40 discriminator 1 view .LVU118
- 570 008a 0098     		ldr	r0, [sp]
- 571 008c 0199     		ldr	r1, [sp, #4]
- 572 008e FFF7FEFF 		bl	__aeabi_dadd
- 573              	.LVL51:
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 574              		.loc 1 343 30 discriminator 1 view .LVU119
- 575 0092 0022     		movs	r2, #0
- 576 0094 304B     		ldr	r3, .L28
- 577 0096 FFF7FEFF 		bl	__aeabi_dcmple
- 578              	.LVL52:
- 579 009a 0028     		cmp	r0, #0
- 580 009c C0D1     		bne	.L23
- 581              	.L22:
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 18
-
-
- 348:Core/Src/main.c **** 			}
- 349:Core/Src/main.c **** 			mandelbrot_sum += (uint64_t)i;
- 582              		.loc 1 349 4 is_stmt 1 view .LVU120
- 583              		.loc 1 349 22 is_stmt 0 view .LVU121
- 584 009e 4346     		mov	r3, r8
- 585 00a0 0893     		str	r3, [sp, #32]
- 586 00a2 DB17     		asrs	r3, r3, #31
- 587 00a4 0993     		str	r3, [sp, #36]
- 588              		.loc 1 349 19 view .LVU122
- 589 00a6 0C9B     		ldr	r3, [sp, #48]
- 590 00a8 0D9C     		ldr	r4, [sp, #52]
- 591 00aa 0899     		ldr	r1, [sp, #32]
- 592 00ac 099A     		ldr	r2, [sp, #36]
- 593 00ae 5B18     		adds	r3, r3, r1
- 594 00b0 5441     		adcs	r4, r4, r2
- 595 00b2 0C93     		str	r3, [sp, #48]
- 596 00b4 0D94     		str	r4, [sp, #52]
- 597              	.LVL53:
- 598              		.loc 1 349 19 view .LVU123
- 599              	.LBE18:
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 600              		.loc 1 337 30 is_stmt 1 discriminator 2 view .LVU124
- 601 00b6 0A9B     		ldr	r3, [sp, #40]
- 602              	.LVL54:
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 603              		.loc 1 337 30 is_stmt 0 discriminator 2 view .LVU125
- 604 00b8 0133     		adds	r3, r3, #1
- 605 00ba 0A93     		str	r3, [sp, #40]
- 606              	.LVL55:
- 607              	.L20:
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 608              		.loc 1 337 21 is_stmt 1 discriminator 1 view .LVU126
- 609 00bc 0A9B     		ldr	r3, [sp, #40]
- 610 00be 0B9A     		ldr	r2, [sp, #44]
- 611 00c0 9342     		cmp	r3, r2
- 612 00c2 1EDA     		bge	.L26
- 613              	.LBB20:
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 614              		.loc 1 338 4 view .LVU127
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 615              		.loc 1 338 17 is_stmt 0 view .LVU128
- 616 00c4 0A98     		ldr	r0, [sp, #40]
- 617 00c6 FFF7FEFF 		bl	__aeabi_i2d
- 618              	.LVL56:
- 619 00ca 0400     		movs	r4, r0
- 620 00cc 0D00     		movs	r5, r1
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 621              		.loc 1 338 29 view .LVU129
- 622 00ce 0B98     		ldr	r0, [sp, #44]
- 623 00d0 FFF7FEFF 		bl	__aeabi_i2d
- 624              	.LVL57:
- 625 00d4 0200     		movs	r2, r0
- 626 00d6 0B00     		movs	r3, r1
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 627              		.loc 1 338 27 view .LVU130
- 628 00d8 2000     		movs	r0, r4
- 629 00da 2900     		movs	r1, r5
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 19
-
-
- 630 00dc FFF7FEFF 		bl	__aeabi_ddiv
- 631              	.LVL58:
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 632              		.loc 1 338 44 view .LVU131
- 633 00e0 0022     		movs	r2, #0
- 634 00e2 1E4B     		ldr	r3, .L28+4
- 635 00e4 FFF7FEFF 		bl	__aeabi_dmul
- 636              	.LVL59:
- 338:Core/Src/main.c **** 			double xi = 0.0;
- 637              		.loc 1 338 11 view .LVU132
- 638 00e8 0022     		movs	r2, #0
- 639 00ea 1D4B     		ldr	r3, .L28+8
- 640 00ec FFF7FEFF 		bl	__aeabi_dsub
- 641              	.LVL60:
- 642 00f0 0490     		str	r0, [sp, #16]
- 643 00f2 0591     		str	r1, [sp, #20]
- 644              	.LVL61:
- 339:Core/Src/main.c **** 			double yi = 0.0;
- 645              		.loc 1 339 4 is_stmt 1 view .LVU133
- 340:Core/Src/main.c **** 			int i = 0;
- 646              		.loc 1 340 4 view .LVU134
- 341:Core/Src/main.c **** 
- 647              		.loc 1 341 4 view .LVU135
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 648              		.loc 1 343 4 view .LVU136
- 341:Core/Src/main.c **** 
- 649              		.loc 1 341 8 is_stmt 0 view .LVU137
- 650 00f4 0023     		movs	r3, #0
- 651 00f6 9846     		mov	r8, r3
- 340:Core/Src/main.c **** 			int i = 0;
- 652              		.loc 1 340 11 view .LVU138
- 653 00f8 0026     		movs	r6, #0
- 654 00fa 0027     		movs	r7, #0
- 339:Core/Src/main.c **** 			double yi = 0.0;
- 655              		.loc 1 339 11 view .LVU139
- 656 00fc 3400     		movs	r4, r6
- 657 00fe 3D00     		movs	r5, r7
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 658              		.loc 1 343 10 view .LVU140
- 659 0100 AFE7     		b	.L21
- 660              	.LVL62:
- 661              	.L26:
- 343:Core/Src/main.c **** 				double tmp = xi*xi - yi*yi + x0;
- 662              		.loc 1 343 10 view .LVU141
- 663              	.LBE20:
- 664              	.LBE17:
- 665              	.LBE16:
- 335:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
- 666              		.loc 1 335 30 discriminator 2 view .LVU142
- 667 0102 5E46     		mov	r6, fp
- 668 0104 5746     		mov	r7, r10
- 335:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
- 669              		.loc 1 335 30 is_stmt 1 discriminator 2 view .LVU143
- 670 0106 0136     		adds	r6, r6, #1
- 671              	.LVL63:
- 672              	.L19:
- 335:Core/Src/main.c **** 		double y0 = ((double)y / (double)height) * 2.0 - 1.0;      // map y -> [-1, +1]
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 20
-
-
- 673              		.loc 1 335 20 discriminator 1 view .LVU144
- 674 0108 BE42     		cmp	r6, r7
- 675 010a 1CDA     		bge	.L27
- 676              	.LBB22:
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 677              		.loc 1 336 3 view .LVU145
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 678              		.loc 1 336 16 is_stmt 0 view .LVU146
- 679 010c 3000     		movs	r0, r6
- 680 010e FFF7FEFF 		bl	__aeabi_i2d
- 681              	.LVL64:
- 682 0112 0400     		movs	r4, r0
- 683 0114 0D00     		movs	r5, r1
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 684              		.loc 1 336 28 view .LVU147
- 685 0116 3800     		movs	r0, r7
- 686 0118 FFF7FEFF 		bl	__aeabi_i2d
- 687              	.LVL65:
- 688 011c 0200     		movs	r2, r0
- 689 011e 0B00     		movs	r3, r1
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 690              		.loc 1 336 26 view .LVU148
- 691 0120 2000     		movs	r0, r4
- 692 0122 2900     		movs	r1, r5
- 693 0124 FFF7FEFF 		bl	__aeabi_ddiv
- 694              	.LVL66:
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 695              		.loc 1 336 44 view .LVU149
- 696 0128 0200     		movs	r2, r0
- 697 012a 0B00     		movs	r3, r1
- 698 012c FFF7FEFF 		bl	__aeabi_dadd
- 699              	.LVL67:
- 336:Core/Src/main.c **** 		for (int x = 0; x < width; ++x) {
- 700              		.loc 1 336 10 view .LVU150
- 701 0130 0022     		movs	r2, #0
- 702 0132 0C4B     		ldr	r3, .L28+12
- 703 0134 FFF7FEFF 		bl	__aeabi_dsub
- 704              	.LVL68:
- 705 0138 0690     		str	r0, [sp, #24]
- 706 013a 0791     		str	r1, [sp, #28]
- 707              	.LVL69:
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 708              		.loc 1 337 3 is_stmt 1 view .LVU151
- 709              	.LBB21:
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 710              		.loc 1 337 8 view .LVU152
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 711              		.loc 1 337 12 is_stmt 0 view .LVU153
- 712 013c 0023     		movs	r3, #0
- 713 013e B346     		mov	fp, r6
- 714 0140 0A93     		str	r3, [sp, #40]
- 715 0142 BA46     		mov	r10, r7
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 716              		.loc 1 337 3 view .LVU154
- 717 0144 BAE7     		b	.L20
- 718              	.LVL70:
- 719              	.L27:
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 21
-
-
- 337:Core/Src/main.c **** 			double x0 = ((double)x / (double)width) * 3.5 - 2.5;  // map x -> [-2.5, 1.0]
- 720              		.loc 1 337 3 view .LVU155
- 721              	.LBE21:
- 722              	.LBE22:
- 723              	.LBE23:
- 350:Core/Src/main.c **** 		}
- 351:Core/Src/main.c **** 	}
- 352:Core/Src/main.c ****     
- 353:Core/Src/main.c ****     return mandelbrot_sum;
- 724              		.loc 1 353 5 is_stmt 1 view .LVU156
- 354:Core/Src/main.c **** }
- 725              		.loc 1 354 1 is_stmt 0 view .LVU157
- 726 0146 0C98     		ldr	r0, [sp, #48]
- 727 0148 0D99     		ldr	r1, [sp, #52]
- 728 014a 0FB0     		add	sp, sp, #60
- 729              		@ sp needed
- 730              	.LVL71:
- 731              	.LVL72:
- 732              	.LVL73:
- 733              		.loc 1 354 1 view .LVU158
- 734 014c F0BC     		pop	{r4, r5, r6, r7}
- 735 014e BB46     		mov	fp, r7
- 736 0150 B246     		mov	r10, r6
- 737 0152 A946     		mov	r9, r5
- 738 0154 A046     		mov	r8, r4
- 739 0156 F0BD     		pop	{r4, r5, r6, r7, pc}
- 740              	.L29:
- 741              		.align	2
- 742              	.L28:
- 743 0158 00001040 		.word	1074790400
- 744 015c 00000C40 		.word	1074528256
- 745 0160 00000440 		.word	1074003968
- 746 0164 0000F03F 		.word	1072693248
- 747              		.cfi_endproc
- 748              	.LFE44:
- 750              		.section	.text.Error_Handler,"ax",%progbits
- 751              		.align	1
- 752              		.global	Error_Handler
- 753              		.syntax unified
- 754              		.code	16
- 755              		.thumb_func
- 757              	Error_Handler:
- 758              	.LFB45:
- 355:Core/Src/main.c **** 
- 356:Core/Src/main.c **** /* USER CODE END 4 */
- 357:Core/Src/main.c **** 
- 358:Core/Src/main.c **** /**
- 359:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
- 360:Core/Src/main.c ****   * @retval None
- 361:Core/Src/main.c ****   */
- 362:Core/Src/main.c **** void Error_Handler(void)
- 363:Core/Src/main.c **** {
- 759              		.loc 1 363 1 is_stmt 1 view -0
- 760              		.cfi_startproc
- 761              		@ Volatile: function does not return.
- 762              		@ args = 0, pretend = 0, frame = 0
- 763              		@ frame_needed = 0, uses_anonymous_args = 0
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 22
-
-
- 764              		@ link register save eliminated.
- 364:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
- 365:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
- 366:Core/Src/main.c ****   __disable_irq();
- 765              		.loc 1 366 3 view .LVU160
- 766              	.LBB24:
- 767              	.LBI24:
- 768              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
+ 301:Core/Src/main.c **** /* USER CODE END 4 */
+ 302:Core/Src/main.c **** 
+ 303:Core/Src/main.c **** /**
+ 304:Core/Src/main.c ****   * @brief  This function is executed in case of error occurrence.
+ 305:Core/Src/main.c ****   * @retval None
+ 306:Core/Src/main.c ****   */
+ 307:Core/Src/main.c **** void Error_Handler(void)
+ 308:Core/Src/main.c **** {
+ 830              		.loc 1 308 1 is_stmt 1 view -0
+ 831              		.cfi_startproc
+ 832              		@ Volatile: function does not return.
+ 833              		@ args = 0, pretend = 0, frame = 0
+ 834              		@ frame_needed = 0, uses_anonymous_args = 0
+ 835              		@ link register save eliminated.
+ 309:Core/Src/main.c ****   /* USER CODE BEGIN Error_Handler_Debug */
+ 310:Core/Src/main.c ****   /* User can add his own implementation to report the HAL error return state */
+ 311:Core/Src/main.c ****   __disable_irq();
+ 836              		.loc 1 311 3 view .LVU163
+ 837              	.LBB24:
+ 838              	.LBI24:
+ 839              		.file 2 "Drivers/CMSIS/Include/cmsis_gcc.h"
    1:Drivers/CMSIS/Include/cmsis_gcc.h **** /**************************************************************************//**
    2:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @file     cmsis_gcc.h
    3:Drivers/CMSIS/Include/cmsis_gcc.h ****  * @brief    CMSIS compiler GCC header file
@@ -1298,6 +1318,9 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   27:Drivers/CMSIS/Include/cmsis_gcc.h **** 
   28:Drivers/CMSIS/Include/cmsis_gcc.h **** /* ignore some GCC warnings */
   29:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic push
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 23
+
+
   30:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wsign-conversion"
   31:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wconversion"
   32:Drivers/CMSIS/Include/cmsis_gcc.h **** #pragma GCC diagnostic ignored "-Wunused-parameter"
@@ -1318,9 +1341,6 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   47:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_INLINE                        static inline
   48:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   49:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __STATIC_FORCEINLINE                 
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 23
-
-
   50:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __STATIC_FORCEINLINE                   __attribute__((always_inline)) static inline
   51:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif                                           
   52:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __NO_RETURN
@@ -1358,6 +1378,9 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
   84:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT16_WRITE(addr, val)    (void)((((struct T_UINT16_WRITE *)(void *)(addr))-
   85:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
   86:Drivers/CMSIS/Include/cmsis_gcc.h **** #ifndef   __UNALIGNED_UINT16_READ
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 24
+
+
   87:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic push
   88:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
   89:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
@@ -1378,9 +1401,6 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
  104:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wpacked"
  105:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic ignored "-Wattributes"
  106:Drivers/CMSIS/Include/cmsis_gcc.h ****   __PACKED_STRUCT T_UINT32_READ { uint32_t v; };
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 24
-
-
  107:Drivers/CMSIS/Include/cmsis_gcc.h ****   #pragma GCC diagnostic pop
  108:Drivers/CMSIS/Include/cmsis_gcc.h ****   #define __UNALIGNED_UINT32_READ(addr)          (((const struct T_UINT32_READ *)(const void *)(add
  109:Drivers/CMSIS/Include/cmsis_gcc.h **** #endif
@@ -1415,490 +1435,436 @@ ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 1
  138:Drivers/CMSIS/Include/cmsis_gcc.h ****            Can only be executed in Privileged modes.
  139:Drivers/CMSIS/Include/cmsis_gcc.h ****  */
  140:Drivers/CMSIS/Include/cmsis_gcc.h **** __STATIC_FORCEINLINE void __disable_irq(void)
- 769              		.loc 2 140 27 view .LVU161
- 770              	.LBB25:
+ 840              		.loc 2 140 27 view .LVU164
+ 841              	.LBB25:
  141:Drivers/CMSIS/Include/cmsis_gcc.h **** {
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 25
+
+
  142:Drivers/CMSIS/Include/cmsis_gcc.h ****   __ASM volatile ("cpsid i" : : : "memory");
- 771              		.loc 2 142 3 view .LVU162
- 772              		.syntax divided
- 773              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
- 774 0000 72B6     		cpsid i
- 775              	@ 0 "" 2
- 776              		.thumb
- 777              		.syntax unified
- 778              	.L31:
- 779              	.LBE25:
- 780              	.LBE24:
- 367:Core/Src/main.c ****   while (1)
- 781              		.loc 1 367 3 view .LVU163
- 368:Core/Src/main.c ****   {
- 369:Core/Src/main.c ****   }
- 782              		.loc 1 369 3 view .LVU164
- 367:Core/Src/main.c ****   while (1)
- 783              		.loc 1 367 9 view .LVU165
- 784 0002 FEE7     		b	.L31
- 785              		.cfi_endproc
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 25
+ 842              		.loc 2 142 3 view .LVU165
+ 843              		.syntax divided
+ 844              	@ 142 "Drivers/CMSIS/Include/cmsis_gcc.h" 1
+ 845 0000 72B6     		cpsid i
+ 846              	@ 0 "" 2
+ 847              		.thumb
+ 848              		.syntax unified
+ 849              	.L31:
+ 850              	.LBE25:
+ 851              	.LBE24:
+ 312:Core/Src/main.c ****   while (1)
+ 852              		.loc 1 312 3 view .LVU166
+ 313:Core/Src/main.c ****   {
+ 314:Core/Src/main.c ****   }
+ 853              		.loc 1 314 3 view .LVU167
+ 312:Core/Src/main.c ****   while (1)
+ 854              		.loc 1 312 9 view .LVU168
+ 855 0002 FEE7     		b	.L31
+ 856              		.cfi_endproc
+ 857              	.LFE45:
+ 859              		.section	.text.SystemClock_Config,"ax",%progbits
+ 860              		.align	1
+ 861              		.global	SystemClock_Config
+ 862              		.syntax unified
+ 863              		.code	16
+ 864              		.thumb_func
+ 866              	SystemClock_Config:
+ 867              	.LFB41:
+ 170:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
+ 868              		.loc 1 170 1 view -0
+ 869              		.cfi_startproc
+ 870              		@ args = 0, pretend = 0, frame = 64
+ 871              		@ frame_needed = 0, uses_anonymous_args = 0
+ 872 0000 00B5     		push	{lr}
+ 873              	.LCFI8:
+ 874              		.cfi_def_cfa_offset 4
+ 875              		.cfi_offset 14, -4
+ 876 0002 91B0     		sub	sp, sp, #68
+ 877              	.LCFI9:
+ 878              		.cfi_def_cfa_offset 72
+ 171:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 879              		.loc 1 171 3 view .LVU170
+ 171:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
+ 880              		.loc 1 171 22 is_stmt 0 view .LVU171
+ 881 0004 3022     		movs	r2, #48
+ 882 0006 0021     		movs	r1, #0
+ 883 0008 04A8     		add	r0, sp, #16
+ 884 000a FFF7FEFF 		bl	memset
+ 885              	.LVL68:
+ 172:Core/Src/main.c **** 
+ 886              		.loc 1 172 3 is_stmt 1 view .LVU172
+ 172:Core/Src/main.c **** 
+ 887              		.loc 1 172 22 is_stmt 0 view .LVU173
+ 888 000e 1022     		movs	r2, #16
+ 889 0010 0021     		movs	r1, #0
+ 890 0012 6846     		mov	r0, sp
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 26
 
 
- 786              	.LFE45:
- 788              		.section	.text.SystemClock_Config,"ax",%progbits
- 789              		.align	1
- 790              		.global	SystemClock_Config
- 791              		.syntax unified
- 792              		.code	16
- 793              		.thumb_func
- 795              	SystemClock_Config:
- 796              	.LFB41:
- 188:Core/Src/main.c ****   RCC_OscInitTypeDef RCC_OscInitStruct = {0};
- 797              		.loc 1 188 1 view -0
- 798              		.cfi_startproc
- 799              		@ args = 0, pretend = 0, frame = 64
- 800              		@ frame_needed = 0, uses_anonymous_args = 0
- 801 0000 00B5     		push	{lr}
- 802              	.LCFI8:
- 803              		.cfi_def_cfa_offset 4
- 804              		.cfi_offset 14, -4
- 805 0002 91B0     		sub	sp, sp, #68
- 806              	.LCFI9:
- 807              		.cfi_def_cfa_offset 72
- 189:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 808              		.loc 1 189 3 view .LVU167
- 189:Core/Src/main.c ****   RCC_ClkInitTypeDef RCC_ClkInitStruct = {0};
- 809              		.loc 1 189 22 is_stmt 0 view .LVU168
- 810 0004 3022     		movs	r2, #48
- 811 0006 0021     		movs	r1, #0
- 812 0008 04A8     		add	r0, sp, #16
- 813 000a FFF7FEFF 		bl	memset
- 814              	.LVL74:
- 190:Core/Src/main.c **** 
- 815              		.loc 1 190 3 is_stmt 1 view .LVU169
- 190:Core/Src/main.c **** 
- 816              		.loc 1 190 22 is_stmt 0 view .LVU170
- 817 000e 1022     		movs	r2, #16
- 818 0010 0021     		movs	r1, #0
- 819 0012 6846     		mov	r0, sp
- 820 0014 FFF7FEFF 		bl	memset
- 821              	.LVL75:
- 195:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 822              		.loc 1 195 3 is_stmt 1 view .LVU171
- 195:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
- 823              		.loc 1 195 36 is_stmt 0 view .LVU172
- 824 0018 0223     		movs	r3, #2
- 825 001a 0493     		str	r3, [sp, #16]
- 196:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
- 826              		.loc 1 196 3 is_stmt 1 view .LVU173
- 196:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
- 827              		.loc 1 196 30 is_stmt 0 view .LVU174
- 828 001c 013B     		subs	r3, r3, #1
- 829 001e 0793     		str	r3, [sp, #28]
- 197:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
- 830              		.loc 1 197 3 is_stmt 1 view .LVU175
- 197:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
- 831              		.loc 1 197 41 is_stmt 0 view .LVU176
- 832 0020 0F33     		adds	r3, r3, #15
- 833 0022 0893     		str	r3, [sp, #32]
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 26
+ 891 0014 FFF7FEFF 		bl	memset
+ 892              	.LVL69:
+ 177:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 893              		.loc 1 177 3 is_stmt 1 view .LVU174
+ 177:Core/Src/main.c ****   RCC_OscInitStruct.HSIState = RCC_HSI_ON;
+ 894              		.loc 1 177 36 is_stmt 0 view .LVU175
+ 895 0018 0223     		movs	r3, #2
+ 896 001a 0493     		str	r3, [sp, #16]
+ 178:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+ 897              		.loc 1 178 3 is_stmt 1 view .LVU176
+ 178:Core/Src/main.c ****   RCC_OscInitStruct.HSICalibrationValue = RCC_HSICALIBRATION_DEFAULT;
+ 898              		.loc 1 178 30 is_stmt 0 view .LVU177
+ 899 001c 013B     		subs	r3, r3, #1
+ 900 001e 0793     		str	r3, [sp, #28]
+ 179:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+ 901              		.loc 1 179 3 is_stmt 1 view .LVU178
+ 179:Core/Src/main.c ****   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_NONE;
+ 902              		.loc 1 179 41 is_stmt 0 view .LVU179
+ 903 0020 0F33     		adds	r3, r3, #15
+ 904 0022 0893     		str	r3, [sp, #32]
+ 180:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
+ 905              		.loc 1 180 3 is_stmt 1 view .LVU180
+ 181:Core/Src/main.c ****   {
+ 906              		.loc 1 181 3 view .LVU181
+ 181:Core/Src/main.c ****   {
+ 907              		.loc 1 181 7 is_stmt 0 view .LVU182
+ 908 0024 04A8     		add	r0, sp, #16
+ 909 0026 FFF7FEFF 		bl	HAL_RCC_OscConfig
+ 910              	.LVL70:
+ 181:Core/Src/main.c ****   {
+ 911              		.loc 1 181 6 discriminator 1 view .LVU183
+ 912 002a 0028     		cmp	r0, #0
+ 913 002c 0DD1     		bne	.L35
+ 188:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
+ 914              		.loc 1 188 3 is_stmt 1 view .LVU184
+ 188:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
+ 915              		.loc 1 188 31 is_stmt 0 view .LVU185
+ 916 002e 0723     		movs	r3, #7
+ 917 0030 0093     		str	r3, [sp]
+ 190:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 918              		.loc 1 190 3 is_stmt 1 view .LVU186
+ 190:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
+ 919              		.loc 1 190 34 is_stmt 0 view .LVU187
+ 920 0032 0023     		movs	r3, #0
+ 921 0034 0193     		str	r3, [sp, #4]
+ 191:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 922              		.loc 1 191 3 is_stmt 1 view .LVU188
+ 191:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
+ 923              		.loc 1 191 35 is_stmt 0 view .LVU189
+ 924 0036 0293     		str	r3, [sp, #8]
+ 192:Core/Src/main.c **** 
+ 925              		.loc 1 192 3 is_stmt 1 view .LVU190
+ 192:Core/Src/main.c **** 
+ 926              		.loc 1 192 36 is_stmt 0 view .LVU191
+ 927 0038 0393     		str	r3, [sp, #12]
+ 194:Core/Src/main.c ****   {
+ 928              		.loc 1 194 3 is_stmt 1 view .LVU192
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 27
 
 
- 198:Core/Src/main.c ****   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
- 834              		.loc 1 198 3 is_stmt 1 view .LVU177
- 199:Core/Src/main.c ****   {
- 835              		.loc 1 199 3 view .LVU178
- 199:Core/Src/main.c ****   {
- 836              		.loc 1 199 7 is_stmt 0 view .LVU179
- 837 0024 04A8     		add	r0, sp, #16
- 838 0026 FFF7FEFF 		bl	HAL_RCC_OscConfig
- 839              	.LVL76:
- 199:Core/Src/main.c ****   {
- 840              		.loc 1 199 6 discriminator 1 view .LVU180
- 841 002a 0028     		cmp	r0, #0
- 842 002c 0DD1     		bne	.L35
- 206:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
- 843              		.loc 1 206 3 is_stmt 1 view .LVU181
- 206:Core/Src/main.c ****                               |RCC_CLOCKTYPE_PCLK1;
- 844              		.loc 1 206 31 is_stmt 0 view .LVU182
- 845 002e 0723     		movs	r3, #7
- 846 0030 0093     		str	r3, [sp]
- 208:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 847              		.loc 1 208 3 is_stmt 1 view .LVU183
- 208:Core/Src/main.c ****   RCC_ClkInitStruct.AHBCLKDivider = RCC_SYSCLK_DIV1;
- 848              		.loc 1 208 34 is_stmt 0 view .LVU184
- 849 0032 0023     		movs	r3, #0
- 850 0034 0193     		str	r3, [sp, #4]
- 209:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
- 851              		.loc 1 209 3 is_stmt 1 view .LVU185
- 209:Core/Src/main.c ****   RCC_ClkInitStruct.APB1CLKDivider = RCC_HCLK_DIV1;
- 852              		.loc 1 209 35 is_stmt 0 view .LVU186
- 853 0036 0293     		str	r3, [sp, #8]
- 210:Core/Src/main.c **** 
- 854              		.loc 1 210 3 is_stmt 1 view .LVU187
- 210:Core/Src/main.c **** 
- 855              		.loc 1 210 36 is_stmt 0 view .LVU188
- 856 0038 0393     		str	r3, [sp, #12]
- 212:Core/Src/main.c ****   {
- 857              		.loc 1 212 3 is_stmt 1 view .LVU189
- 212:Core/Src/main.c ****   {
- 858              		.loc 1 212 7 is_stmt 0 view .LVU190
- 859 003a 0021     		movs	r1, #0
- 860 003c 6846     		mov	r0, sp
- 861 003e FFF7FEFF 		bl	HAL_RCC_ClockConfig
- 862              	.LVL77:
- 212:Core/Src/main.c ****   {
- 863              		.loc 1 212 6 discriminator 1 view .LVU191
- 864 0042 0028     		cmp	r0, #0
- 865 0044 03D1     		bne	.L36
- 216:Core/Src/main.c **** 
- 866              		.loc 1 216 1 view .LVU192
- 867 0046 11B0     		add	sp, sp, #68
- 868              		@ sp needed
- 869 0048 00BD     		pop	{pc}
- 870              	.L35:
- 201:Core/Src/main.c ****   }
- 871              		.loc 1 201 5 is_stmt 1 view .LVU193
- 872 004a FFF7FEFF 		bl	Error_Handler
- 873              	.LVL78:
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 27
+ 194:Core/Src/main.c ****   {
+ 929              		.loc 1 194 7 is_stmt 0 view .LVU193
+ 930 003a 0021     		movs	r1, #0
+ 931 003c 6846     		mov	r0, sp
+ 932 003e FFF7FEFF 		bl	HAL_RCC_ClockConfig
+ 933              	.LVL71:
+ 194:Core/Src/main.c ****   {
+ 934              		.loc 1 194 6 discriminator 1 view .LVU194
+ 935 0042 0028     		cmp	r0, #0
+ 936 0044 03D1     		bne	.L36
+ 198:Core/Src/main.c **** 
+ 937              		.loc 1 198 1 view .LVU195
+ 938 0046 11B0     		add	sp, sp, #68
+ 939              		@ sp needed
+ 940 0048 00BD     		pop	{pc}
+ 941              	.L35:
+ 183:Core/Src/main.c ****   }
+ 942              		.loc 1 183 5 is_stmt 1 view .LVU196
+ 943 004a FFF7FEFF 		bl	Error_Handler
+ 944              	.LVL72:
+ 945              	.L36:
+ 196:Core/Src/main.c ****   }
+ 946              		.loc 1 196 5 view .LVU197
+ 947 004e FFF7FEFF 		bl	Error_Handler
+ 948              	.LVL73:
+ 949              		.cfi_endproc
+ 950              	.LFE41:
+ 952              		.section	.text.main,"ax",%progbits
+ 953              		.align	1
+ 954              		.global	main
+ 955              		.syntax unified
+ 956              		.code	16
+ 957              		.thumb_func
+ 959              	main:
+ 960              	.LFB40:
+  87:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
+ 961              		.loc 1 87 1 view -0
+ 962              		.cfi_startproc
+ 963              		@ args = 0, pretend = 0, frame = 0
+ 964              		@ frame_needed = 0, uses_anonymous_args = 0
+ 965 0000 F0B5     		push	{r4, r5, r6, r7, lr}
+ 966              	.LCFI10:
+ 967              		.cfi_def_cfa_offset 20
+ 968              		.cfi_offset 4, -20
+ 969              		.cfi_offset 5, -16
+ 970              		.cfi_offset 6, -12
+ 971              		.cfi_offset 7, -8
+ 972              		.cfi_offset 14, -4
+ 973 0002 C646     		mov	lr, r8
+ 974 0004 00B5     		push	{lr}
+ 975              	.LCFI11:
+ 976              		.cfi_def_cfa_offset 24
+ 977              		.cfi_offset 8, -24
+  95:Core/Src/main.c **** 
+ 978              		.loc 1 95 3 view .LVU199
+ 979 0006 FFF7FEFF 		bl	HAL_Init
+ 980              	.LVL74:
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 28
 
 
- 874              	.L36:
- 214:Core/Src/main.c ****   }
- 875              		.loc 1 214 5 view .LVU194
- 876 004e FFF7FEFF 		bl	Error_Handler
- 877              	.LVL79:
- 878              		.cfi_endproc
- 879              	.LFE41:
- 881              		.section	.text.main,"ax",%progbits
- 882              		.align	1
- 883              		.global	main
- 884              		.syntax unified
- 885              		.code	16
- 886              		.thumb_func
- 888              	main:
- 889              	.LFB40:
-  96:Core/Src/main.c ****   /* USER CODE BEGIN 1 */
- 890              		.loc 1 96 1 view -0
- 891              		.cfi_startproc
- 892              		@ args = 0, pretend = 0, frame = 0
- 893              		@ frame_needed = 0, uses_anonymous_args = 0
- 894 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
- 895              	.LCFI10:
- 896              		.cfi_def_cfa_offset 24
- 897              		.cfi_offset 3, -24
- 898              		.cfi_offset 4, -20
- 899              		.cfi_offset 5, -16
- 900              		.cfi_offset 6, -12
- 901              		.cfi_offset 7, -8
- 902              		.cfi_offset 14, -4
- 903 0002 DE46     		mov	lr, fp
- 904 0004 5746     		mov	r7, r10
- 905 0006 4E46     		mov	r6, r9
- 906 0008 4546     		mov	r5, r8
- 907 000a E0B5     		push	{r5, r6, r7, lr}
- 908              	.LCFI11:
- 909              		.cfi_def_cfa_offset 40
- 910              		.cfi_offset 8, -40
- 911              		.cfi_offset 9, -36
- 912              		.cfi_offset 10, -32
- 913              		.cfi_offset 11, -28
- 104:Core/Src/main.c **** 
- 914              		.loc 1 104 3 view .LVU196
- 915 000c FFF7FEFF 		bl	HAL_Init
- 916              	.LVL80:
- 111:Core/Src/main.c **** 
- 917              		.loc 1 111 3 view .LVU197
- 918 0010 FFF7FEFF 		bl	SystemClock_Config
- 919              	.LVL81:
+ 102:Core/Src/main.c **** 
+ 981              		.loc 1 102 3 view .LVU200
+ 982 000a FFF7FEFF 		bl	SystemClock_Config
+ 983              	.LVL75:
+ 109:Core/Src/main.c **** 
+ 984              		.loc 1 109 3 view .LVU201
+ 985 000e FFF7FEFF 		bl	MX_GPIO_Init
+ 986              	.LVL76:
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 987              		.loc 1 113 3 view .LVU202
+ 988              	.LBB26:
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 989              		.loc 1 113 8 view .LVU203
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 990              		.loc 1 113 12 is_stmt 0 view .LVU204
+ 991 0012 0024     		movs	r4, #0
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 992              		.loc 1 113 3 view .LVU205
+ 993 0014 31E0     		b	.L38
+ 994              	.LVL77:
+ 995              	.L39:
+ 114:Core/Src/main.c ****       height = image_dimensions[i];
+ 996              		.loc 1 114 7 is_stmt 1 view .LVU206
+ 114:Core/Src/main.c ****       height = image_dimensions[i];
+ 997              		.loc 1 114 31 is_stmt 0 view .LVU207
+ 998 0016 1A4B     		ldr	r3, .L41
+ 999 0018 A200     		lsls	r2, r4, #2
+ 1000 001a D358     		ldr	r3, [r2, r3]
+ 114:Core/Src/main.c ****       height = image_dimensions[i];
+ 1001              		.loc 1 114 13 view .LVU208
+ 1002 001c 194F     		ldr	r7, .L41+4
+ 1003 001e 3B60     		str	r3, [r7]
+ 115:Core/Src/main.c **** 
+ 1004              		.loc 1 115 7 is_stmt 1 view .LVU209
+ 115:Core/Src/main.c **** 
+ 1005              		.loc 1 115 14 is_stmt 0 view .LVU210
+ 1006 0020 194A     		ldr	r2, .L41+8
+ 1007 0022 9046     		mov	r8, r2
+ 1008 0024 1360     		str	r3, [r2]
  118:Core/Src/main.c **** 
- 920              		.loc 1 118 3 view .LVU198
- 921 0014 FFF7FEFF 		bl	MX_GPIO_Init
- 922              	.LVL82:
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 923              		.loc 1 122 3 view .LVU199
- 924              	.LBB26:
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 925              		.loc 1 122 8 view .LVU200
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 28
+ 1009              		.loc 1 118 7 is_stmt 1 view .LVU211
+ 1010 0026 194D     		ldr	r5, .L41+12
+ 1011 0028 0122     		movs	r2, #1
+ 1012 002a 0121     		movs	r1, #1
+ 1013 002c 2800     		movs	r0, r5
+ 1014 002e FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1015              	.LVL78:
+ 122:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
+ 1016              		.loc 1 122 7 view .LVU212
+ 122:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
+ 1017              		.loc 1 122 20 is_stmt 0 view .LVU213
+ 1018 0032 FFF7FEFF 		bl	HAL_GetTick
+ 1019              	.LVL79:
+ 122:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
+ 1020              		.loc 1 122 18 discriminator 1 view .LVU214
+ 1021 0036 164E     		ldr	r6, .L41+16
+ 1022 0038 3060     		str	r0, [r6]
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 29
 
 
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 926              		.loc 1 122 12 is_stmt 0 view .LVU201
- 927 0018 0025     		movs	r5, #0
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 928              		.loc 1 122 3 view .LVU202
- 929 001a 48E0     		b	.L38
- 930              	.LVL83:
- 931              	.L39:
- 123:Core/Src/main.c ****       height = image_dimensions[i];
- 932              		.loc 1 123 7 is_stmt 1 view .LVU203
- 123:Core/Src/main.c ****       height = image_dimensions[i];
- 933              		.loc 1 123 31 is_stmt 0 view .LVU204
- 934 001c 254B     		ldr	r3, .L41
- 935 001e AA00     		lsls	r2, r5, #2
- 936 0020 D358     		ldr	r3, [r2, r3]
- 123:Core/Src/main.c ****       height = image_dimensions[i];
- 937              		.loc 1 123 13 view .LVU205
- 938 0022 254F     		ldr	r7, .L41+4
- 939 0024 3B60     		str	r3, [r7]
- 124:Core/Src/main.c **** 
- 940              		.loc 1 124 7 is_stmt 1 view .LVU206
- 124:Core/Src/main.c **** 
- 941              		.loc 1 124 14 is_stmt 0 view .LVU207
- 942 0026 254A     		ldr	r2, .L41+8
- 943 0028 9246     		mov	r10, r2
- 944 002a 1360     		str	r3, [r2]
- 127:Core/Src/main.c **** 
- 945              		.loc 1 127 7 is_stmt 1 view .LVU208
- 946 002c 244E     		ldr	r6, .L41+12
- 947 002e 0122     		movs	r2, #1
- 948 0030 0121     		movs	r1, #1
- 949 0032 3000     		movs	r0, r6
- 950 0034 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 951              	.LVL84:
- 131:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 952              		.loc 1 131 7 view .LVU209
- 131:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 953              		.loc 1 131 20 is_stmt 0 view .LVU210
- 954 0038 FFF7FEFF 		bl	HAL_GetTick
- 955              	.LVL85:
- 131:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 956              		.loc 1 131 18 discriminator 1 view .LVU211
- 957 003c 214C     		ldr	r4, .L41+16
- 958 003e 2060     		str	r0, [r4]
- 133:Core/Src/main.c ****       //TODO: Record the end time
- 959              		.loc 1 133 7 is_stmt 1 view .LVU212
- 133:Core/Src/main.c ****       //TODO: Record the end time
- 960              		.loc 1 133 18 is_stmt 0 view .LVU213
- 961 0040 5346     		mov	r3, r10
- 962 0042 1968     		ldr	r1, [r3]
- 963 0044 3868     		ldr	r0, [r7]
- 964 0046 6422     		movs	r2, #100
- 965 0048 FFF7FEFF 		bl	calculate_mandelbrot_fixed_point_arithmetic
- 966              	.LVL86:
- 133:Core/Src/main.c ****       //TODO: Record the end time
- 967              		.loc 1 133 16 discriminator 1 view .LVU214
- 968 004c 1E4B     		ldr	r3, .L41+20
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 29
+ 124:Core/Src/main.c ****       //TODO: Record the end time
+ 1023              		.loc 1 124 7 is_stmt 1 view .LVU215
+ 124:Core/Src/main.c ****       //TODO: Record the end time
+ 1024              		.loc 1 124 18 is_stmt 0 view .LVU216
+ 1025 003a 4346     		mov	r3, r8
+ 1026 003c 1968     		ldr	r1, [r3]
+ 1027 003e 3868     		ldr	r0, [r7]
+ 1028 0040 6422     		movs	r2, #100
+ 1029 0042 FFF7FEFF 		bl	calculate_mandelbrot_fixed_point_arithmetic
+ 1030              	.LVL80:
+ 124:Core/Src/main.c ****       //TODO: Record the end time
+ 1031              		.loc 1 124 16 discriminator 1 view .LVU217
+ 1032 0046 134B     		ldr	r3, .L41+20
+ 1033 0048 1860     		str	r0, [r3]
+ 1034 004a 5960     		str	r1, [r3, #4]
+ 126:Core/Src/main.c ****       //TODO: Calculate the execution time
+ 1035              		.loc 1 126 7 is_stmt 1 view .LVU218
+ 126:Core/Src/main.c ****       //TODO: Calculate the execution time
+ 1036              		.loc 1 126 18 is_stmt 0 view .LVU219
+ 1037 004c FFF7FEFF 		bl	HAL_GetTick
+ 1038              	.LVL81:
+ 126:Core/Src/main.c ****       //TODO: Calculate the execution time
+ 1039              		.loc 1 126 16 discriminator 1 view .LVU220
+ 1040 0050 114B     		ldr	r3, .L41+24
+ 1041 0052 1860     		str	r0, [r3]
+ 128:Core/Src/main.c ****       // Store or print execution_time & checksum
+ 1042              		.loc 1 128 7 is_stmt 1 view .LVU221
+ 128:Core/Src/main.c ****       // Store or print execution_time & checksum
+ 1043              		.loc 1 128 33 is_stmt 0 view .LVU222
+ 1044 0054 3368     		ldr	r3, [r6]
+ 1045 0056 C01A     		subs	r0, r0, r3
+ 128:Core/Src/main.c ****       // Store or print execution_time & checksum
+ 1046              		.loc 1 128 22 view .LVU223
+ 1047 0058 104B     		ldr	r3, .L41+28
+ 1048 005a 1860     		str	r0, [r3]
+ 143:Core/Src/main.c **** 
+ 1049              		.loc 1 143 7 is_stmt 1 view .LVU224
+ 1050 005c 0122     		movs	r2, #1
+ 1051 005e 0221     		movs	r1, #2
+ 1052 0060 2800     		movs	r0, r5
+ 1053 0062 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1054              	.LVL82:
+ 146:Core/Src/main.c **** 
+ 1055              		.loc 1 146 7 view .LVU225
+ 1056 0066 FA20     		movs	r0, #250
+ 1057 0068 8000     		lsls	r0, r0, #2
+ 1058 006a FFF7FEFF 		bl	HAL_Delay
+ 1059              	.LVL83:
+ 149:Core/Src/main.c ****   }
+ 1060              		.loc 1 149 7 view .LVU226
+ 1061 006e 0022     		movs	r2, #0
+ 1062 0070 0321     		movs	r1, #3
+ 1063 0072 2800     		movs	r0, r5
+ 1064 0074 FFF7FEFF 		bl	HAL_GPIO_WritePin
+ 1065              	.LVL84:
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 1066              		.loc 1 113 27 discriminator 3 view .LVU227
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 30
 
 
- 969 004e 9B46     		mov	fp, r3
- 970 0050 1860     		str	r0, [r3]
- 971 0052 5960     		str	r1, [r3, #4]
- 135:Core/Src/main.c ****       //TODO: Calculate the execution time
- 972              		.loc 1 135 7 is_stmt 1 view .LVU215
- 135:Core/Src/main.c ****       //TODO: Calculate the execution time
- 973              		.loc 1 135 18 is_stmt 0 view .LVU216
- 974 0054 FFF7FEFF 		bl	HAL_GetTick
- 975              	.LVL87:
- 135:Core/Src/main.c ****       //TODO: Calculate the execution time
- 976              		.loc 1 135 16 discriminator 1 view .LVU217
- 977 0058 1C4B     		ldr	r3, .L41+24
- 978 005a 9946     		mov	r9, r3
- 979 005c 1860     		str	r0, [r3]
- 137:Core/Src/main.c ****       // Store or print execution_time & checksum
- 980              		.loc 1 137 7 is_stmt 1 view .LVU218
- 137:Core/Src/main.c ****       // Store or print execution_time & checksum
- 981              		.loc 1 137 33 is_stmt 0 view .LVU219
- 982 005e 2368     		ldr	r3, [r4]
- 983 0060 C01A     		subs	r0, r0, r3
- 137:Core/Src/main.c ****       // Store or print execution_time & checksum
- 984              		.loc 1 137 22 view .LVU220
- 985 0062 1B4B     		ldr	r3, .L41+28
- 986 0064 9846     		mov	r8, r3
- 987 0066 1860     		str	r0, [r3]
- 142:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 988              		.loc 1 142 7 is_stmt 1 view .LVU221
- 142:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 989              		.loc 1 142 20 is_stmt 0 view .LVU222
- 990 0068 FFF7FEFF 		bl	HAL_GetTick
- 991              	.LVL88:
- 142:Core/Src/main.c ****       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined in
- 992              		.loc 1 142 18 discriminator 1 view .LVU223
- 993 006c 2060     		str	r0, [r4]
- 144:Core/Src/main.c ****       //TODO: Record the end time
- 994              		.loc 1 144 7 is_stmt 1 view .LVU224
- 144:Core/Src/main.c ****       //TODO: Record the end time
- 995              		.loc 1 144 18 is_stmt 0 view .LVU225
- 996 006e 5346     		mov	r3, r10
- 997 0070 1968     		ldr	r1, [r3]
- 998 0072 3868     		ldr	r0, [r7]
- 999 0074 6422     		movs	r2, #100
- 1000 0076 FFF7FEFF 		bl	calculate_mandelbrot_double
- 1001              	.LVL89:
- 144:Core/Src/main.c ****       //TODO: Record the end time
- 1002              		.loc 1 144 16 discriminator 1 view .LVU226
- 1003 007a 5B46     		mov	r3, fp
- 1004 007c 1860     		str	r0, [r3]
- 1005 007e 5960     		str	r1, [r3, #4]
- 146:Core/Src/main.c ****       //TODO: Calculate the execution time
- 1006              		.loc 1 146 7 is_stmt 1 view .LVU227
- 146:Core/Src/main.c ****       //TODO: Calculate the execution time
- 1007              		.loc 1 146 18 is_stmt 0 view .LVU228
- 1008 0080 FFF7FEFF 		bl	HAL_GetTick
- 1009              	.LVL90:
- 146:Core/Src/main.c ****       //TODO: Calculate the execution time
- 1010              		.loc 1 146 16 discriminator 1 view .LVU229
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 30
+ 1067 0078 0134     		adds	r4, r4, #1
+ 1068              	.LVL85:
+ 1069              	.L38:
+ 113:Core/Src/main.c ****       width = image_dimensions[i];
+ 1070              		.loc 1 113 21 discriminator 1 view .LVU228
+ 1071 007a 042C     		cmp	r4, #4
+ 1072 007c CBDD     		ble	.L39
+ 1073              	.L40:
+ 1074              	.LBE26:
+ 156:Core/Src/main.c ****   {
+ 1075              		.loc 1 156 3 view .LVU229
+ 161:Core/Src/main.c ****   /* USER CODE END 3 */
+ 1076              		.loc 1 161 3 view .LVU230
+ 156:Core/Src/main.c ****   {
+ 1077              		.loc 1 156 9 view .LVU231
+ 1078 007e FEE7     		b	.L40
+ 1079              	.L42:
+ 1080              		.align	2
+ 1081              	.L41:
+ 1082 0080 00000000 		.word	image_dimensions
+ 1083 0084 00000000 		.word	width
+ 1084 0088 00000000 		.word	height
+ 1085 008c 00040048 		.word	1207960576
+ 1086 0090 00000000 		.word	start_time
+ 1087 0094 00000000 		.word	checksum
+ 1088 0098 00000000 		.word	end_time
+ 1089 009c 00000000 		.word	execution_time
+ 1090              		.cfi_endproc
+ 1091              	.LFE40:
+ 1093              		.global	image_dimensions
+ 1094              		.section	.rodata.image_dimensions,"a"
+ 1095              		.align	2
+ 1098              	image_dimensions:
+ 1099 0000 80000000 		.word	128
+ 1100 0004 A0000000 		.word	160
+ 1101 0008 C0000000 		.word	192
+ 1102 000c E0000000 		.word	224
+ 1103 0010 00010000 		.word	256
+ 1104              		.global	width
+ 1105              		.section	.bss.width,"aw",%nobits
+ 1106              		.align	2
+ 1109              	width:
+ 1110 0000 00000000 		.space	4
+ 1111              		.global	height
+ 1112              		.section	.bss.height,"aw",%nobits
+ 1113              		.align	2
+ 1116              	height:
+ 1117 0000 00000000 		.space	4
+ 1118              		.global	checksum
+ 1119              		.section	.bss.checksum,"aw",%nobits
+ 1120              		.align	3
+ 1123              	checksum:
+ 1124 0000 00000000 		.space	8
+ 1124      00000000 
+ 1125              		.global	execution_time
+ 1126              		.section	.bss.execution_time,"aw",%nobits
+ 1127              		.align	2
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 31
 
 
- 1011 0084 4B46     		mov	r3, r9
- 1012 0086 1860     		str	r0, [r3]
- 148:Core/Src/main.c ****       // Store or print execution_time & checksum
- 1013              		.loc 1 148 7 is_stmt 1 view .LVU230
- 148:Core/Src/main.c ****       // Store or print execution_time & checksum
- 1014              		.loc 1 148 33 is_stmt 0 view .LVU231
- 1015 0088 2368     		ldr	r3, [r4]
- 1016 008a C01A     		subs	r0, r0, r3
- 148:Core/Src/main.c ****       // Store or print execution_time & checksum
- 1017              		.loc 1 148 22 view .LVU232
- 1018 008c 4346     		mov	r3, r8
- 1019 008e 1860     		str	r0, [r3]
- 152:Core/Src/main.c **** 
- 1020              		.loc 1 152 7 is_stmt 1 view .LVU233
- 1021 0090 0122     		movs	r2, #1
- 1022 0092 0221     		movs	r1, #2
- 1023 0094 3000     		movs	r0, r6
- 1024 0096 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 1025              	.LVL91:
- 155:Core/Src/main.c **** 
- 1026              		.loc 1 155 7 view .LVU234
- 1027 009a FA20     		movs	r0, #250
- 1028 009c 8000     		lsls	r0, r0, #2
- 1029 009e FFF7FEFF 		bl	HAL_Delay
- 1030              	.LVL92:
- 158:Core/Src/main.c ****   }
- 1031              		.loc 1 158 7 view .LVU235
- 1032 00a2 0022     		movs	r2, #0
- 1033 00a4 0321     		movs	r1, #3
- 1034 00a6 3000     		movs	r0, r6
- 1035 00a8 FFF7FEFF 		bl	HAL_GPIO_WritePin
- 1036              	.LVL93:
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 1037              		.loc 1 122 27 discriminator 3 view .LVU236
- 1038 00ac 0135     		adds	r5, r5, #1
- 1039              	.LVL94:
- 1040              	.L38:
- 122:Core/Src/main.c ****       width = image_dimensions[i];
- 1041              		.loc 1 122 21 discriminator 1 view .LVU237
- 1042 00ae 042D     		cmp	r5, #4
- 1043 00b0 B4DD     		ble	.L39
- 1044              	.L40:
- 1045              	.LBE26:
- 165:Core/Src/main.c ****   {
- 1046              		.loc 1 165 3 view .LVU238
- 179:Core/Src/main.c ****   /* USER CODE END 3 */
- 1047              		.loc 1 179 3 view .LVU239
- 165:Core/Src/main.c ****   {
- 1048              		.loc 1 165 9 view .LVU240
- 1049 00b2 FEE7     		b	.L40
- 1050              	.L42:
- 1051              		.align	2
- 1052              	.L41:
- 1053 00b4 00000000 		.word	image_dimensions
- 1054 00b8 00000000 		.word	width
- 1055 00bc 00000000 		.word	height
- 1056 00c0 00040048 		.word	1207960576
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 31
-
-
- 1057 00c4 00000000 		.word	start_time
- 1058 00c8 00000000 		.word	checksum
- 1059 00cc 00000000 		.word	end_time
- 1060 00d0 00000000 		.word	execution_time
- 1061              		.cfi_endproc
- 1062              	.LFE40:
- 1064              		.global	image_dimensions
- 1065              		.section	.rodata.image_dimensions,"a"
- 1066              		.align	2
- 1069              	image_dimensions:
- 1070 0000 80000000 		.word	128
- 1071 0004 A0000000 		.word	160
- 1072 0008 C0000000 		.word	192
- 1073 000c E0000000 		.word	224
- 1074 0010 00010000 		.word	256
- 1075              		.global	width
- 1076              		.section	.bss.width,"aw",%nobits
- 1077              		.align	2
- 1080              	width:
- 1081 0000 00000000 		.space	4
- 1082              		.global	height
- 1083              		.section	.bss.height,"aw",%nobits
- 1084              		.align	2
- 1087              	height:
- 1088 0000 00000000 		.space	4
- 1089              		.global	checksum
- 1090              		.section	.bss.checksum,"aw",%nobits
- 1091              		.align	3
- 1094              	checksum:
- 1095 0000 00000000 		.space	8
- 1095      00000000 
- 1096              		.global	execution_time
- 1097              		.section	.bss.execution_time,"aw",%nobits
- 1098              		.align	2
- 1101              	execution_time:
- 1102 0000 00000000 		.space	4
- 1103              		.global	end_time
- 1104              		.section	.bss.end_time,"aw",%nobits
- 1105              		.align	2
- 1108              	end_time:
- 1109 0000 00000000 		.space	4
- 1110              		.global	start_time
- 1111              		.section	.bss.start_time,"aw",%nobits
- 1112              		.align	2
- 1115              	start_time:
- 1116 0000 00000000 		.space	4
- 1117              		.text
- 1118              	.Letext0:
- 1119              		.file 3 "/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.external
- 1120              		.file 4 "/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.external
- 1121              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f051x8.h"
- 1122              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
- 1123              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h"
- 1124              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
- 1125              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
- 1126              		.file 10 "<built-in>"
-ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s 			page 32
+ 1130              	execution_time:
+ 1131 0000 00000000 		.space	4
+ 1132              		.global	end_time
+ 1133              		.section	.bss.end_time,"aw",%nobits
+ 1134              		.align	2
+ 1137              	end_time:
+ 1138 0000 00000000 		.space	4
+ 1139              		.global	start_time
+ 1140              		.section	.bss.start_time,"aw",%nobits
+ 1141              		.align	2
+ 1144              	start_time:
+ 1145 0000 00000000 		.space	4
+ 1146              		.text
+ 1147              	.Letext0:
+ 1148              		.file 3 "/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.external
+ 1149              		.file 4 "/Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.external
+ 1150              		.file 5 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f051x8.h"
+ 1151              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 1152              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_rcc.h"
+ 1153              		.file 8 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_gpio.h"
+ 1154              		.file 9 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal.h"
+ 1155              		.file 10 "<built-in>"
+ARM GAS  /var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s 			page 32
 
 
 DEFINED SYMBOLS
                             *ABS*:00000000 main.c
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:19     .text.MX_GPIO_Init:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:114    .text.MX_GPIO_Init:0000005c $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:122    .text.calculate_mandelbrot_fixed_point_arithmetic:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:128    .text.calculate_mandelbrot_fixed_point_arithmetic:00000000 calculate_mandelbrot_fixed_point_arithmetic
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:415    .text.calculate_mandelbrot_fixed_point_arithmetic:00000128 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:431    .text.calculate_mandelbrot_double:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:437    .text.calculate_mandelbrot_double:00000000 calculate_mandelbrot_double
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:743    .text.calculate_mandelbrot_double:00000158 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:751    .text.Error_Handler:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:757    .text.Error_Handler:00000000 Error_Handler
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:789    .text.SystemClock_Config:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:795    .text.SystemClock_Config:00000000 SystemClock_Config
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:882    .text.main:00000000 $t
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:888    .text.main:00000000 main
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1053   .text.main:000000b4 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1069   .rodata.image_dimensions:00000000 image_dimensions
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1080   .bss.width:00000000 width
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1087   .bss.height:00000000 height
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1115   .bss.start_time:00000000 start_time
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1094   .bss.checksum:00000000 checksum
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1108   .bss.end_time:00000000 end_time
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1101   .bss.execution_time:00000000 execution_time
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1066   .rodata.image_dimensions:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1077   .bss.width:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1084   .bss.height:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1091   .bss.checksum:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1098   .bss.execution_time:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1105   .bss.end_time:00000000 $d
-/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//ccsm8Blj.s:1112   .bss.start_time:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:19     .text.MX_GPIO_Init:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:24     .text.MX_GPIO_Init:00000000 MX_GPIO_Init
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:114    .text.MX_GPIO_Init:0000005c $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:122    .text.calculate_mandelbrot_fixed_point_arithmetic:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:128    .text.calculate_mandelbrot_fixed_point_arithmetic:00000000 calculate_mandelbrot_fixed_point_arithmetic
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:490    .text.calculate_mandelbrot_fixed_point_arithmetic:000001bc $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:502    .text.calculate_mandelbrot_double:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:508    .text.calculate_mandelbrot_double:00000000 calculate_mandelbrot_double
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:814    .text.calculate_mandelbrot_double:00000158 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:822    .text.Error_Handler:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:828    .text.Error_Handler:00000000 Error_Handler
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:860    .text.SystemClock_Config:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:866    .text.SystemClock_Config:00000000 SystemClock_Config
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:953    .text.main:00000000 $t
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:959    .text.main:00000000 main
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1082   .text.main:00000080 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1098   .rodata.image_dimensions:00000000 image_dimensions
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1109   .bss.width:00000000 width
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1116   .bss.height:00000000 height
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1144   .bss.start_time:00000000 start_time
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1123   .bss.checksum:00000000 checksum
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1137   .bss.end_time:00000000 end_time
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1130   .bss.execution_time:00000000 execution_time
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1095   .rodata.image_dimensions:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1106   .bss.width:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1113   .bss.height:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1120   .bss.checksum:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1127   .bss.execution_time:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1134   .bss.end_time:00000000 $d
+/var/folders/d6/h50ndp_j7xj_7552gzkj6_s40000gn/T//cct1pXc1.s:1141   .bss.start_time:00000000 $d
 
 UNDEFINED SYMBOLS
 memset
 HAL_GPIO_WritePin
 HAL_GPIO_Init
-__aeabi_lmul
 __aeabi_ldivmod
+__aeabi_lmul
 __aeabi_i2d
 __aeabi_ddiv
 __aeabi_dadd
