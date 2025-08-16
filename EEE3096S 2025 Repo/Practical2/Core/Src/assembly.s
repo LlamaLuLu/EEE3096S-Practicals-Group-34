@@ -36,10 +36,57 @@ ASM_Main:
 
 main_loop:
 
+	@ read buttons
+	LDR R0, =GPIOA_BASE
+	LDR R1, [R0, #0x10] @ reads status of buttons pressend in R1
 
-write_leds:
-	STR R2, [R1, #0x14]
-	B main_loop
+	@ decide increment depending on button pressed
+	MOVS R3,#1     @ load mask into a temp register
+	AND R3, R1, R3 @ check SW0 PROBLEM
+	CMP R3,#0  @ test SW0
+	BEQ normal_inc @ if SW0 not pressed then use default increment
+	ADDS R2, R2, #2 @ if SW0 is pressed then incrmenent by 2
+	B after_inc
+
+	normal_inc:
+		ADDS R2, R2, #1 @ default increment by 1
+
+	after_inc:
+		@ write LEDS
+		LDR R0, =GPIOB_BASE
+		STR R2, [R0, #0x14] @ store the value in R2 in memory
+
+		@ delay selection
+		MOVS R3,#2
+		AND R3, R1, R3  @ check SW1 PROBLEM
+		CMP R3,#0  @ test SW1
+		BEQ long_delay_call @ if SW1 not pressed then use long delay
+		BL short_delay @ otherwise use short delay
+		B main_loop
+
+	long_delay_call:
+		BL long_delay
+		B main_loop
+
+	@ slow down CPU delay
+	long_delay:
+		LDR R3, =LONG_DELAY_CNT
+		LDR R3, [R3]
+
+	delay_loop1:
+		SUBS R3, R3, #1
+		BNE delay_loop1
+		BX LR
+
+	short_delay:
+		LDR R3, =SHORT_DELAY_CNT
+		LDR R3, [R3]
+
+	delay_loop2:
+		SUBS R3, R3, #1
+		BNE delay_loop2
+		BX LR
+
 
 @ LITERALS; DO NOT EDIT
 	.align
@@ -50,5 +97,5 @@ GPIOB_BASE:  		.word 0x48000400
 MODER_OUTPUT: 		.word 0x5555
 
 @ TODO: Add your own values for these delays
-LONG_DELAY_CNT: 	.word 0
-SHORT_DELAY_CNT: 	.word 0
+LONG_DELAY_CNT: 	.word 0x1FFFFF
+SHORT_DELAY_CNT: 	.word 0xD0000
