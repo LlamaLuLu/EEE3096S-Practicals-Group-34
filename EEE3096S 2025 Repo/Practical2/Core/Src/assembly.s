@@ -36,32 +36,45 @@ ASM_Main:
 
 main_loop:
 
-	LDR R3, [R0, #0x10]			@ load IDR (input data register) into R3
+	LDR R3, [R0, #0x10]				@ load IDR (input data register) into R3
 
 	write_LEDs:
-    	STR R2, [R1, #0x14]		@ write LEDs
+    	STR R2, [R1, #0x14]			@ write LEDs
 
-    MOVS R4, #0b10 				@ load bit 1 into R4
-	TST R3, R4					@ bitwise AND R3 against R4
-	BNE not_SW1
+	check_SW1:
+	    MOVS R4, #0b10 				@ load bit 1 into R4
+		TST R3, R4					@ bitwise AND R3 against R4
+		BNE not_SW1
 
+	@ if SW1 pressed:
     set_short_delay:
-	    LDR R4, SHORT_DELAY_CNT	@ load short delay
+	    LDR R4, SHORT_DELAY_CNT		@ load short delay
+		B delay_loop
 
-    B delay_loop
-
+	@ if SW1 not pressed:
 	not_SW1:
 	    set_long_delay:
     		LDR R4, LONG_DELAY_CNT	@ load long delay
 
 	delay_loop:
-	    SUBS R4, R4, #1			@ subtract 1 from R4, update flags
-	    BNE delay_loop			@ branch back if result != 0
+	    SUBS R4, R4, #1				@ subtract 1 from R4, update flags
+	    BNE delay_loop				@ branch back if result != 0
 
-	incr_LEDs:
-    	ADDS R2, R2, #1
+	check_SW0:
+		MOVS R4, #0b1 					@ load bit 0 into R4
+		TST R3, R4						@ bitwise AND R3 against R4
+		BNE not_SW0
 
-    B main_loop
+	@ if SW0 pressed:
+	incr_by_2:
+    	ADDS R2, R2, #2
+    	B main_loop
+
+	@ if SW0 not pressed:
+	not_SW0:
+		incr_by_1:
+	    	ADDS R2, R2, #1
+			B main_loop
 
 
 
