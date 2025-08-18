@@ -36,56 +36,33 @@ ASM_Main:
 
 main_loop:
 
-	@ read buttons
-	LDR R0, =GPIOA_BASE
-	LDR R1, [R0, #0x10] @ reads status of buttons pressend in R1
+	LDR R3, [R0, #0x10]			@ load IDR (input data register) into R3
 
-	@ decide increment depending on button pressed
-	MOVS R3,#1     @ load mask into a temp register
-	AND R3, R1, R3 @ check SW0 PROBLEM
-	CMP R3,#0  @ test SW0
-	BEQ normal_inc @ if SW0 not pressed then use default increment
-	ADDS R2, R2, #2 @ if SW0 is pressed then incrmenent by 2
-	B after_inc
+	write_LEDs:
+    	STR R2, [R1, #0x14]		@ write LEDs
 
-	normal_inc:
-		ADDS R2, R2, #1 @ default increment by 1
+    MOVS R4, #0b10 				@ load bit 1 into R4
+	TST R3, R4					@ bitwise AND R3 against R4
+	BNE not_SW1
 
-	after_inc:
-		@ write LEDS
-		LDR R0, =GPIOB_BASE
-		STR R2, [R0, #0x14] @ store the value in R2 in memory
+    set_short_delay:
+	    LDR R4, SHORT_DELAY_CNT	@ load short delay
 
-		@ delay selection
-		MOVS R3,#2
-		AND R3, R1, R3  @ check SW1 PROBLEM
-		CMP R3,#0  @ test SW1
-		BEQ long_delay_call @ if SW1 not pressed then use long delay
-		BL short_delay @ otherwise use short delay
-		B main_loop
+    B delay_loop
 
-	long_delay_call:
-		BL long_delay
-		B main_loop
+	not_SW1:
+	    set_long_delay:
+    		LDR R4, LONG_DELAY_CNT	@ load long delay
 
-	@ slow down CPU delay
-	long_delay:
-		LDR R3, =LONG_DELAY_CNT
-		LDR R3, [R3]
+	delay_loop:
+	    SUBS R4, R4, #1			@ subtract 1 from R4, update flags
+	    BNE delay_loop			@ branch back if result != 0
 
-	delay_loop1:
-		SUBS R3, R3, #1
-		BNE delay_loop1
-		BX LR
+	incr_LEDs:
+    	ADDS R2, R2, #1
 
-	short_delay:
-		LDR R3, =SHORT_DELAY_CNT
-		LDR R3, [R3]
+    B main_loop
 
-	delay_loop2:
-		SUBS R3, R3, #1
-		BNE delay_loop2
-		BX LR
 
 
 @ LITERALS; DO NOT EDIT
@@ -97,5 +74,5 @@ GPIOB_BASE:  		.word 0x48000400
 MODER_OUTPUT: 		.word 0x5555
 
 @ TODO: Add your own values for these delays
-LONG_DELAY_CNT: 	.word 0x1FFFFF
-SHORT_DELAY_CNT: 	.word 0xD0000
+LONG_DELAY_CNT: 	.word 1900000    @ ~0.7s at 8 MHz
+SHORT_DELAY_CNT: 	.word 800000     @ ~0.3s at 8 MHz
