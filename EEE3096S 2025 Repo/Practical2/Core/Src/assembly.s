@@ -40,28 +40,40 @@ main_loop:
 	@ ------ check inputs ------
 	LDR R3, [R0, #0x10]				@ load IDR into R3
 
+	@ ------ freeze control (SW3) ------
+    check_SW3:
+        MOVS R4, #8 				@ load bit 3 into R4
+        TST R3, R4					@ bitwise AND
+        BEQ SW3_pressed
+        @ SW3 not pressed:
+        B check_SW2 				@ continue
+
+    SW3_pressed:
+        @ just freeze (don't change R2)
+        B write_LEDs 				@ skip all logic
+
 	@ ------ preset LED pattern control (SW2) ------
 	check_SW2:
-	    MOVS R4, #0b100 			@ load bit 2 into R4
-		TST R3, R4					@ bitwise AND R3 against R4
+	    MOVS R4, #4 				@ load bit 2 into R4
+		TST R3, R4					@ bitwise AND
 		BEQ SW2_currently_pressed
 
-		@ check if just released (SW2 not currently pressed)
+		@ SW2 not currently pressed (check if just released)
 		CMP R6, #1              	@ SW2 previously pressed?
         BNE skip_restore        	@ if already not pressed, don't restore
 
-		@ restore saved value (SW2 just released)
+		@ SW2 just released (restore saved value)
         MOVS R2, R5             	@ restore saved pattern
         MOVS R6, #0             	@ set to "not pressed"
         B write_LEDs           		@ skip increment
 
     skip_restore:
-        @ normal increment (SW2 now not pressed)
+        @ SW2 now not pressed (normal increment)
         MOVS R6, #0             	@ set to "not pressed"
         B check_SW0             	@ increment logic
 
     SW2_currently_pressed:
-        @ check if new press (edge detection)
+        @ check for new press (edge detection)
         CMP R6, #0              	@ SW2 previously not pressed?
         BNE skip_save          		@ if already pressed, don't save again
 
@@ -70,13 +82,13 @@ main_loop:
         MOVS R6, #1             	@ set to "pressed"
 
     skip_save:
-        @ load preset pattern (while SW2 pressed)
+        @ while SW2 pressed (load preset pattern)
         MOVS R2, #0xAA          	@ load preset LED pattern
         B write_LEDs            	@ skip increments
 
 	@ ------ LED increment logic (SW0: while SW2 not pressed) ------
 	check_SW0:
-		MOVS R4, #0b1 				@ load bit 0 into R4
+		MOVS R4, #1 				@ load bit 0 into R4
 		TST R3, R4					@ bitwise AND
 		BEQ SW0_pressed
 		@ if SW0 not pressed:
@@ -93,7 +105,7 @@ main_loop:
 
 	@ ------ delay logic (SW1) ------
 	check_SW1:
-	    MOVS R4, #0b10 				@ load bit 1 into R4
+	    MOVS R4, #2 				@ load bit 1 into R4
 		TST R3, R4					@ bitwise AND
 		BEQ SW1_pressed
 		@ if SW1 not pressed:
@@ -106,7 +118,7 @@ main_loop:
 
 	delay_loop:
 	    SUBS R4, R4, #1				@ subtract 1 from R4, update flags
-	    BNE delay_loop				@ branch back if result != 0
+	    BNE delay_loop				@ loops until count = 0
 
 	B main_loop
 
@@ -121,7 +133,3 @@ MODER_OUTPUT: 		.word 0x5555
 @ TODO: Add your own values for these delays
 LONG_DELAY_CNT: 	.word 1900000	@ ~0.7s at 8 MHz
 SHORT_DELAY_CNT: 	.word 800000	@ ~0.3s at 8 MHz
-sw2_saved_pattern: 	.word 0      	@ storage for SW2 saved pattern
-sw2_prev_state: 	.word 0         @ storage for SW2 previous state
-sw3_saved_pattern:	.word 0      	@ storage for SW3 saved pattern
-sw3_prev_state: 	.word 0         @ storage for SW3 previous state
