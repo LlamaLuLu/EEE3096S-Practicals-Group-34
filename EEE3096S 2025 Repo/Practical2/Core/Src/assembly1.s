@@ -33,8 +33,6 @@ ASM_Main:
 	MOVS R2, #0         	@ NOTE: R2 will be dedicated to holding the value on the LEDs
 
 @ TODO: Add code, labels and logic for button checks and LED patterns
-MOVS R5, #0         				@ initialize saved pattern
-MOVS R6, #0         				@ initialize SW2 previous state (0 = not pressed)
 
 main_loop:
 	@ ------ check inputs ------
@@ -54,37 +52,15 @@ main_loop:
 
 	@ ------ preset LED pattern control (SW2) ------
 	check_SW2:
-	    MOVS R4, #4 				@ load bit 2 into R4
-		TST R3, R4					@ bitwise AND
-		BEQ SW2_currently_pressed
+        MOVS R4, #8 				@ load bit 3 into R4
+        TST R3, R4					@ bitwise AND
+        BEQ SW2_pressed
+        @ SW3 not pressed:
+        B check_SW0 				@ continue
 
-		@ SW2 not currently pressed (check if just released)
-		CMP R6, #1              	@ SW2 previously pressed?
-        BNE skip_restore        	@ if already not pressed, don't restore
-
-		@ SW2 just released (restore saved value)
-        MOVS R2, R5             	@ restore saved pattern
-        MOVS R6, #0             	@ set to "not pressed"
-        B write_LEDs           		@ skip increment
-
-    skip_restore:
-        @ SW2 now not pressed (normal increment)
-        MOVS R6, #0             	@ set to "not pressed"
-        B check_SW0             	@ increment logic
-
-    SW2_currently_pressed:
-        @ check for new press (edge detection)
-        CMP R6, #0              	@ SW2 previously not pressed?
-        BNE skip_save          		@ if already pressed, don't save again
-
-        @ 1st press (save current incrementing pattern)
-        MOVS R5, R2             	@ save current pattern
-        MOVS R6, #1             	@ set to "pressed"
-
-    skip_save:
-        @ while SW2 pressed (load preset pattern)
-        MOVS R2, #0xAA          	@ load preset LED pattern
-        B write_LEDs            	@ skip increments
+    SW2_pressed:
+        MOVS R2, #0xAA
+        B write_LEDs 				@ skip all logic
 
 	@ ------ LED increment logic (SW0: while SW2 not pressed) ------
 	check_SW0:
