@@ -46,11 +46,13 @@
 // - Performance timing variables (e.g execution time, throughput, pixels per second, clock cycles)
 
 //task 1 - port from practical 1B
-#define MAX_ITER 1000  // or whichever value you need
+#define MAX_ITER 100  // or whichever value you need
 uint32_t start_time = 0;
 uint32_t end_time = 0;
 uint32_t execution_time = 0;
 uint64_t checksum = 0;
+uint32_t start_cycles = 0;
+uint32_t elapsed_cycles = 0;
 
 int32_t height = 0;
 int32_t width = 0;
@@ -105,6 +107,11 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
 
+  // DWT cycle counter setup
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // Enable trace and debug
+  DWT->CYCCNT = 0;                                // Reset counter
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // Enable cycle counter
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -123,26 +130,25 @@ int main(void)
 
 	  //TODO: Benchmark and Profile Performance
       // Fixed-point benchmark:
-      //TODO: Record the start time
-      start_time = HAL_GetTick();
+      //TODO: Record the start number of cycles
+      start_cycles = DWT->CYCCNT;
       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
       checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER);
-      //TODO: Record the end time
-      end_time = HAL_GetTick();
-      //TODO: Calculate the execution time
-      execution_time = end_time - start_time;
-      // Store or print execution_time & checksum
+      //TODO: Calculate elapsed cycles
+      elapsed_cycles = DWT->CYCCNT - start_cycles;
+      // convert cycles to seconds
+      execution_time = elapsed_cycles / SystemCoreClock; //SystemCoreClock => HAL variable that stores CPU frequency (Hz)
 
       // Double benchmark:
-      //TODO: Record the start time
-      start_time = HAL_GetTick();
+      //TODO: Record the start number of cycles
+      start_cycles = DWT->CYCCNT;
       //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
       checksum = calculate_mandelbrot_double(width, height, MAX_ITER);
-      //TODO: Record the end time
-      end_time = HAL_GetTick();
-      //TODO: Calculate the execution time
-      execution_time = end_time - start_time;
-      // Store or print execution_time & checksum
+      //TODO: Calculate elapsed cycles
+      elapsed_cycles = DWT->CYCCNT - start_cycles;
+      // convert cycles to seconds
+      execution_time = elapsed_cycles / SystemCoreClock;
+
 
 
 	  //TODO: Visual indicator: Turn on LED1 to signal processing start
