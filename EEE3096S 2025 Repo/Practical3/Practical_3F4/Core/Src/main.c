@@ -68,7 +68,7 @@ static void MX_GPIO_Init(void);
 //TODO: Define any function prototypes you might need such as the calculate Mandelbrot function among others
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
-
+uint64_t calculate_mandelbrot_float(int width, int height, int max_iterations);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -91,6 +91,7 @@ int main(void)
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
+
 
   /* USER CODE BEGIN Init */
 
@@ -127,7 +128,7 @@ int main(void)
 	  //TODO: Visual indicator: Turn on LED0 to signal processing start
 	  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
-
+	  /* commenting out fixed-point implementation for task 5
 	  //TODO: Benchmark and Profile Performance
       // Fixed-point benchmark:
       //TODO: Record the start number of cycles
@@ -139,6 +140,8 @@ int main(void)
       // convert cycles to seconds
       execution_time = elapsed_cycles / SystemCoreClock; //SystemCoreClock => HAL variable that stores CPU frequency (Hz)
 
+      */
+
       // Double benchmark:
       //TODO: Record the start number of cycles
       start_cycles = DWT->CYCCNT;
@@ -149,6 +152,16 @@ int main(void)
       // convert cycles to seconds
       execution_time = elapsed_cycles / SystemCoreClock;
 
+
+      // floating point benchmark:
+      // record start number of cycles
+      start_cycles = DWT -> CYCCNT;
+      // call Mandelbrot Function and store the output in the checksum variable
+      checksum = calculate_mandelbrot_float(width, height, MAX_ITER);
+      // calculate elapsed cycles
+      elapsed_cycles = DWT ->CYCCNT - start_cycles;
+      //convert cycles to seconds
+      execution_time = elapsed_cycles / SystemCoreClock;
 
 
 	  //TODO: Visual indicator: Turn on LED1 to signal processing start
@@ -311,6 +324,29 @@ static void MX_GPIO_Init(void)
 		}
 
 	    return mandelbrot_sum;
+	}
+
+	//float implementation
+	uint64_t calculate_mandelbrot_float(int width, int height, int max_iterations){
+		uint64_t mandelbrot_sum = 0;
+		for(int y = 0; y < height; y++){
+			float y0 = ((float)y / (float)height) * 2.0f - 1.0f;
+			for(int x = 0; x < width; ++x){
+				float x0 = ((float)x / (float)width) * 3.5f - 2.5f;
+				float xi = 0.0f;
+				float yi = 0.0f;
+				int i = 0;
+
+				while (i < max_iterations && (xi*xi* + yi*yi) <= 4.0f){
+					float tmp = xi*xi - yi*yi + x0;
+					yi = 2.0f * xi * yi + y0;
+					xi = tmp;
+					++i;
+				}
+				mandelbrot_sum += (uint64_t)i;
+			}
+		}
+		return mandelbrot_sum;
 	}
 
 /* USER CODE END 4 */
