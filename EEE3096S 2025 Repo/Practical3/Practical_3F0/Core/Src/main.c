@@ -122,6 +122,7 @@ int main(void)
 
 
 	  //TODO: Benchmark and Profile Performance
+	   /*
 	   // Fixed-point benchmark:
 	         //TODO: Record the start time
 	         start_time = HAL_GetTick();
@@ -137,6 +138,7 @@ int main(void)
 	         // calculate number of cycles
 	         cycles = (uint64_t)(exec_time_s*48000000);
 	         throughput = (width*height) / exec_time_s;
+	    */
 
 	   // Double benchmark:
 	         //TODO: Record the start time

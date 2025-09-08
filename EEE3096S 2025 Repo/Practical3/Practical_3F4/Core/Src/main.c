@@ -152,7 +152,7 @@ int main(void)
       // convert cycles to seconds
       execution_time = elapsed_cycles / SystemCoreClock;
 
-
+      /*
       // floating point benchmark:
       // record start number of cycles
       start_cycles = DWT -> CYCCNT;
@@ -162,7 +162,7 @@ int main(void)
       elapsed_cycles = DWT ->CYCCNT - start_cycles;
       //convert cycles to seconds
       execution_time = elapsed_cycles / SystemCoreClock;
-
+	  */
 
 	  //TODO: Visual indicator: Turn on LED1 to signal processing start
       HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
