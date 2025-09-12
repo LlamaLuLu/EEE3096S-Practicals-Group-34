@@ -129,11 +129,11 @@ int main(void)
 			  for (int j = 0; j < 5; j++) {         // MAX_ITER values
 				  max_iter = max_iter_values[j];
 
-//				  // --- FIXED-POINT version ---
-//				  start_cycles = DWT->CYCCNT;
-//				  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, max_iter);
-//				  elapsed_cycles = DWT->CYCCNT - start_cycles;
-//				  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+				  // --- FIXED-POINT version ---
+				  start_cycles = DWT->CYCCNT;
+				  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, max_iter);
+				  elapsed_cycles = DWT->CYCCNT - start_cycles;
+				  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
 
 				  // --- DOUBLE version ---
 				  start_cycles = DWT->CYCCNT;
@@ -147,6 +147,8 @@ int main(void)
 		  }
 
 		  while(1); // stop after one sweep
+
+
 
 //    /* USER CODE END WHILE */
 //	  for (int i = 0; i < 5; i++) {
