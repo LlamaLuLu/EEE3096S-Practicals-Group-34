@@ -48,6 +48,9 @@
 //task 1 - port from practical 1B
 #define MAX_ITER 100  // INITIAL ITERATIONS VALUE
 #define SCALE 4096  // INITIAL FIXED-PT SCALE
+#define MAX_W 1920
+#define MAX_H 1080
+
 uint32_t start_time = 0;
 uint32_t end_time = 0;
 uint32_t execution_time = 0;
@@ -58,6 +61,7 @@ uint32_t pixels_s = 0;
 
 int32_t height = 0;
 int32_t width = 0;
+
 int32_t max_iter = 0; // for task 2
 int32_t scale = 0; // for task 7
 
@@ -72,7 +76,8 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 //TODO: Define any function prototypes you might need such as the calculate Mandelbrot function among others
-uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations, int32_t scale);
+uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
+uint64_t calculate_mandelbrot_fixed_point_arithmetic_custom(int width, int height, int max_iterations, int32_t scale);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_float(int width, int height, int max_iterations);
 /* USER CODE END PFP */
@@ -153,6 +158,10 @@ int main(void)
 //	  while(1); // stop after one sweep
 
 
+//	  // TASK 4: =============================== //
+//	  checksum = calculate_mandelbrot_fixed_point_arithmetic(MAX_W, MAX_H, MAX_ITER);
+
+
 	  // TASK 7: =============================== //
 	  	  for (int i = 0; i < 5; i++) {             // image sizes
 	  		  width = image_dimensions[i];
@@ -163,10 +172,10 @@ int main(void)
 
 	  			  // --- FIXED-POINT version ---
 	  			  start_cycles = DWT->CYCCNT;
-	  			  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER, scale);
+	  			  checksum = calculate_mandelbrot_fixed_point_arithmetic_custom(width, height, MAX_ITER, scale);
 	  			  elapsed_cycles = DWT->CYCCNT - start_cycles;
 	  			  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
-	  			  pixels_s = (width * height) / (execution_time * 1000);
+	  			  pixels_s = (width * height) / (execution_time / 1000);
 
 //	  			  // --- DOUBLE version ---
 //	  			  start_cycles = DWT->CYCCNT;
@@ -181,7 +190,6 @@ int main(void)
 	  	  }
 
 	  	  while(1); // stop after one sweep
-
 
 
 
@@ -328,7 +336,44 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //TODO: Function signatures you defined previously , implement them here
 	//fixed point implementation
-	uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations, int32_t scale) {
+	uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
+		uint64_t mandelbrot_sum = 0;
+
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				// convert pixel coordinates to fixed point complex plane coordinates
+				int32_t x0 = ((int64_t)x*SCALE*35/(width*10))-(SCALE*25)/10; // making sure all numbers are integers not floats
+				int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+
+				int32_t xi = 0;
+				int32_t yi = 0;
+				int i = 0;
+
+				while (i < max_iterations){
+					int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+					int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+
+					if(xi_sq + yi_sq <= 4 * SCALE){
+						int32_t temp = (int32_t)(xi_sq - yi_sq);
+						int64_t xy = ((int64_t)xi * yi) / SCALE;
+
+						yi  =(int32_t)(2*xy + y0);
+						xi = temp + x0;
+
+						i++;
+					}
+
+					else{
+						break;
+					}
+				}
+				mandelbrot_sum += i;
+			}
+		}
+		return mandelbrot_sum;
+	}
+
+	uint64_t calculate_mandelbrot_fixed_point_arithmetic_custom(int width, int height, int max_iterations, int32_t scale) {
 		uint64_t mandelbrot_sum = 0;
 
 		for(int y = 0; y < height; y++){
@@ -345,7 +390,7 @@ static void MX_GPIO_Init(void)
 					int64_t xi_sq = ((int64_t)xi * xi) / scale;
 					int64_t yi_sq = ((int64_t)yi * yi) / scale;
 
-					if(xi_sq + yi_sq <= 4 * SCALE){
+					if(xi_sq + yi_sq <= 4 * scale){
 						int32_t temp = (int32_t)(xi_sq - yi_sq);
 						int64_t xy = ((int64_t)xi * yi) / scale;
 
@@ -363,41 +408,6 @@ static void MX_GPIO_Init(void)
 			}
 		}
 		return mandelbrot_sum;
-
-//		for (int y = 0; y < height; y++) {
-//			// y0 = (y / height) * 2.0 - 1.0
-//			int32_t y0 = ((int64_t)y * (SCALE * 2) / height) - SCALE;
-//
-//			for (int x = 0; x < width; x++) {
-//				// x0 = (x / width) * 3.5 - 2.5
-//				int32_t x0 = ((int64_t)x * (SCALE * 35 / 10) / width) - (SCALE * 25 / 10);
-//
-//				int32_t xi = 0;
-//				int32_t yi = 0;
-//				int i = 0;
-//
-//				while (i < max_iterations) {
-//					int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
-//					int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
-//
-//					if (xi_sq + yi_sq <= 4 * SCALE) {
-//						int32_t temp = (int32_t)(xi_sq - yi_sq + x0);
-//
-//						int64_t xy = ((int64_t)xi * yi) / SCALE;
-//						yi = (int32_t)(2 * xy + y0);
-//						xi = temp;
-//
-//						i++;
-//					} else {
-//						break;
-//					}
-//				}
-//
-//				mandelbrot_sum += (uint64_t)i;
-//			}
-//		}
-//
-//		return mandelbrot_sum;
 	}
 
 
