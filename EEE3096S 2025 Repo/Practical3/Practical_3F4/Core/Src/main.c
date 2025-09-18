@@ -46,18 +46,22 @@
 // - Performance timing variables (e.g execution time, throughput, pixels per second, clock cycles)
 
 //task 1 - port from practical 1B
-#define MAX_ITER 100  // EDIT AS NEEDED
+#define MAX_ITER 100  // INITIAL ITERATIONS VALUE
+#define SCALE 4096  // INITIAL FIXED-PT SCALE
 uint32_t start_time = 0;
 uint32_t end_time = 0;
 uint32_t execution_time = 0;
 uint64_t checksum = 0;
 uint32_t start_cycles = 0;
 uint32_t elapsed_cycles = 0;
+uint32_t pixels_s = 0;
 
 int32_t height = 0;
 int32_t width = 0;
-int32_t max_iter = 0;
+int32_t max_iter = 0; // for task 2
+int32_t scale = 0; // for task 7
 
+const int scales[] = {1000, 10000, 1000000};
 const int max_iter_values[] = {100, 250, 500, 750, 1000};
 const int image_dimensions[] = {128, 160, 192, 224, 256};
 
@@ -68,7 +72,7 @@ void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 //TODO: Define any function prototypes you might need such as the calculate Mandelbrot function among others
-uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
+uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations, int32_t scale);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_float(int width, int height, int max_iterations);
 /* USER CODE END PFP */
@@ -121,32 +125,64 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  // TASK 2:
-	  for (int i = 0; i < 5; i++) {             // image sizes
-			  width = image_dimensions[i];
-			  height = image_dimensions[i];
+//	  // TASK 2: =============================== //
+//	  for (int i = 0; i < 5; i++) {             // image sizes
+//		  width = image_dimensions[i];
+//		  height = image_dimensions[i];
+//
+//		  for (int j = 0; j < 5; j++) {         // MAX_ITER values
+//			  max_iter = max_iter_values[j];
+//
+//			  // --- FIXED-POINT version ---
+//			  start_cycles = DWT->CYCCNT;
+//			  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, max_iter);
+//			  elapsed_cycles = DWT->CYCCNT - start_cycles;
+//			  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+//
+//			  // --- DOUBLE version ---
+//			  start_cycles = DWT->CYCCNT;
+//			  checksum = calculate_mandelbrot_double(width, height, max_iter);
+//			  elapsed_cycles = DWT->CYCCNT - start_cycles;
+//			  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+//
+//			  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
+//			  HAL_Delay(200);
+//		  }
+//	  }
+//
+//	  while(1); // stop after one sweep
 
-			  for (int j = 0; j < 5; j++) {         // MAX_ITER values
-				  max_iter = max_iter_values[j];
 
-				  // --- FIXED-POINT version ---
-				  start_cycles = DWT->CYCCNT;
-				  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, max_iter);
-				  elapsed_cycles = DWT->CYCCNT - start_cycles;
-				  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+	  // TASK 7: =============================== //
+	  	  for (int i = 0; i < 5; i++) {             // image sizes
+	  		  width = image_dimensions[i];
+	  		  height = image_dimensions[i];
 
-				  // --- DOUBLE version ---
-				  start_cycles = DWT->CYCCNT;
-				  checksum = calculate_mandelbrot_double(width, height, max_iter);
-				  elapsed_cycles = DWT->CYCCNT - start_cycles;
-				  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+	  		  for (int j = 0; j < 3; j++) {
+	  			  scale = scales[j];
 
-				  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
-				  HAL_Delay(200);
-			  }
-		  }
+	  			  // --- FIXED-POINT version ---
+	  			  start_cycles = DWT->CYCCNT;
+	  			  checksum = calculate_mandelbrot_fixed_point_arithmetic(width, height, MAX_ITER, scale);
+	  			  elapsed_cycles = DWT->CYCCNT - start_cycles;
+	  			  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+	  			  pixels_s = (width * height) / (execution_time * 1000);
 
-		  while(1); // stop after one sweep
+//	  			  // --- DOUBLE version ---
+//	  			  start_cycles = DWT->CYCCNT;
+//	  			  checksum = calculate_mandelbrot_double(width, height, MAX_ITER);
+//	  			  elapsed_cycles = DWT->CYCCNT - start_cycles;
+//	  			  execution_time = (double)elapsed_cycles / ((double)SystemCoreClock/1000); // in ms
+//	  			  pixels_s = (width * height) / (execution_time * 1000);
+
+	  			  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
+	  			  HAL_Delay(200);
+	  		  }
+	  	  }
+
+	  	  while(1); // stop after one sweep
+
+
 
 
 
@@ -292,28 +328,26 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //TODO: Function signatures you defined previously , implement them here
 	//fixed point implementation
-	// 1000000
-	#define SCALE 4096 // scaling factor (1.0 in fixed-point)
-	uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
+	uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations, int32_t scale) {
 		uint64_t mandelbrot_sum = 0;
 
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
 				// convert pixel coordinates to fixed point complex plane coordinates
-				int32_t x0 = ((int64_t)x*SCALE*35/(width*10))-(SCALE*25)/10; // making sure all numbers are integers not floats
-				int32_t y0 = ((int64_t)y * SCALE * 2/ height)-SCALE;
+				int32_t x0 = ((int64_t)x*scale*35/(width*10))-(scale*25)/10; // making sure all numbers are integers not floats
+				int32_t y0 = ((int64_t)y * scale * 2/ height)-scale;
 
 				int32_t xi = 0;
 				int32_t yi = 0;
 				int i = 0;
 
 				while (i < max_iterations){
-					int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
-					int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+					int64_t xi_sq = ((int64_t)xi * xi) / scale;
+					int64_t yi_sq = ((int64_t)yi * yi) / scale;
 
 					if(xi_sq + yi_sq <= 4 * SCALE){
 						int32_t temp = (int32_t)(xi_sq - yi_sq);
-						int64_t xy = ((int64_t)xi * yi) / SCALE;
+						int64_t xy = ((int64_t)xi * yi) / scale;
 
 						yi  =(int32_t)(2*xy + y0);
 						xi = temp + x0;
