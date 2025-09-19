@@ -18,6 +18,8 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include <stdlib.h>
+#include <stdbool.h>
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -83,7 +85,7 @@ typedef struct {
     uint32_t execution_time_ms;
     uint64_t checksum;
     uint32_t throughput_pixels_per_sec;
-    // bool used_tiling;
+    bool used_tiling;
     uint16_t num_tiles;
 } performance_result_t;
 
@@ -97,6 +99,12 @@ image_size_t test_sizes[] = {
     {1280, 720},   // HD
     {1920, 1080}   // Full HD
 };
+
+#define NUM_TEST_SIZES (sizeof(test_sizes)/sizeof(test_sizes[0]))
+
+performance_result_t results[NUM_TEST_SIZES];
+uint8_t result_count = 0;
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -107,7 +115,13 @@ static void MX_GPIO_Init(void);
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_fixed_point_arithmetic_custom(int width, int height, int max_iterations, int scale);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
-// bool can_allocate_image(uint16_t width, uint16_t height);
+uint64_t calculate_mandelbrot_tile_fixed_point(uint16_t tile_x, uint16_t tile_y,
+                                               uint16_t tile_width, uint16_t tile_height,
+                                               uint16_t total_width, uint16_t total_height,
+                                               int max_iterations);
+
+uint64_t calculate_mandelbrot_direct_fixed_point(int width, int height, int max_iterations);
+bool can_allocate_image(uint16_t width, uint16_t height);
 
 /* USER CODE END PFP */
 
@@ -181,48 +195,58 @@ int main(void)
 //		  while(1); // stop after one sweep
 
 
-//	  // TASK 4: =============================== //
-//	  checksum = calculate_mandelbrot_fixed_point_arithmetic(MAX_W, MAX_H, MAX_ITER);
+	  // TASK 4: =============================== //
+	  for (int i = 0; i < sizeof(test_sizes)/sizeof(test_sizes[0]); i++) {
+		  width  = test_sizes[i].width;
+		  height = test_sizes[i].height;
+
+		  bool use_tiling = !can_allocate_image(width, height);
+
+		  start_time = HAL_GetTick();
+		  if (!use_tiling) {
+		      checksum = calculate_mandelbrot_direct_fixed_point(width, height, MAX_ITER);
+		  } else {
+		      checksum = 0;
+		      uint16_t num_tiles_x = (width  + MAX_TILE - 1) / MAX_TILE;
+		      uint16_t num_tiles_y = (height + MAX_TILE - 1) / MAX_TILE;
+
+		      for (int ty = 0; ty < num_tiles_y; ty++) {
+		          for (int tx = 0; tx < num_tiles_x; tx++) {
+		              uint16_t tile_w = ((tx+1)*MAX_TILE > width)  ? (width  - tx*MAX_TILE) : MAX_TILE;
+		              uint16_t tile_h = ((ty+1)*MAX_TILE > height) ? (height - ty*MAX_TILE) : MAX_TILE;
+
+		              checksum += calculate_mandelbrot_tile_fixed_point(
+		                              tx*MAX_TILE, ty*MAX_TILE,
+		                              tile_w, tile_h,
+		                              width, height, MAX_ITER);
+		          }
+		      }
+		  }
+		  end_time = HAL_GetTick();
+		  execution_time = end_time - start_time; // ms
+		  cycles = (uint64_t)execution_time * 48000000 / 1000; // 48 MHz clock
+		  pixels_s = (uint32_t)((double)(width*height) / (execution_time / 1000.0));
+
+		  // optional: blink LED as progress indicator
+		  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+		  HAL_Delay(100);
+
+		  // === RECORD RESULT ===
+		  results[result_count].width  = width;
+		  results[result_count].height = height;
+		  results[result_count].execution_time_ms = execution_time;
+		  results[result_count].checksum = checksum;
+		  results[result_count].throughput_pixels_per_sec = pixels_s;
+		  results[result_count].used_tiling = use_tiling;
+		  results[result_count].num_tiles = use_tiling ?
+			  ((width + MAX_TILE - 1)/MAX_TILE) * ((height + MAX_TILE - 1)/MAX_TILE) : 1;
+
+		  result_count++;
+	  }
+	  while(1); // stop after one sweep
 
 
-//	  // TASK 7: =============================== //
-//	  	  	  for (int i = 0; i < 5; i++) {             // image sizes
-//	  	  		  width = image_dimensions[i];
-//	  	  		  height = image_dimensions[i];
-//
-//	  	  		  for (int j = 0; j < 3; j++) {
-//	  	  			  scale = scales[j];
-//
-//					  // --- FIXED-POINT version ---
-//					  start_time = HAL_GetTick();
-//					  checksum = calculate_mandelbrot_fixed_point_arithmetic_custom(width, height, MAX_ITER, scale);
-//					  end_time = HAL_GetTick();
-//					  execution_time = end_time - start_time; // in ms
-//					  cycles = (uint64_t)(execution_time * 48000000 / 1000);
-//					  pixels_s = (width * height) / (execution_time / 1000);
-//
-////	  				  // --- DOUBLE version ---
-////	  				  start_time = HAL_GetTick();
-////	  				  checksum = calculate_mandelbrot_double(256, 256, max_iter);
-////	  				  end_time = HAL_GetTick();
-////	  				  execution_time = end_time - start_time; // in ms
-//
-//	  				  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
-//	  				  HAL_Delay(200);
-//	  			  }
-//	  	  	  }
-//
-//	  	  while(1);
-
-	  // TASK 8: =============================== //
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
-	  checksum = calculate_mandelbrot_fixed_point_arithmetic(128, 128, MAX_ITER);
-	  // checksum = calculate_mandelbrot_fixed_point_arithmetic(256, 256, MAX_ITER);
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
-	  HAL_Delay(200);
-	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_2);
-
-
+	  // TASK 5: =============================== //
 //    /* USER CODE END WHILE */
 //	  for (int i = 0; i < 5; i++) {
 //	  	       width = image_dimensions[i];
@@ -278,6 +302,44 @@ int main(void)
 //      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0 | GPIO_PIN_1, GPIO_PIN_RESET);
 //
 //	  }
+
+
+//	  // TASK 7: =============================== //
+//	  	  	  for (int i = 0; i < 5; i++) {             // image sizes
+//	  	  		  width = image_dimensions[i];
+//	  	  		  height = image_dimensions[i];
+//
+//	  	  		  for (int j = 0; j < 3; j++) {
+//	  	  			  scale = scales[j];
+//
+//					  // --- FIXED-POINT version ---
+//					  start_time = HAL_GetTick();
+//					  checksum = calculate_mandelbrot_fixed_point_arithmetic_custom(width, height, MAX_ITER, scale);
+//					  end_time = HAL_GetTick();
+//					  execution_time = end_time - start_time; // in ms
+//					  cycles = (uint64_t)(execution_time * 48000000 / 1000);
+//					  pixels_s = (width * height) / (execution_time / 1000);
+//
+////	  				  // --- DOUBLE version ---
+////	  				  start_time = HAL_GetTick();
+////	  				  checksum = calculate_mandelbrot_double(256, 256, max_iter);
+////	  				  end_time = HAL_GetTick();
+////	  				  execution_time = end_time - start_time; // in ms
+//
+//	  				  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
+//	  				  HAL_Delay(200);
+//	  			  }
+//	  	  	  }
+//
+//	  	  while(1);
+
+//	  // TASK 8: =============================== //
+//	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+//	  checksum = calculate_mandelbrot_fixed_point_arithmetic(128, 128, MAX_ITER);
+//	  // checksum = calculate_mandelbrot_fixed_point_arithmetic(256, 256, MAX_ITER);
+//	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+//	  HAL_Delay(200);
+//	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_2);
 
   }
   /* USER CODE END 3 */
@@ -478,6 +540,10 @@ static void MX_GPIO_Init(void)
 	    return mandelbrot_sum;
 	}
 
+	uint64_t calculate_mandelbrot_direct_fixed_point(int width, int height, int max_iterations) {
+	    return calculate_mandelbrot_fixed_point_arithmetic(width, height, max_iterations);
+	}
+
 	// double precision implementation
 	uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
 	    uint64_t mandelbrot_sum = 0;
@@ -502,21 +568,17 @@ static void MX_GPIO_Init(void)
 		return mandelbrot_sum;
 	}
 
-//	// for task 4: test if can allocate memory for a given size
-//	bool can_allocate_image(uint16_t width, uint16_t height) {
-//		uint32_t required_bytes = (uint32_t)width * height;
-//
-//		// Try to allocate memory
-//		uint8_t* test_buffer = malloc(required_bytes);
-//		if (test_buffer == NULL) {
-//			return false;
-//		}
-//
-//		free(test_buffer);
-//
-//		if (required_bytes > 8192) return false; // 8KB limit for F0
-//		return true;
-//	}
+	// for task 4: test if can allocate memory for a given size
+	bool can_allocate_image(uint16_t width, uint16_t height) {
+		uint32_t bytes_needed = (uint32_t)width * height * sizeof(uint32_t);
+
+		const uint32_t SRAM_LIMIT = 8 * 1024;   // 8 KB
+		// const uint32_t SRAM_LIMIT = 128 * 1024; // 128 KB
+
+		// Leave some margin for stack/heap (say 75%)
+		return (bytes_needed <= (SRAM_LIMIT * 3) / 4);
+	}
+
 /* USER CODE END 4 */
 
 /**
