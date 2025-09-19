@@ -47,6 +47,8 @@
 //task 1 - port from practical 1B
 #define MAX_ITER 100  // or whichever value you need
 #define SCALE 4096  // INITIAL FIXED-PT SCALE
+#define MAX_TILE 128
+
 uint32_t start_time = 0;
 uint32_t end_time = 0;
 uint32_t execution_time = 0;
@@ -64,6 +66,37 @@ int32_t scale = 0; // for task 7
 const int scales[] = {1000, 10000, 1000000};
 const int max_iter_values[] = {100, 250, 500, 750, 1000};
 const int image_dimensions[] = {128, 160, 192, 224, 256};
+
+// for task 4
+typedef struct {
+    uint16_t width;
+    uint16_t height;
+} image_size_t;
+
+typedef struct {
+    uint16_t start_x, start_y;
+    uint16_t width, height;
+} tile_t;
+
+typedef struct {
+    uint16_t width, height;
+    uint32_t execution_time_ms;
+    uint64_t checksum;
+    uint32_t throughput_pixels_per_sec;
+    // bool used_tiling;
+    uint16_t num_tiles;
+} performance_result_t;
+
+image_size_t test_sizes[] = {
+    {128, 128},    // from prac 1B
+    {256, 256},    // from prac 1B
+    {320, 240},    // QVGA
+    {640, 480},    // VGA
+    {800, 600},    // SVGA
+    {1024, 768},   // XGA
+    {1280, 720},   // HD
+    {1920, 1080}   // Full HD
+};
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -74,6 +107,7 @@ static void MX_GPIO_Init(void);
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_fixed_point_arithmetic_custom(int width, int height, int max_iterations, int scale);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
+// bool can_allocate_image(uint16_t width, uint16_t height);
 
 /* USER CODE END PFP */
 
@@ -151,34 +185,42 @@ int main(void)
 //	  checksum = calculate_mandelbrot_fixed_point_arithmetic(MAX_W, MAX_H, MAX_ITER);
 
 
-	  // TASK 7: =============================== //
-	  	  	  for (int i = 0; i < 5; i++) {             // image sizes
-	  	  		  width = image_dimensions[i];
-	  	  		  height = image_dimensions[i];
+//	  // TASK 7: =============================== //
+//	  	  	  for (int i = 0; i < 5; i++) {             // image sizes
+//	  	  		  width = image_dimensions[i];
+//	  	  		  height = image_dimensions[i];
+//
+//	  	  		  for (int j = 0; j < 3; j++) {
+//	  	  			  scale = scales[j];
+//
+//					  // --- FIXED-POINT version ---
+//					  start_time = HAL_GetTick();
+//					  checksum = calculate_mandelbrot_fixed_point_arithmetic_custom(width, height, MAX_ITER, scale);
+//					  end_time = HAL_GetTick();
+//					  execution_time = end_time - start_time; // in ms
+//					  cycles = (uint64_t)(execution_time * 48000000 / 1000);
+//					  pixels_s = (width * height) / (execution_time / 1000);
+//
+////	  				  // --- DOUBLE version ---
+////	  				  start_time = HAL_GetTick();
+////	  				  checksum = calculate_mandelbrot_double(256, 256, max_iter);
+////	  				  end_time = HAL_GetTick();
+////	  				  execution_time = end_time - start_time; // in ms
+//
+//	  				  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
+//	  				  HAL_Delay(200);
+//	  			  }
+//	  	  	  }
+//
+//	  	  while(1);
 
-	  	  		  for (int j = 0; j < 3; j++) {
-	  	  			  scale = scales[j];
-
-					  // --- FIXED-POINT version ---
-					  start_time = HAL_GetTick();
-					  checksum = calculate_mandelbrot_fixed_point_arithmetic_custom(width, height, MAX_ITER, scale);
-					  end_time = HAL_GetTick();
-					  execution_time = end_time - start_time; // in ms
-					  cycles = (uint64_t)(execution_time * 48000000 / 1000);
-					  pixels_s = (width * height) / (execution_time / 1000);
-
-//	  				  // --- DOUBLE version ---
-//	  				  start_time = HAL_GetTick();
-//	  				  checksum = calculate_mandelbrot_double(256, 256, max_iter);
-//	  				  end_time = HAL_GetTick();
-//	  				  execution_time = end_time - start_time; // in ms
-
-	  				  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0); // blink to show progress
-	  				  HAL_Delay(200);
-	  			  }
-	  	  	  }
-
-	  	  while(1);
+	  // TASK 8: =============================== //
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
+	  checksum = calculate_mandelbrot_fixed_point_arithmetic(128, 128, MAX_ITER);
+	  // checksum = calculate_mandelbrot_fixed_point_arithmetic(256, 256, MAX_ITER);
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_1);
+	  HAL_Delay(200);
+	  HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_2);
 
 
 //    /* USER CODE END WHILE */
@@ -392,6 +434,50 @@ static void MX_GPIO_Init(void)
 		return mandelbrot_sum;
 	}
 
+	// fixed-pt Mandelbrot calculation for a single tile
+	uint64_t calculate_mandelbrot_tile_fixed_point(uint16_t tile_x, uint16_t tile_y,
+	                                              uint16_t tile_width, uint16_t tile_height,
+	                                              uint16_t total_width, uint16_t total_height,
+	                                              int max_iterations) {
+	    uint64_t mandelbrot_sum = 0;
+
+	    for(int py = 0; py < tile_height; py++){
+	        for(int px = 0; px < tile_width; px++){
+	            // Calculate actual coordinates in the full image
+	            int actual_x = tile_x + px;
+	            int actual_y = tile_y + py;
+
+	            // Convert pixel coordinates to fixed point complex plane coordinates
+	            // Using the full image dimensions for coordinate mapping
+	            int32_t x0 = ((int64_t)actual_x*SCALE*35/(total_width*10))-(SCALE*25)/10;
+	            int32_t y0 = ((int64_t)actual_y * SCALE * 2/ total_height)-SCALE;
+
+	            int32_t xi = 0;
+	            int32_t yi = 0;
+	            int i = 0;
+
+	            while (i < max_iterations){
+	                int64_t xi_sq = ((int64_t)xi * xi) / SCALE;
+	                int64_t yi_sq = ((int64_t)yi * yi) / SCALE;
+
+	                if(xi_sq + yi_sq <= 4 * SCALE){
+	                    int32_t temp = (int32_t)(xi_sq - yi_sq);
+	                    int64_t xy = ((int64_t)xi * yi) / SCALE;
+
+	                    yi = (int32_t)(2*xy + y0);
+	                    xi = temp + x0;
+
+	                    i++;
+	                } else {
+	                    break;
+	                }
+	            }
+	            mandelbrot_sum += i;
+	        }
+	    }
+	    return mandelbrot_sum;
+	}
+
 	// double precision implementation
 	uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
 	    uint64_t mandelbrot_sum = 0;
@@ -415,6 +501,22 @@ static void MX_GPIO_Init(void)
 		}
 		return mandelbrot_sum;
 	}
+
+//	// for task 4: test if can allocate memory for a given size
+//	bool can_allocate_image(uint16_t width, uint16_t height) {
+//		uint32_t required_bytes = (uint32_t)width * height;
+//
+//		// Try to allocate memory
+//		uint8_t* test_buffer = malloc(required_bytes);
+//		if (test_buffer == NULL) {
+//			return false;
+//		}
+//
+//		free(test_buffer);
+//
+//		if (required_bytes > 8192) return false; // 8KB limit for F0
+//		return true;
+//	}
 /* USER CODE END 4 */
 
 /**
