@@ -23,4 +23,7 @@ This repository contains the practical work for the **Embedded Systems II (EEE30
 |----------:|:----------|:--------------------------------|
 | 1A        | ✅ Done | GPIOS, Timers & Timer Interrupts in C  |
 | 1B        | ✅ Done | STM32F0 Performance Benchmarking and Profiling  |
-| 2        | 🛠 In Progress | Embedded ARM Assembly Programming  |
+| 2        | ✅ Done | Embedded ARM Assembly Programming  |
+| 3        | ✅ Done | STM32 Profiling and Benchmarking  |
+| 4        | 🗓️ Upcoming | TBC  |
+| 5        | 🗓️ Upcoming | TBC  |
