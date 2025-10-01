@@ -503,6 +503,8 @@ int main(void)
   MX_DMA_Init();
   MX_TIM2_Init();
   MX_TIM3_Init();
+
+
   /* USER CODE BEGIN 2 */
   // TODO: Start TIM3 in PWM mode on channel 3
   	 HAL_TIM_PWM_Start(&htim3, TIM_CHANNEL_3);
