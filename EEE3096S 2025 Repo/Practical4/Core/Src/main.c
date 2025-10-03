@@ -1,3 +1,12 @@
+/*
+ *
+1. Link: https://github.com/LlamaLuLu/EEE3096S-Practicals-Group-34.git
+2. Group Number: 34
+3. Members: HNYPHI001 LNGLUL002
+*
+*/
+
+
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
@@ -19,7 +28,7 @@
 
 /* timing / waveform parameters */
 #define TIM2CLK     16000000u   /* TIM2 clock (Hz) — update if different in .ioc */
-#define F_SIGNAL    0.9        /* desired output fundamental frequency (Hz) */
+#define F_SIGNAL    0.5        /* desired output fundamental frequency (Hz) */
 
 /* PWM / DAC scaling */
 #define DAC_MAX_12B 4095u
