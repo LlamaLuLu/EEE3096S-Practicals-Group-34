@@ -25,5 +25,5 @@ This repository contains the practical work for the **Embedded Systems II (EEE30
 | 1B        | ✅ Done | STM32F0 Performance Benchmarking and Profiling  |
 | 2        | ✅ Done | Embedded ARM Assembly Programming  |
 | 3        | ✅ Done | STM32 Profiling and Benchmarking  |
-| 4        | 🗓️ Upcoming | TBC  |
+| 4        | ✅ Done | STM32 DACs  |
 | 5        | 🗓️ Upcoming | TBC  |
